@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text, Alert } from 'react-native';
-import { postgres } from '../services/supabaseClient';
+import { View, TextInput, StyleSheet, Text, Alert, Pressable } from 'react-native';
+import { supabase } from '../services/supabaseClient';
+import RegisterScreen from './RegistroScreen';
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,6 +18,10 @@ export default function LoginScreen() {
     } else {
       Alert.alert('Login exitoso');
     }
+  };
+
+  const handleNavigateToRegistro = () => {
+    navigation.navigate('RegistroScreen');
   };
 
   return (
@@ -37,7 +42,12 @@ export default function LoginScreen() {
         onChangeText={setPassword}
         value={password}
       />
-      <Button title="Entrar" onPress={handleLogin} />
+      <Pressable style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Entrar</Text>
+      </Pressable>
+      <Pressable style={styles.link} onPress={handleNavigateToRegistro}>
+        <Text style={styles.linkText}>¿No tienes cuenta? Regístrate</Text>
+      </Pressable>
     </View>
   );
 }
@@ -58,5 +68,23 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 40,
     textAlign: 'center',
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 4,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  link: {
+    marginVertical: 8,
+  },
+  linkText: {
+    color: '#007AFF',
+    fontSize: 14,
   },
 });
