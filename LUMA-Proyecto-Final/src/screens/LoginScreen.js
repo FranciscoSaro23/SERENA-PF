@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text, Alert, Pressable } from 'react-native';
 import { supabase } from '../services/supabaseClient';
-import RegisterScreen from './RegistroScreen';
+import RegisterScreen from './RegisterScreen';
+import PerfilScreen from './PerfilScreen';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -20,8 +21,11 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  const handleNavigateToRegistro = () => {
-    navigation.navigate('RegistroScreen');
+  const handleNavigateToRegister = () => {
+    navigation.navigate('RegisterScreen');
+  };
+  const handleNavigateToPerfil = () => {
+    navigation.navigate('PerfilScreen');
   };
 
   return (
@@ -45,8 +49,11 @@ export default function LoginScreen({ navigation }) {
       <Pressable style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Entrar</Text>
       </Pressable>
-      <Pressable style={styles.link} onPress={handleNavigateToRegistro}>
+      <Pressable style={styles.link} onPress={handleNavigateToRegister}>
         <Text style={styles.linkText}>¿No tienes cuenta? Regístrate</Text>
+      </Pressable>
+      <Pressable style={styles.link} onPress={handleNavigateToPerfil}>
+        <Text style={styles.linkText}>Ir al Perfil</Text>
       </Pressable>
     </View>
   );

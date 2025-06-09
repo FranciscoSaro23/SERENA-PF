@@ -7,6 +7,7 @@ import ConfiguracionScreen from './screens/ConfiguracionScreen';
 import AyudaScreen from './screens/AyudaScreen';
 import PerfilScreen from './screens/PerfilScreen';
 import ModosPredeterminadosScreen from './screens/ModosPredeterminados';
+import RegisterScreen from './screens/RegisterScreen.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ export default function AppNavigator() {
       <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Configuracion" component={ConfiguracionScreen} />
         {<Stack.Screen name="ModosPredeterminados" component={ModosPredeterminadosScreen} />}
         {/* icono luma */}
