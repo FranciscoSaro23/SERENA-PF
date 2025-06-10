@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text, Alert } from 'react-native';
 import { supabase } from '../services/supabaseClient';
+import LoginScreen from '../screens/LoginScreen';
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ export default function RegisterScreen({ navigation }) {
       Alert.alert('Error', error.message);
     } else {
       Alert.alert('Registro exitoso', 'Por favor verifica tu email para confirmar tu cuenta.');
-      navigation.navigate('Login'); // Redirigir a la pantalla de login
+      navigation.navigate('LoginScreen');
     }
   };
 
@@ -38,7 +39,7 @@ export default function RegisterScreen({ navigation }) {
         onChangeText={setPassword}
         value={password}
       />
-      <Button title="Registrarse" onPress={handleSignUp} />
+      <Button title="Login" onPress={handleSignUp} />
     </View>
   );
 }

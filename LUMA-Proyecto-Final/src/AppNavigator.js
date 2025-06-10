@@ -17,12 +17,12 @@ export default function AppNavigator() {
       <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="Configuracion" component={ConfiguracionScreen} />
-        {<Stack.Screen name="ModosPredeterminados" component={ModosPredeterminadosScreen} />}
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+        <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} />
+        {<Stack.Screen name="ModosPredeterminadosScreen" component={ModosPredeterminadosScreen} />}
         {/* icono luma */}
-        <Stack.Screen name="Ayuda" component={AyudaScreen} />
-        <Stack.Screen name="Perfil" component={PerfilScreen} />
+        <Stack.Screen name="AyudaScreen" component={AyudaScreen} />
+        <Stack.Screen name="PerfilScreen" component={PerfilScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
