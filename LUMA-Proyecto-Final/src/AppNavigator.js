@@ -14,12 +14,12 @@ const Stack = createNativeStackNavigator();
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
-       {/*<Stack.Screen name="Splash" component={SplashScreen} />
+      <Stack.Navigator >
+       {/*  <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />*/
-        <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} /> }
-        {<Stack.Screen name="ModosPredeterminadosScreen" component={ModosPredeterminadosScreen} />}
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+        <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} /> }*/
+        <Stack.Screen name="ModosPredeterminadosScreen" component={ModosPredeterminadosScreen} />}
         {/* icono luma */}
         <Stack.Screen name="AyudaScreen" component={AyudaScreen} />
         <Stack.Screen name="PerfilScreen" component={PerfilScreen} />
@@ -27,3 +27,6 @@ export default function AppNavigator() {
     </NavigationContainer>
   );
 }
+
+
+// initialRouteName="Splash" screenOptions={{ headerShown: false }}
