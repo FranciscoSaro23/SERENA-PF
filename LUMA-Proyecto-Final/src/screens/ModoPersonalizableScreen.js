@@ -1,122 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Slider, TouchableOpacity } from 'react-native';
-import { supabase } from '../services/supabaseClient';
-import ColorPicker from 'react-native-color-picker';
-
-const CustomizePresetModeScreen = ({ route }) => {
-  const { presetModeId } = route.params;
-  const [presetMode, setPresetMode] = useState(null);
-  const [intensity, setIntensity] = useState(50);
-  const [selectedColor, setSelectedColor] = useState('#FF0000');
-  const [music, setMusic] = useState(true);
-  const [volume, setVolume] = useState(50);
-  const [speed, setSpeed] = useState(50);
-
-  useEffect(() => {
-    fetchPresetMode();
-  }, [presetModeId]);
-
-  const fetchPresetMode = async () => {
-    const { data, error } = await supabase
-      .from('modes')
-      .select('*')
-      .eq('id', presetModeId)
-      .single();
-
-    if (!error) {
-      setPresetMode(data);
-      setIntensity(data.intensity);
-      setSelectedColor(data.color);
-      setMusic(data.music);
-      setVolume(data.volume);
-      setSpeed(data.speed);
-    }
-  };
-
-  const savePresetMode = async () => {
-    const { error } = await supabase
-      .from('modes')
-      .update({
-        intensity,
-        color: selectedColor,
-        music,
-        volume,
-        speed,
-      })
-      .eq('id', presetModeId);
-
-    if (!error) {
-      console.log('Preset mode updated successfully');
-    }
-  };
-
+import React from 'react'
+import { Button } from '../shared/Button'
+import { NavBar } from '../shared/NavBar'
+export function PersonalizeScreen() {
   return (
-    <View style={styles.container}>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Intensidad</Text>
-        <Slider
-          style={styles.slider}
-          value={intensity}
-          onValueChange={setIntensity}
-          minimumValue={0}
-          maximumValue={100}
-          step={1}
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Color</Text>
-        <ColorPicker
-          style={styles.colorPicker}
-          color={selectedColor}
-          onColorChange={setSelectedColor}
-          thumbSize={30}
-          sliderSize={30}
-          noSnap
-          row
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Música</Text>
-        <TouchableOpacity
-          style={[styles.toggleButton, music ? styles.toggleButtonActive : null]}
-          onPress={() => setMusic(!music)}>
-          <Text style={styles.toggleButtonText}>{music ? 'Activado' : 'Desactivado'}</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Volumen</Text>
-        <Slider
-          style={styles.slider}
-          value={volume}
-          onValueChange={setVolume}
-          minimumValue={0}
-          maximumValue={100}
-          step={1}
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Velocidad</Text>
-        <Slider
-          style={styles.slider}
-          value={speed}
-          onValueChange={setSpeed}
-          minimumValue={0}
-          maximumValue={100}
-          step={1}
-        />
-      </View>
-      <TouchableOpacity style={styles.saveButton} onPress={savePresetMode}>
-        <Text style={styles.saveButtonText}>Actualizar</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  // ... (previous styles)
-  colorPicker: {
-    height: 200,
-  },
-});
-
-export default CustomizePresetModeScreen;
+    <div className="h-full bg-[#FFFEF5] flex flex-col items-center px-6 pt-10 relative">
+      <h1 className="text-lg font-medium text-center mb-6">
+        Personalizar un modo
+      </h1>
+      <div className="w-full mb-4">
+        <p className="text-xs text-gray-500 mb-1">NOMBRE DEL MODO</p>
+        <div className="bg-white border border-gray-200 rounded-lg p-2 text-sm">
+          Modo personalizado
+        </div>
+      </div>
+      <div className="w-full mb-4">
+        <p className="text-xs text-gray-500 mb-1">SELECCIÓN DE COLORES</p>
+        <div className="flex space-x-2 mb-2">
+          <div className="w-8 h-8 bg-red-500 rounded-full"></div>
+          <div className="w-8 h-8 bg-green-500 rounded-full"></div>
+          <div className="w-8 h-8 bg-blue-500 rounded-full"></div>
+          <div className="w-8 h-8 bg-yellow-500 rounded-full"></div>
+          <div className="w-8 h-8 bg-purple-500 rounded-full"></div>
+          <div className="w-8 h-8 bg-white border border-gray-200 rounded-full flex items-center justify-center">
+            <span className="text-gray-500 text-xs">+</span>
+          </div>
+        </div>
+      </div>
+      <div className="w-full mb-4">
+        <p className="text-xs text-gray-500 mb-1">BRILLO</p>
+        <div className="h-4 bg-gradient-to-r from-[#0F1170] to-blue-300 rounded-full"></div>
+      </div>
+      <div className="w-full mb-4">
+        <p className="text-xs text-gray-500 mb-1">VELOCIDAD</p>
+        <div className="h-4 bg-gray-200 rounded-full relative">
+          <div className="absolute left-0 top-0 bottom-0 w-1/3 bg-[#0F1170] rounded-full"></div>
+        </div>
+      </div>
+      <div className="absolute bottom-16 w-full">
+        <Button primary className="w-full">
+          GUARDAR MODO
+        </Button>
+      </div>
+      <NavBar />
+    </div>
+  )
+}

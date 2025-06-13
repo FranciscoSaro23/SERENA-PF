@@ -16,3 +16,4 @@ npx expo install react-native-gesture-handler
 npx expo install react-native-reanimated 
 npx expo install react-native-splash-screen
 npm install @supabase/supabase-js
+npm i lucide-react

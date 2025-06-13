@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { supabase } from '../services/supabaseClient';
+import { useNavigation } from '@react-navigation/native';
 
-const PresetModesScreen = () => {
+const ModosPredeterminadosScreen = () => {
   const [presetModes, setPresetModes] = useState([]);
+  const [editingModeId, setEditingModeId] = useState(null); // modo que estamos editando
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetchPresetModes();
@@ -24,29 +21,89 @@ const PresetModesScreen = () => {
     if (error) {
       console.error('Error al obtener modos predeterminados:', error);
     } else {
-      setPresetModes(data);
+      const modesWithCustomize = [...data, { id: 'custom', nombre: 'Personalizar', customize: true }];
+      setPresetModes(modesWithCustomize);
     }
   };
 
+  const onRename = (id) => {
+    Alert.alert('Renombrar', `Función para renombrar modo ${id} (pendiente)`);
+  };
+
+  const onDelete = (id) => {
+    Alert.alert(
+      'Eliminar',
+      `¿Está seguro que desea eliminar modo ${id}?`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Eliminar', style: 'destructive', onPress: () => eliminarModo(id) },
+      ]
+    );
+  };
+
+  const eliminarModo = (id) => {
+    // Aquí debería ir la lógica para eliminar en la base o actualizar estado
+    setPresetModes((prev) => prev.filter((mode) => mode.id !== id));
+  };
+
+  const onCancelEdit = () => {
+    setEditingModeId(null);
+  };
+
   const renderPresetMode = ({ item, index }) => {
-    const locked = index >= 3; // Solo los primeros 3 no están bloqueados
+    const locked = index >= 3 && !item.customize;
+    const isEditing = editingModeId === item.id;
+
+    if (item.customize) {
+      // Botón Personalizar
+      return (
+        <TouchableOpacity
+          style={styles.customizeButton}
+          onPress={() => navigation.navigate('ModoPersonalizableScreen', { presetModeId: item.id })}
+        >
+          <View style={styles.radioCircle} />
+          <Text style={styles.customizeText}>Personalizar</Text>
+        </TouchableOpacity>
+      );
+    }
+
+    if (isEditing) {
+      // Modo edición: muestra opciones Renombrar, Eliminar, Cancelar
+      return (
+        <View style={styles.editContainer}>
+          <Text style={styles.editTitle}>{item.nombre}</Text>
+          <TouchableOpacity onPress={() => onRename(item.id)}>
+            <Text style={[styles.actionText, { color: 'blue' }]}>Renombrar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => onDelete(item.id)}>
+            <Text style={[styles.actionText, { color: 'red' }]}>Eliminar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onCancelEdit}>
+            <Text style={[styles.actionText, { color: 'blue' }]}>Cancelar</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
+    // Vista normal del modo
     return (
-      <View
+      <TouchableOpacity
         style={[
           styles.modeContainer,
           locked ? styles.lockedContainer : styles.unlockedContainer,
         ]}
+        disabled={locked}
+        onPress={() => navigation.navigate('ModoPersonalizableScreen', { presetModeId: item.id })}
+        onLongPress={() => setEditingModeId(item.id)}
       >
         <View style={styles.radioCircle} />
         <Text style={[styles.modeText, locked ? styles.lockedText : styles.unlockedText]}>
           {item.nombre}
         </Text>
-        <TouchableOpacity>
-          <Text style={[styles.icon, locked && styles.lockedText]}>
-            {locked ? '🔒' : '⚙️'}
-          </Text>
-        </TouchableOpacity>
-      </View>
+        <Text style={[styles.icon, locked && styles.lockedText]}>
+          {locked ? '🔒' : '⚙️'}
+        </Text>
+      </TouchableOpacity>
     );
   };
 
@@ -60,10 +117,6 @@ const PresetModesScreen = () => {
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
       />
-      <TouchableOpacity style={styles.customizeButton}>
-        <View style={styles.radioCircle} />
-        <Text style={styles.customizeText}>Personalizar</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -128,7 +181,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 12,
     paddingHorizontal: 12,
-    marginTop: 10,
+    marginBottom: 12,
   },
   customizeText: {
     fontSize: 14,
@@ -136,6 +189,22 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginLeft: 12,
   },
+  editContainer: {
+    backgroundColor: '#FFFDF5',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 12,
+  },
+  editTitle: {
+    fontWeight: '600',
+    fontSize: 16,
+    marginBottom: 6,
+    color: '#0F1C65',
+  },
+  actionText: {
+    fontSize: 14,
+    marginVertical: 2,
+  },
 });
 
-export default PresetModesScreen;
+export default ModosPredeterminadosScreen;

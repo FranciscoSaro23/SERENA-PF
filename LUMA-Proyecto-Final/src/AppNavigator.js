@@ -4,29 +4,31 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/LoginScreen';
 import ConfiguracionScreen from './screens/ConfiguracionScreen';
-import AyudaScreen from './screens/AyudaScreen';
-import PerfilScreen from './screens/PerfilScreen';
 import ModosPredeterminadosScreen from './screens/ModosPredeterminados';
 import RegisterScreen from './screens/RegisterScreen.js';
+import AyudaScreen from './screens/AyudaScreen.js';
+import PerfilScreen from './screens/PerfilScreen.js';
+import ModoPersonalizableScreen, { PersonalizeScreen } from './screens/ModoPersonalizableScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator >
-       {/*  <Stack.Screen name="Splash" component={SplashScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-        <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} /> }*/
-        <Stack.Screen name="ModosPredeterminadosScreen" component={ModosPredeterminadosScreen} />}
-        {/* icono luma */}
-        <Stack.Screen name="AyudaScreen" component={AyudaScreen} />
-        <Stack.Screen name="PerfilScreen" component={PerfilScreen} />
+      <Stack.Navigator>
+        <Stack.Screen name="ModosPredeterminadosScreen" component={ModosPredeterminadosScreen} />
+        <Stack.Screen name="ModoPersonalizableScreen" component={PersonalizeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
+// initialRouteName="Splash" screenOptions={{ headerShown: false }
 
-// initialRouteName="Splash" screenOptions={{ headerShown: false }}
+/*<Stack.Screen name="Splash" component={SplashScreen} />
+         <Stack.Screen name="Login" component={LoginScreen} />
+         <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+         <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} />
+         {/* icono luma */
+/*         <Stack.Screen name="AyudaScreen" component={AyudaScreen} />
+     <Stack.Screen name="PerfilScreen" component={PerfilScreen} /> */
