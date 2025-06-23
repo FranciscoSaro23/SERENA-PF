@@ -17,3 +17,4 @@ npx expo install react-native-reanimated
 npx expo install react-native-splash-screen
 npm install @supabase/supabase-js
 npm i lucide-react
+https://prod.liveshare.vsengsaas.visualstudio.com/join?E0B7BF38F5E662E8D985B7A2822BB37B6622
