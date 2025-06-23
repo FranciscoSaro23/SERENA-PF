@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Switch, TouchableOpacity } from 'react-native';
-import { NavBar } from '../shared/NavBar'
 export function ConfigScreen() {
   return (
     <div className="h-full bg-[#FFFEF5] flex flex-col items-center px-6 pt-10 relative">

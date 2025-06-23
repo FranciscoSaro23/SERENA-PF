@@ -8,7 +8,7 @@ import ModosPredeterminadosScreen from './screens/ModosPredeterminados';
 import RegisterScreen from './screens/RegisterScreen.js';
 import AyudaScreen from './screens/AyudaScreen.js';
 import PerfilScreen from './screens/PerfilScreen.js';
-import ModoPersonalizableScreen, { PersonalizeScreen } from './screens/ModoPersonalizableScreen';
+import PersonalizeScreen from './screens/ModoPersonalizableScreen';
 
 const Stack = createNativeStackNavigator();
 

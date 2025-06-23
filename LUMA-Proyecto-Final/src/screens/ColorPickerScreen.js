@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button } from '../shared/Button'
 export function ColorPickerScreen() {
   return (
     <div className="h-full bg-[#FFFEF5] flex flex-col items-center px-6 pt-10 relative">
