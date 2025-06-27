@@ -69,7 +69,6 @@ const ConfigurationScreen = () => {
   };
 
   const handleLogout = () => {
-    // Implement logout functionality here
     console.log('Logged out');
   };
 

@@ -1,6 +1,11 @@
 import React from 'react';
 import AppNavigator from './src/AppNavigator';
+import { ModoProvider } from './src/context/ModoContext';
 
 export default function App() {
-  return <AppNavigator />;
+  return (
+    <ModoProvider>
+      <AppNavigator />
+    </ModoProvider>
+  );
 }

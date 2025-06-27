@@ -17,3 +17,4 @@ npx expo install react-native-reanimated
 npx expo install react-native-splash-screen
 npm install @supabase/supabase-js
 npm i lucide-react
+npm i react-native-color-picker
