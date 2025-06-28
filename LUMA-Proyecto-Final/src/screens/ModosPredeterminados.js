@@ -1,30 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { supabase } from '../services/supabaseClient';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 const ModosPredeterminadosScreen = () => {
   const [presetModes, setPresetModes] = useState([]);
-  const [editingModeId, setEditingModeId] = useState(null); // modo que estamos editando
+  const [editingModeId, setEditingModeId] = useState(null);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    fetchPresetModes();
-  }, []);
+  const usuarioIdPrueba = 'd28065e7-5749-4e55-889d-ff6699200ba8';
+
+  // Refrescar lista al volver a la pantalla
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchPresetModes();
+    }, [])
+  );
 
   const fetchPresetModes = async () => {
-    const { data, error } = await supabase
-      .from('MODO')
-      .select('id, nombre')
-      .is('id_usuario', null); // solo los predeterminados
+  const { data, error } = await supabase
+    .from('MODO')
+    .select('id, nombre, id_usuario')
+    .order('id', { ascending: true });
 
-    if (error) {
-      console.error('Error al obtener modos predeterminados:', error);
-    } else {
-      const modesWithCustomize = [...data, { id: 'custom', nombre: 'Personalizar', customize: true }];
-      setPresetModes(modesWithCustomize);
-    }
-  };
+  if (error) {
+    console.error('Error al obtener modos:', error);
+  } else {
+    const predeterminados = data.filter((m) => m.id_usuario === null);
+    const personalizados = data.filter((m) => m.id_usuario === usuarioIdPrueba);
+
+    const allModes = [
+      ...predeterminados,
+      ...personalizados,
+      { id: 'custom', nombre: 'Personalizar', customize: true },
+    ];
+
+    setPresetModes(allModes);
+  }
+};
 
   const onRename = (id) => {
     Alert.alert('Renombrar', `Función para renombrar modo ${id} (pendiente)`);
@@ -33,7 +46,7 @@ const ModosPredeterminadosScreen = () => {
   const onDelete = (id) => {
     Alert.alert(
       'Eliminar',
-      `¿Está seguro que desea eliminar modo ${id}?`,
+      `¿Está seguro que desea eliminar el modo ${id}?`,
       [
         { text: 'Cancelar', style: 'cancel' },
         { text: 'Eliminar', style: 'destructive', onPress: () => eliminarModo(id) },
@@ -41,9 +54,13 @@ const ModosPredeterminadosScreen = () => {
     );
   };
 
-  const eliminarModo = (id) => {
-    // Aquí debería ir la lógica para eliminar en la base o actualizar estado
-    setPresetModes((prev) => prev.filter((mode) => mode.id !== id));
+  const eliminarModo = async (id) => {
+    const { error } = await supabase.from('MODO').delete().eq('id', id);
+    if (error) {
+      console.error('Error al eliminar modo:', error.message);
+    } else {
+      setPresetModes((prev) => prev.filter((mode) => mode.id !== id));
+    }
   };
 
   const onCancelEdit = () => {
@@ -51,11 +68,10 @@ const ModosPredeterminadosScreen = () => {
   };
 
   const renderPresetMode = ({ item, index }) => {
-    const locked = index >= 3 && !item.customize;
+    const locked = item.id_usuario === null && index >= 3 && !item.customize;
     const isEditing = editingModeId === item.id;
 
     if (item.customize) {
-      // Botón Personalizar
       return (
         <TouchableOpacity
           style={styles.customizeButton}
@@ -68,7 +84,6 @@ const ModosPredeterminadosScreen = () => {
     }
 
     if (isEditing) {
-      // Modo edición: muestra opciones Renombrar, Eliminar, Cancelar
       return (
         <View style={styles.editContainer}>
           <Text style={styles.editTitle}>{item.nombre}</Text>
@@ -85,7 +100,6 @@ const ModosPredeterminadosScreen = () => {
       );
     }
 
-    // Vista normal del modo
     return (
       <TouchableOpacity
         style={[

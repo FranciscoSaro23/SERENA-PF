@@ -1,13 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SplashScreen from './screens/SplashScreen';
-import LoginScreen from './screens/LoginScreen';
-import ConfiguracionScreen from './screens/ConfiguracionScreen';
 import ModosPredeterminadosScreen from './screens/ModosPredeterminados';
-import RegisterScreen from './screens/RegisterScreen.js';
-import AyudaScreen from './screens/AyudaScreen.js';
-import PerfilScreen from './screens/PerfilScreen.js';
 import PersonalizeScreen from './screens/ModoPersonalizableScreen';
 
 const Stack = createNativeStackNavigator();
