@@ -10,7 +10,6 @@ const ModosPredeterminadosScreen = () => {
 
   const usuarioIdPrueba = 'd28065e7-5749-4e55-889d-ff6699200ba8';
 
-  // Refrescar lista al volver a la pantalla
   useFocusEffect(
     React.useCallback(() => {
       fetchPresetModes();
@@ -18,26 +17,28 @@ const ModosPredeterminadosScreen = () => {
   );
 
   const fetchPresetModes = async () => {
-  const { data, error } = await supabase
-    .from('MODO')
-    .select('id, nombre, id_usuario')
-    .order('id', { ascending: true });
-
-  if (error) {
-    console.error('Error al obtener modos:', error);
-  } else {
-    const predeterminados = data.filter((m) => m.id_usuario === null);
-    const personalizados = data.filter((m) => m.id_usuario === usuarioIdPrueba);
-
-    const allModes = [
-      ...predeterminados,
-      ...personalizados,
-      { id: 'custom', nombre: 'Personalizar', customize: true },
-    ];
-
-    setPresetModes(allModes);
-  }
-};
+    const { data, error } = await supabase
+      .from('MODO')
+      .select('id, nombre, id_usuario')
+      .order('id', { ascending: true });
+  
+    if (error) {
+      console.error('Error al obtener modos:', error);
+    } else {
+      const predeterminados = data.filter((m) => m.id_usuario === null);
+      const personalizados = data.filter((m) => m.id_usuario === usuarioIdPrueba);
+  
+      const allModes = [...predeterminados];
+      
+      if (personalizados.length > 0) {
+        allModes.push(...personalizados);
+      } else {
+        allModes.push({ id: 'custom', nombre: 'Personalizar', customize: true });
+      }
+  
+      setPresetModes(allModes);
+    }
+  };  
 
   const onRename = (id) => {
     Alert.alert('Renombrar', `Función para renombrar modo ${id} (pendiente)`);

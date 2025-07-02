@@ -18,11 +18,3 @@ export default function AppNavigator() {
 }
 
 // initialRouteName="Splash" screenOptions={{ headerShown: false }
-
-/*<Stack.Screen name="Splash" component={SplashScreen} />
-         <Stack.Screen name="Login" component={LoginScreen} />
-         <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-         <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} />
-         {/* icono luma */
-/*         <Stack.Screen name="AyudaScreen" component={AyudaScreen} />
-     <Stack.Screen name="PerfilScreen" component={PerfilScreen} /> */

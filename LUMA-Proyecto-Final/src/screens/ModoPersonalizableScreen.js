@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 import ColorPicker from 'react-native-color-picker-wheel';
 import { useRoute, useNavigation } from '@react-navigation/native';
@@ -21,7 +21,6 @@ export default function PersonalizarScreen() {
   const [mensaje, setMensaje] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Modos no editables: 1, 2 y 3
   const noEditables = ['1', '2', '3'];
   const esEditable = !noEditables.includes(String(presetModeId));
 
@@ -31,7 +30,6 @@ export default function PersonalizarScreen() {
     }
   }, [presetModeId]);
 
-  // Convierte RGB a Hexadecimal para mostrar en el color picker
   const rgbToHex = (r, g, b) => {
     const toHex = (c) => {
       const hex = Number(c).toString(16);
@@ -50,7 +48,7 @@ export default function PersonalizarScreen() {
 
     if (error) {
       console.error('Error al cargar modo:', error.message);
-      setMensaje('❌ Error al cargar el modo.');
+      setMensaje('Error al cargar el modo.');
     } else {
       setNombre(data.nombre || '');
       setIdMusica(data.id_musica ? String(data.id_musica) : '');
@@ -68,7 +66,7 @@ export default function PersonalizarScreen() {
   };
 
   const onColorSelected = (hex) => {
-    if (!esEditable) return; // evitar cambios si no editable
+    if (!esEditable) return;
 
     setColorHex(hex);
     const r = parseInt(hex.slice(1, 3), 16);
@@ -93,12 +91,12 @@ export default function PersonalizarScreen() {
 
   const guardarModo = async () => {
     if (!camposValidos()) {
-      setMensaje("❌ Por favor completá todos los campos correctamente.");
+      setMensaje("Por favor completá todos los campos correctamente.");
       return;
     }
 
     if (!esEditable) {
-      setMensaje("⚠️ Este modo no se puede editar.");
+      setMensaje("Este modo no es editable.");
       return;
     }
 
@@ -121,9 +119,9 @@ export default function PersonalizarScreen() {
 
       if (error) {
         console.error('Error al actualizar modo:', error.message);
-        setMensaje("❌ Error al actualizar el modo.");
+        setMensaje("Error al actualizar el modo.");
       } else {
-        setMensaje("✅ Modo actualizado correctamente.");
+        setMensaje("Modo actualizado correctamente.");
         navigation.goBack();
       }
     } else {
@@ -131,9 +129,9 @@ export default function PersonalizarScreen() {
 
       if (error) {
         console.error('Error al guardar:', error.message);
-        setMensaje("❌ Error al guardar el modo.");
+        setMensaje("Error al guardar el modo.");
       } else {
-        setMensaje("✅ Modo guardado correctamente.");
+        setMensaje("Modo guardado correctamente.");
         setNombre('');
         setIdMusica('');
         setRgb1('');
@@ -158,6 +156,12 @@ export default function PersonalizarScreen() {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('AgregarCancionScreen', { returnTo: 'ModoPersonalizableScreen' })}
+        style={styles.nuevaCancionBtn}>
+        <Text style={styles.nuevaCancionText}>+ Nueva canción</Text>
+      </TouchableOpacity>
+
       <Text style={styles.title}>
         {presetModeId && presetModeId !== 'custom' ? 'Editar Modo' : 'Personalizar un Modo'}
       </Text>
