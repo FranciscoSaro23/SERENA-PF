@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, Button, StyleSheet, Alert, Linking, TouchableOpacity } from 'react-native';
 import { supabase } from '../services/supabaseClient';
-import { useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 export default function AgregarCancionScreen() {
   const navigation = useNavigation();
@@ -34,7 +34,12 @@ export default function AgregarCancionScreen() {
       return;
     }
 
-    const { error } = await supabase.from('MUSICA').insert([{ nombre, duracion, link, genero, }]);
+    const { error } = await supabase.from('MUSICA').insert([{
+      nombre,
+      duracion,
+      link,
+      genero,
+    }]);
 
     if (error) {
       Alert.alert("Error", error.message);
@@ -72,7 +77,7 @@ export default function AgregarCancionScreen() {
       />
       {esLinkValido(link) && (
         <TouchableOpacity onPress={abrirYoutube} style={styles.playButton}>
-          <Text style={styles.playText}>▶️ Ver video</Text>
+          <Text style={styles.playText}>▶Ver video</Text>
         </TouchableOpacity>
       )}
       <TextInput

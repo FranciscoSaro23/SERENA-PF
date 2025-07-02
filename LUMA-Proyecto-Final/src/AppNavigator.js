@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ModosPredeterminadosScreen from './screens/ModosPredeterminados';
 import PersonalizeScreen from './screens/ModoPersonalizableScreen';
+import AgregarCancionScreen from './screens/AgregarCancionScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,6 +13,7 @@ export default function AppNavigator() {
       <Stack.Navigator>
         <Stack.Screen name="ModosPredeterminadosScreen" component={ModosPredeterminadosScreen} />
         <Stack.Screen name="ModoPersonalizableScreen" component={PersonalizeScreen} />
+        <Stack.Screen name="AgregarCancionScreen" component={AgregarCancionScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
