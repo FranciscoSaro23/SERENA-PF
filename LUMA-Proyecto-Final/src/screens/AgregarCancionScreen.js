@@ -1,93 +1,150 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, Button, StyleSheet, Alert, Linking, TouchableOpacity } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { WebView } from 'react-native-webview'; // <-- Importa WebView
 import { supabase } from '../services/supabaseClient';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function AgregarCancionScreen() {
   const navigation = useNavigation();
 
-  const [nombre, setNombre] = useState('');
-  const [duracion, setDuracion] = useState('');
-  const [link, setLink] = useState('');
+  const [nombreCancion, setNombreCancion] = useState('');
   const [genero, setGenero] = useState('');
+  const [link, setLink] = useState('');
+  const [duracion, setDuracion] = useState('');
+  const [nombreCantante, setNombreCantante] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [mensaje, setMensaje] = useState('');
 
-  const esLinkValido = (url) => {
-    return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(url);
+  // Extraer el ID del video de YouTube para embebido
+  const extraerVideoId = (url) => {
+    // Soporta youtube.com/watch?v=XXXX y youtu.be/XXXX
+    const regex = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&\n?#]+)/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
   };
 
-  const abrirYoutube = () => {
-    if (esLinkValido(link)) {
-      Linking.openURL(link);
-    } else {
-      Alert.alert("El link no es válido de YouTube.");
-    }
+  const videoId = extraerVideoId(link);
+
+  const camposValidos = () => {
+    return (
+      nombreCancion.trim() !== '' &&
+      genero.trim() !== '' &&
+      link.trim() !== '' &&
+      duracion.trim() !== '' &&
+      nombreCantante.trim() !== '' &&
+      videoId !== null
+    );
   };
 
   const guardarCancion = async () => {
-    if (!nombre || !duracion || !link || !genero) {
-      Alert.alert("Completá todos los campos.");
+    if (!camposValidos()) {
+      Alert.alert('Error', 'Por favor completá todos los campos y el link debe ser válido de YouTube.');
       return;
     }
 
-    if (!esLinkValido(link)) {
-      Alert.alert("El link debe ser un video de YouTube válido.");
+    setLoading(true);
+
+    const duracionNum = parseFloat(duracion);
+    if (isNaN(duracionNum) || duracionNum <= 0) {
+      Alert.alert('Error', 'Duración debe ser un número positivo.');
+      setLoading(false);
       return;
     }
 
-    const { error } = await supabase.from('MUSICA').insert([{
-      nombre,
-      duracion,
-      link,
-      genero,
-    }]);
+    const { error } = await supabase.from('MUSICA').insert([
+      {
+        nombreCancion,
+        genero,
+        link,
+        duracion: duracionNum,
+        nombreCantante,
+      },
+    ]);
 
     if (error) {
-      Alert.alert("Error", error.message);
+      console.error('Error al guardar la canción:', error.message);
+      Alert.alert('Error', 'No se pudo guardar la canción. Intenta de nuevo.');
     } else {
-      Alert.alert("Canción agregada", "", [
-        {
-          text: "OK",
-          onPress: () => navigation.goBack()
-        }
-      ]);
+      setMensaje('Canción guardada correctamente.');
+      setNombreCancion('');
+      setGenero('');
+      setLink('');
+      setDuracion('');
+      setNombreCantante('');
+      navigation.goBack();
     }
+
+    setLoading(false);
   };
+
+  if (loading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color="#1e5631" />
+        <Text>Cargando...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Agregar nueva canción</Text>
+      <Text style={styles.title}>Agregar Nueva Canción</Text>
 
+      <Text style={styles.label}>Nombre de la Canción</Text>
       <TextInput
-        placeholder="Nombre"
-        value={nombre}
-        onChangeText={setNombre}
+        value={nombreCancion}
+        onChangeText={setNombreCancion}
+        placeholder="Ej: Imagine"
         style={styles.input}
       />
+
+      <Text style={styles.label}>Género</Text>
       <TextInput
-        placeholder="Duración (ej: 3:25)"
-        value={duracion}
-        onChangeText={setDuracion}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Link de YouTube"
-        value={link}
-        onChangeText={setLink}
-        style={styles.input}
-      />
-      {esLinkValido(link) && (
-        <TouchableOpacity onPress={abrirYoutube} style={styles.playButton}>
-          <Text style={styles.playText}>▶Ver video</Text>
-        </TouchableOpacity>
-      )}
-      <TextInput
-        placeholder="Género"
         value={genero}
         onChangeText={setGenero}
+        placeholder="Ej: Rock"
         style={styles.input}
       />
 
-      <Button title="Guardar canción" onPress={guardarCancion} color="#1e5631" />
+      <Text style={styles.label}>Link de Video</Text>
+      <TextInput
+        value={link}
+        onChangeText={setLink}
+        placeholder="Ej: https://youtu.be/abc123"
+        style={styles.input}
+      />
+
+      {videoId && (
+        <View style={styles.videoContainer}>
+          <WebView
+            source={{ uri: `https://www.youtube.com/embed/${videoId}` }}
+            style={styles.webview}
+            javaScriptEnabled={true}
+            domStorageEnabled={true}
+          />
+        </View>
+      )}
+
+      <Text style={styles.label}>Duración (minutos)</Text>
+      <TextInput
+        value={duracion}
+        onChangeText={setDuracion}
+        placeholder="Ej: 3.45"
+        keyboardType="numeric"
+        style={styles.input}
+      />
+
+      <Text style={styles.label}>Nombre del Cantante</Text>
+      <TextInput
+        value={nombreCantante}
+        onChangeText={setNombreCantante}
+        placeholder="Ej: John Lennon"
+        style={styles.input}
+      />
+
+      <Button title="Guardar Canción" onPress={guardarCancion} color="#1e5631" />
+
+      {!!mensaje && <Text style={styles.message}>{mensaje}</Text>}
     </View>
   );
 }
@@ -95,34 +152,40 @@ export default function AgregarCancionScreen() {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: '#FFFDF5',
-    flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#f0f0f0',
+    height: '100%',
   },
   title: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#0F1C65',
-    marginBottom: 20,
+    color: '#1e5631',
     textAlign: 'center',
+    marginBottom: 20,
+  },
+  label: {
+    marginBottom: 5,
+    fontSize: 16,
+    color: '#333',
   },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 10,
-    padding: 12,
+    borderRadius: 12,
+    padding: 10,
     marginBottom: 15,
     backgroundColor: '#fff',
   },
-  playButton: {
-    backgroundColor: '#FF0000',
-    paddingVertical: 10,
-    borderRadius: 8,
-    marginBottom: 15,
-    alignItems: 'center',
+  message: {
+    marginTop: 20,
+    fontSize: 16,
+    textAlign: 'center',
+    color: 'green',
   },
-  playText: {
-    color: '#fff',
-    fontWeight: 'bold',
+  videoContainer: {
+    height: 200,
+    marginBottom: 15,
+  },
+  webview: {
+    flex: 1,
   },
 });

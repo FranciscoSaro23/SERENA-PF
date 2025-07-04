@@ -208,7 +208,6 @@ export default function PersonalizarScreen() {
           Este modo no se puede editar.
         </Text>
       )}
-
       <Text style={styles.message}>{mensaje}</Text>
     </View>
   );

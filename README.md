@@ -18,3 +18,4 @@ npx expo install react-native-splash-screen
 npm install @supabase/supabase-js
 npm i lucide-react
 npm install react-native-color-picker
+npm install react-native-webview
