@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, Alert, ActivityIndicator, ScrollView } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { supabase } from '../services/supabaseClient';
 import { useNavigation } from '@react-navigation/native';
@@ -61,6 +61,7 @@ export default function AgregarCancionScreen() {
   }
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <Text style={styles.title}>Agregar Nueva Canción</Text>
       <Text style={styles.label}>Nombre de la Canción</Text>
@@ -90,6 +91,7 @@ export default function AgregarCancionScreen() {
       <Button title="Guardar Canción" onPress={guardarCancion} color="#1e5631" />
       {!!mensaje && <Text style={styles.message}>{mensaje}</Text>}
     </View>
+    </ScrollView>
   );
 }
 

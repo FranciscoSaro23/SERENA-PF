@@ -1,0 +1,88 @@
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+
+export default function Dropdown({ options, selectedValue, onValueChange, enabled }) {
+  const [showOptions, setShowOptions] = useState(false);
+
+  // Aquí está la línea clave que muestra el label de la canción seleccionada
+  const selectedLabel = options.find(o => o.value === selectedValue)?.label || "Elegí una canción";
+
+  const toggleDropdown = () => {
+    if (enabled) setShowOptions(!showOptions);
+  };
+
+  const onSelect = (value) => {
+    onValueChange(value);
+    setShowOptions(false);
+  };
+
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={[styles.selector, !enabled && styles.disabled]}
+        onPress={toggleDropdown}
+        activeOpacity={0.7}
+      >
+        <Text style={styles.selectedText}>{selectedLabel}</Text>
+      </TouchableOpacity>
+
+      {showOptions && (
+        <ScrollView style={styles.optionsContainer}>
+          {options.map(item => (
+            <TouchableOpacity
+              key={String(item.value)}
+              style={styles.option}
+              onPress={() => onSelect(item.value)}
+            >
+              <Text style={styles.optionText}>{item.label}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      )}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    width: 250,
+    marginBottom: 15,
+  },
+  selector: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: '#fff',
+  },
+  disabled: {
+    backgroundColor: '#eee',
+  },
+  selectedText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  optionsContainer: {
+    maxHeight: 150,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 12,
+    backgroundColor: '#fff',
+    marginTop: 5,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  option: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  optionText: {
+    fontSize: 16,
+  },
+});

@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 import ColorPicker from 'react-native-color-picker-wheel';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import { WebView } from 'react-native-webview';
+import Dropdown from '../components/Dropdown';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 export default function PersonalizarScreen() {
   const route = useRoute();
@@ -18,15 +22,42 @@ export default function PersonalizarScreen() {
   const [colorHex, setColorHex] = useState('#ffffff');
   const [mensaje, setMensaje] = useState('');
   const [loading, setLoading] = useState(false);
+  const [canciones, setCanciones] = useState([]);
+  const [linkVideo, setLinkVideo] = useState('');
 
   const noEditables = ['1', '2', '3'];
   const esEditable = !noEditables.includes(String(presetModeId));
 
+  useFocusEffect(
+  useCallback(() => {
+    const fetch = async () => {
+      await obtenerCanciones();
+    };
+    fetch();
+  }, [])
+);
+
+  
   useEffect(() => {
-    if (presetModeId && presetModeId !== 'custom') {
-      cargarModo(presetModeId);
+    if (presetModeId && presetModeId !== 'custom' && canciones.length > 0) {
+    cargarModo(presetModeId);
     }
-  }, [presetModeId]);
+  }, [presetModeId, canciones]);
+
+  const extraerVideoId = (url) => {
+    const regex = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&\n?#]+)/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  };
+
+  const obtenerCanciones = async () => {
+    const { data, error } = await supabase.from('MUSICA').select('*');
+    if (error) {
+      console.error('Error al obtener canciones:', error.message);
+      return;
+    }
+    setCanciones(data);
+  };
 
   const rgbToHex = (r, g, b) => {
     const toHex = (c) => {
@@ -38,11 +69,7 @@ export default function PersonalizarScreen() {
 
   const cargarModo = async (id) => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('MODO')
-      .select('*')
-      .eq('id', id)
-      .single();
+    const { data, error } = await supabase.from('MODO').select('*').eq('id', id).single();
 
     if (error) {
       console.error('Error al cargar modo:', error.message);
@@ -58,6 +85,13 @@ export default function PersonalizarScreen() {
       const g = data.rgb2 ?? 255;
       const b = data.rgb3 ?? 255;
       setColorHex(rgbToHex(r, g, b));
+
+      const cancion = canciones.find(c => c.id === data.id_musica);
+      if (cancion) {
+        const videoId = extraerVideoId(cancion.link);
+        if (videoId) setLinkVideo(`https://www.youtube.com/embed/${videoId}`);
+      }
+
       setMensaje('');
     }
     setLoading(false);
@@ -110,10 +144,7 @@ export default function PersonalizarScreen() {
     setLoading(true);
 
     if (presetModeId && presetModeId !== 'custom') {
-      const { error } = await supabase
-        .from('MODO')
-        .update(modoData)
-        .eq('id', presetModeId);
+      const { error } = await supabase.from('MODO').update(modoData).eq('id', presetModeId);
 
       if (error) {
         console.error('Error al actualizar modo:', error.message);
@@ -129,6 +160,7 @@ export default function PersonalizarScreen() {
         console.error('Error al guardar:', error.message);
         setMensaje("Error al guardar el modo.");
       } else {
+        await obtenerCanciones();
         setMensaje("Modo guardado correctamente.");
         setNombre('');
         setIdMusica('');
@@ -153,11 +185,11 @@ export default function PersonalizarScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <TouchableOpacity
         onPress={() => navigation.navigate('AgregarCancionScreen', { returnTo: 'ModoPersonalizableScreen' })}
         style={styles.nuevaCancionBtn}>
-        <Text style={styles.nuevaCancionText}>+ Nueva canción</Text>
+        <Text style={styles.nuevaCancionText}>Agregar canción</Text>
       </TouchableOpacity>
 
       <Text style={styles.title}>
@@ -173,15 +205,36 @@ export default function PersonalizarScreen() {
         editable={esEditable}
       />
 
-      <Text style={styles.label}>ID de Música</Text>
-      <TextInput
-        value={idMusica}
-        onChangeText={setIdMusica}
-        placeholder="Ej: 1"
-        keyboardType="numeric"
-        style={styles.input}
-        editable={esEditable}
-      />
+      <Dropdown
+        options={canciones.map(c => ({
+        label: c.nombreCancion,
+        value: String(c.id)
+        }))}
+        selectedValue={String(idMusica)} // <- también string
+        onValueChange={(value) => {
+        setIdMusica(String(value)); // <- seguimos con string
+        const selected = canciones.find(c => String(c.id) === String(value));
+        if (selected) {
+          const videoId = extraerVideoId(selected.link);
+          if (videoId) {
+          setLinkVideo(`https://www.youtube.com/embed/${videoId}`);
+          } else {
+            setLinkVideo('');
+          }
+        }
+      }}
+      enabled={esEditable} />
+
+      {linkVideo !== '' && (
+        <View style={styles.videoContainer}>
+          <WebView
+            source={{ uri: linkVideo }}
+            style={{ height: 200 }}
+            javaScriptEnabled={true}
+            domStorageEnabled={true}
+          />
+        </View>
+      )}
 
       <Text style={styles.label}>Color RGB seleccionado</Text>
       <Text style={styles.colorDisplay}>R: {rgb1} | G: {rgb2} | B: {rgb3}</Text>
@@ -189,7 +242,7 @@ export default function PersonalizarScreen() {
       <ColorPicker
         color={colorHex}
         onColorChange={onColorSelected}
-        style={{ width: 250, height: 250, alignSelf: 'center', marginVertical: 20 }}
+        style={{ width: 250, height: 250, alignSelf: 'center', marginVertical: 20, marginBottom: 40 }}
         thumbSize={30}
         sliderSize={30}
       />
@@ -207,7 +260,7 @@ export default function PersonalizarScreen() {
         </Text>
       )}
       <Text style={styles.message}>{mensaje}</Text>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -215,7 +268,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     backgroundColor: '#f0f0f0',
-    height: '100%',
     justifyContent: 'center',
   },
   title: {
@@ -250,7 +302,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   nuevaCancionBtn: {
-    backgroundColor: '#1e5631', // verde oscuro
+    backgroundColor: '#1e5631',
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 25,
@@ -260,7 +312,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
-    elevation: 8, // para Android
+    elevation: 8,
   },
   nuevaCancionText: {
     color: '#fff',
@@ -268,5 +320,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
   },
-  
+  videoContainer: {
+    height: 200,
+    marginBottom: 15,
+  },
+  pickerWrapper: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 12,
+    marginBottom: 15,
+    backgroundColor: '#fff',
+    width: 200,
+    height: 40,
+    justifyContent: 'center',
+  }
 });
