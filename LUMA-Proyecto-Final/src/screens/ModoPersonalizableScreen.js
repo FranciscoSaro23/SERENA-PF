@@ -7,9 +7,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 export default function PersonalizarScreen() {
   const route = useRoute();
   const navigation = useNavigation();
-
   const { presetModeId } = route.params || {};
-
   const usuarioIdPrueba = 'd28065e7-5749-4e55-889d-ff6699200ba8';
 
   const [nombre, setNombre] = useState('');
@@ -251,4 +249,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333',
   },
+  nuevaCancionBtn: {
+    backgroundColor: '#1e5631', // verde oscuro
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 25,
+    alignSelf: 'center',
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8, // para Android
+  },
+  nuevaCancionText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  
 });
