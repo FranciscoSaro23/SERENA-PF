@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import NavBar from '../shared/Navbar';
 
-const ModosPredeterminadosScreen = () => {
+export default PredeterminadosScreen = () => {
   const [presetModes, setPresetModes] = useState([]);
   const [editingModeId, setEditingModeId] = useState(null);
   const navigation = useNavigation();
-
   const usuarioIdPrueba = 'd28065e7-5749-4e55-889d-ff6699200ba8';
 
   useFocusEffect(
@@ -21,24 +21,19 @@ const ModosPredeterminadosScreen = () => {
       .from('MODO')
       .select('id, nombre, id_usuario')
       .order('id', { ascending: true });
-  
+
     if (error) {
       console.error('Error al obtener modos:', error);
     } else {
-      const predeterminados = data.filter((m) => m.id_usuario === null);
+      const predeterminados = data
+        .filter((m) => m.id_usuario === null)
+        .slice(0, 3);
+
       const personalizados = data.filter((m) => m.id_usuario === usuarioIdPrueba);
-  
-      const allModes = [...predeterminados];
-      
-      if (personalizados.length > 0) {
-        allModes.push(...personalizados);
-      } else {
-        allModes.push({ id: 'custom', nombre: 'Personalizar', customize: true });
-      }
-  
+      const allModes = [...predeterminados, ...personalizados];
       setPresetModes(allModes);
     }
-  };  
+  };
 
   const onRename = (id) => {
     Alert.alert('Renombrar', `Función para renombrar modo ${id} (pendiente)`);
@@ -69,20 +64,8 @@ const ModosPredeterminadosScreen = () => {
   };
 
   const renderPresetMode = ({ item, index }) => {
-    const locked = item.id_usuario === null && index >= 3 && !item.customize;
+    const locked = item.id_usuario === null && index >= 3;
     const isEditing = editingModeId === item.id;
-
-    if (item.customize) {
-      return (
-        <TouchableOpacity
-          style={styles.customizeButton}
-          onPress={() => navigation.navigate('ModoPersonalizableScreen', { presetModeId: item.id })}
-        >
-          <View style={styles.radioCircle} />
-          <Text style={styles.customizeText}>Personalizar</Text>
-        </TouchableOpacity>
-      );
-    }
 
     if (isEditing) {
       return (
@@ -122,26 +105,41 @@ const ModosPredeterminadosScreen = () => {
     );
   };
 
+  const agregarNuevoModo = () => {
+    navigation.navigate('ModoPersonalizableScreen', { presetModeId: null });
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Modos predeterminados</Text>
-      <FlatList
-        data={presetModes}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderPresetMode}
-        contentContainerStyle={styles.listContainer}
-        showsVerticalScrollIndicator={false}
-      />
+    <View style={styles.wrapper}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>Modos Predeterminados</Text>
+        <FlatList
+          data={presetModes}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderPresetMode}
+          contentContainerStyle={styles.listContainer}
+          scrollEnabled={false} // ya usamos ScrollView
+          ListFooterComponent={
+            <TouchableOpacity style={styles.customizeButton} onPress={agregarNuevoModo}>
+              <Text style={styles.customizeText}> + Personalizar</Text>
+            </TouchableOpacity>
+          }
+        />
+      </ScrollView>
+      <NavBar />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     flex: 1,
     backgroundColor: '#FFFDF5',
+  },
+  container: {
     paddingTop: 60,
     paddingHorizontal: 20,
+    paddingBottom: 90, // espacio para que el contenido no quede detrás del navbar
   },
   title: {
     fontSize: 20,
@@ -221,5 +219,3 @@ const styles = StyleSheet.create({
     marginVertical: 2,
   },
 });
-
-export default ModosPredeterminadosScreen;

@@ -4,7 +4,6 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 export default function Dropdown({ options, selectedValue, onValueChange, enabled }) {
   const [showOptions, setShowOptions] = useState(false);
 
-  // Aquí está la línea clave que muestra el label de la canción seleccionada
   const selectedLabel = options.find(o => o.value === selectedValue)?.label || "Elegí una canción";
 
   const toggleDropdown = () => {
@@ -23,7 +22,10 @@ export default function Dropdown({ options, selectedValue, onValueChange, enable
         onPress={toggleDropdown}
         activeOpacity={0.7}
       >
-        <Text style={styles.selectedText}>{selectedLabel}</Text>
+        <View style={styles.selectorContent}>
+          <Text style={styles.selectedText}>{selectedLabel}</Text>
+          <Text style={styles.arrow}>▼</Text>
+        </View>
       </TouchableOpacity>
 
       {showOptions && (
@@ -59,9 +61,19 @@ const styles = StyleSheet.create({
   disabled: {
     backgroundColor: '#eee',
   },
+  selectorContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   selectedText: {
     fontSize: 16,
     color: '#333',
+  },
+  arrow: {
+    fontSize: 16,
+    color: '#555',
+    marginLeft: 10,
   },
   optionsContainer: {
     maxHeight: 150,

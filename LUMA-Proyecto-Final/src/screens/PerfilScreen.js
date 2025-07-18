@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
-const PerfilScreen = () => {
+export default PerfilScreen = () => {
   const [userName, setUserName] = useState('Nombre usuario');
   const [userAge, setUserAge] = useState('Edad');
 
@@ -88,5 +88,3 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
-
-export default PerfilScreen;
