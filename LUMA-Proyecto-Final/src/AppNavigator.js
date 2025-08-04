@@ -5,6 +5,8 @@ import PredeterminadosScreen from './screens/ModosPredeterminados';
 import PersonalizarScreen from './screens/ModoPersonalizableScreen';
 import AgregarCancionScreen from './screens/AgregarCancionScreen';
 import InicioScreen from './screens/InicioScreen';
+import PerfilScreen from './screens/PerfilScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +18,7 @@ export default function AppNavigator() {
         <Stack.Screen name="ModoPersonalizableScreen" component={PersonalizarScreen} />
         <Stack.Screen name="AgregarCancionScreen" component={AgregarCancionScreen} />
         <Stack.Screen name="InicioScreen" component={InicioScreen} />
+        <Stack.Screen name="PerfilScreen" component={PerfilScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     

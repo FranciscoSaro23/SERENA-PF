@@ -1,4 +1,4 @@
-import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, TextInput, Text, StyleSheet, ActivityIndicator, TouchableOpacity, ScrollView, Image, Pressable } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 import ColorPicker from 'react-native-color-picker-wheel';
 import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -6,6 +6,7 @@ import { WebView } from 'react-native-webview';
 import Dropdown from '../components/Dropdown';
 import { useState, useEffect, useCallback } from 'react';
 import NavBar from '../shared/Navbar';
+
 
 export default function PersonalizarScreen() {
   const route = useRoute();
@@ -23,7 +24,7 @@ export default function PersonalizarScreen() {
   const [canciones, setCanciones] = useState([]);
   const [coverUrl, setCoverUrl] = useState('');
   const [embedUrl, setEmbedUrl] = useState('');
-
+  const [modoGuardado, setModoGuardado] = useState(false);
   const noEditables = ['1', '2', '3'];
   const esEditable = !noEditables.includes(String(presetModeId));
 
@@ -122,6 +123,14 @@ export default function PersonalizarScreen() {
     );
   };
 
+  useEffect(() => {
+    if (presetModeId && presetModeId !== 'custom') {
+      setModoGuardado(true);
+    } else {
+      setModoGuardado(false);
+    }
+  }, [presetModeId]);
+
   const guardarModo = async () => {
     if (!camposValidos()) {
       setMensaje('Completá todos los campos correctamente.');
@@ -142,14 +151,31 @@ export default function PersonalizarScreen() {
     setLoading(true);
     if (presetModeId && presetModeId !== 'custom') {
       const { error } = await supabase.from('MODO').update(modoData).eq('id', presetModeId);
-      if (error) setMensaje('Error al actualizar modo.');
-      else navigation.goBack();
+      if (error) {
+        setMensaje('Error al actualizar modo.');
+      } else {
+        setModoGuardado(true);  // Marca modo como guardado
+        navigation.goBack();
+      }
     } else {
       const { error } = await supabase.from('MODO').insert([modoData]);
-      if (error) setMensaje('Error al guardar modo.');
-      else navigation.goBack();
+      if (error) {
+        setMensaje('Error al guardar modo.');
+      } else {
+        setModoGuardado(true);  // Marca modo como guardado
+        navigation.goBack();
+      }
     }
     setLoading(false);
+  };
+
+  const enviarADispositivo = () => {
+    if (!modoGuardado) {
+      setMensaje('Primero guarda el modo antes de enviarlo.');
+      return;
+    }
+    // Aquí pondrías la lógica real de enviar datos al dispositivo
+    setMensaje('Modo enviado al dispositivo.');
   };
 
   if (loading) {
@@ -230,12 +256,34 @@ export default function PersonalizarScreen() {
           sliderSize={30}
         />
   
-        <Button
-          title={presetModeId && presetModeId !== 'custom' ? 'Actualizar Modo' : 'Guardar Modo'}
+        <Pressable
           onPress={guardarModo}
-          color="#1e5631"
           disabled={!esEditable}
-        />
+          style={({ pressed }) => [
+            styles.botonGuardar,
+            { opacity: modoGuardado ? 0.4 : 1 },
+            pressed && { opacity: 0.6 }
+          ]}
+        >
+          <Text style={styles.textoBoton}>
+            {presetModeId && presetModeId !== 'custom' ? 'Actualizar Modo' : 'Guardar Modo'}
+          </Text>
+        </Pressable>
+
+        <Pressable
+          onPress={enviarADispositivo}
+          disabled={!modoGuardado}
+          style={({ pressed }) => [
+            styles.botonEnviar,
+            { opacity: modoGuardado ? 1 : 0.4 },
+            pressed && { opacity: 0.6 }
+          ]}
+        >
+          <Text style={styles.textoBoton}>
+            Enviar a dispositivo
+          </Text>
+        </Pressable>
+
         {mensaje ? <Text style={styles.message}>{mensaje}</Text> : null}
       </ScrollView>
   
@@ -284,4 +332,142 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 100,
   },
-});
+    // Contenedor principal de la pantalla
+    screenContainer: {
+      flex: 1,
+      backgroundColor: '#FFFFF3',        // fondo suave crema
+      justifyContent: 'space-between',   // NavBar fijo abajo
+    },
+    // Scroll interno con padding generoso
+    scrollContent: {
+      padding: 20,
+      paddingBottom: 120,                // espacio para la NavBar
+    },
+  
+    // Botón “+ Agregar canción”
+    nuevaCancionBtn: {
+      backgroundColor: '#0a0d41',        // azul profundo
+      paddingVertical: 14,
+      paddingHorizontal: 28,
+      borderRadius: 30,
+      alignSelf: 'center',
+      marginBottom: 24,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 6,
+      elevation: 6,
+    },
+    nuevaCancionText: {
+      color: '#FFFFEE',
+      fontSize: 16,
+      fontWeight: '600',
+      textAlign: 'center',
+    },
+  
+    // Título grande
+    title: {
+      fontSize: 26,
+      fontWeight: '700',
+      color: '#0a0d41',
+      textAlign: 'center',
+      marginBottom: 20,
+    },
+  
+    // Etiquetas de campo
+    label: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: '#0a0d41',
+      marginBottom: 8,
+    },
+  
+    // Inputs y dropdown
+    input: {
+      backgroundColor: '#FFFFFF',
+      borderWidth: 1,
+      borderColor: '#B9D9EB',
+      borderRadius: 12,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      marginBottom: 18,
+      fontSize: 16,
+      color: '#0a0d41',
+    },
+    pickerContainer: {
+      backgroundColor: '#FFFFFF',
+      borderWidth: 1,
+      borderColor: '#B9D9EB',
+      borderRadius: 12,
+      marginBottom: 18,
+    },
+  
+    // Cover art
+    coverContainer: {
+      alignItems: 'center',
+      marginBottom: 18,
+    },
+    cover: {
+      width: 200,
+      height: 200,
+      borderRadius: 16,
+    },
+  
+    // Embed player
+    embedContainer: {
+      height: 80,
+      marginBottom: 24,
+    },
+  
+    // Color display
+    colorDisplay: {
+      fontSize: 16,
+      textAlign: 'center',
+      color: '#0a0d41',
+      marginBottom: 12,
+    },
+    picker: {
+      width: 260,
+      height: 260,
+      alignSelf: 'center',
+      marginBottom: 32,
+    },
+  
+    // Mensaje de error o confirmación
+    message: {
+      fontSize: 15,
+      textAlign: 'center',
+      color: '#C73F4A',
+      marginTop: 12,
+      marginBottom: 24,
+    },
+  
+    // Loading
+    center: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    botonGuardar: {
+      backgroundColor: '#1e5631',
+      borderRadius: 12,
+      paddingVertical: 14,
+      paddingHorizontal: 24,
+      marginBottom: 16,
+      alignItems: 'center',
+    },
+    botonEnviar: {
+      backgroundColor: '#107896',
+      borderRadius: 12,
+      paddingVertical: 14,
+      paddingHorizontal: 24,
+      marginBottom: 30,
+      alignItems: 'center',
+    },
+    textoBoton: {
+      color: '#fff',
+      fontSize: 18,
+      fontWeight: '600',
+    },
+  });
+  

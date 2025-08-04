@@ -30,3 +30,104 @@ body{
     padding: 5%;
     margin: auto;
 }
+
+/* RESET GENERAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* FUENTES Y CUERPO */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F5F7FA;
+    color: #333;
+    line-height: 1.5;
+  }
+  
+  /* CONTENEDORES */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* TITULOS */
+  h1, h2, h3 {
+    color: #1D3557;
+    margin-bottom: 10px;
+  }
+  
+  /* BOTONES */
+  button {
+    background-color: #457B9D;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  button:hover {
+    background-color: #1D3557;
+  }
+  
+  /* INPUTS */
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #CED4DA;
+    border-radius: 10px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  /* CARDS o MODOS */
+  .card {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 15px 0;
+  }
+  
+  /* ETIQUETAS DE FORMULARIO */
+  label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    display: block;
+    color: #2C3E50;
+  }
+  
+  /* TEXTO ACCESIBLE DESTACADO */
+  .highlight-text {
+    color: #E76F51;
+    font-weight: bold;
+  }
+  
+  /* MODO PERSONALIZADO */
+  .custom-mode-preview {
+    background-color: #E0F7FA;
+    border: 2px dashed #00ACC1;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+  }
+  
+  /* RESPONSIVE */
+  @media screen and (max-width: 768px) {
+    .container {
+      padding: 10px;
+    }
+  
+    button {
+      width: 100%;
+    }
+  }
+  

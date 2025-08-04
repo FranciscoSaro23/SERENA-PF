@@ -16,11 +16,18 @@ export default function NavBar() {
         <Feather name="edit-3" size={32} color="#151F6D" />
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('InicioScreen')}>
-        <Image
-          source={require('../../assets/icon.png')}
-          style={styles.logo}
-        />
+      {/* Botón central elevado */}
+      <TouchableOpacity
+        onPress={() => navigation.navigate('InicioScreen')}
+        style={styles.inicioButton}
+      >
+        <View style={styles.inicioIconWrapper}>
+          <Image
+            source={require('../../assets/icon.png')}
+            style={styles.logo}
+          />
+        </View>
+        <View style={styles.activeUnderline} />
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('AyudaScreen')}>
@@ -43,10 +50,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderTopColor: '#151F6D',
+    position: 'relative', // NECESARIO para que el botón absoluto funcione
   },
   logo: {
     width: 50,
     height: 50,
     resizeMode: 'contain',
   },
+  inicioButton: {
+    position: 'absolute',
+    top: -30, // eleva el botón sobre la barra
+    alignSelf: 'center', // lo centra horizontalmente
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
+  },
+  inicioIconWrapper: {
+    width: 62,
+    height: 62,
+    backgroundColor: '#FFFFF3',
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+  },
+
 });

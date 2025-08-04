@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
-export default PerfilScreen = () => {
+export default function PerfilScreen () {
   const [userName, setUserName] = useState('Nombre usuario');
   const [userAge, setUserAge] = useState('Edad');
 
   const handleEditProfile = () => {
-    // Implementar la lógica para editar el perfil
     console.log('Editando perfil');
   };
 
