@@ -7,9 +7,7 @@ export default function InicioScreen() {
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.titulo}>
-          Bienvenido <Text style={styles.usuario}>usuario</Text>,{'\n'}
-          vincúlate con tu Luma
-        </Text>
+          Bienvenido <Text style={styles.usuario}>usuario</Text>,{'\n'} vincúlate con tu Luma  </Text>
         <TouchableOpacity style={styles.boton}>
           <Text style={styles.botonTexto}>EMPEZAR</Text>
         </TouchableOpacity>
@@ -39,7 +37,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     alignItems: 'center',
-    paddingBottom: 40, // deja espacio para la navbar
+    paddingBottom: 40,
   },
   titulo: {
     fontSize: 30,

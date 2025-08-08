@@ -7,73 +7,88 @@ export default function NavBar() {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate('ConfiguracionScreen')}>
-        <Ionicons name="settings-sharp" size={32} color="#151F6D" />
-      </TouchableOpacity>
+    <View style={styles.navbarContainer}>
+      <View style={styles.sideButtons}>
+        <TouchableOpacity onPress={() => navigation.navigate('ConfiguracionScreen')}>
+          <Ionicons name="settings-sharp" size={34} color="#151F6D" />
+        </TouchableOpacity>
+        
+        <TouchableOpacity onPress={() => navigation.navigate('ModosPredeterminadosScreen')}>
+          <Feather name="edit-3" size={34} color="#151F6D" />
+        </TouchableOpacity>
+      </View>
 
-      <TouchableOpacity onPress={() => navigation.navigate('ModosPredeterminadosScreen')}>
-        <Feather name="edit-3" size={32} color="#151F6D" />
-      </TouchableOpacity>
+      <View style={styles.inicioButtonWrapper}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('InicioScreen')}
+          style={styles.inicioButton}
+        >
+          <View style={styles.inicioIconWrapper}>
+            <Image
+              source={require('../../assets/icon.png')}
+              style={styles.logo}
+            />
+          </View>
+          <View style={styles.activeUnderline} />
+        </TouchableOpacity>
+      </View>
 
-      {/* Botón central elevado */}
-      <TouchableOpacity
-        onPress={() => navigation.navigate('InicioScreen')}
-        style={styles.inicioButton}
-      >
-        <View style={styles.inicioIconWrapper}>
-          <Image
-            source={require('../../assets/icon.png')}
-            style={styles.logo}
-          />
-        </View>
-        <View style={styles.activeUnderline} />
-      </TouchableOpacity>
+      <View style={styles.sideButtons}>
+        <TouchableOpacity onPress={() => navigation.navigate('AyudaScreen')}>
+          <Ionicons name="notifications-outline" size={34} color="#151F6D" />
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('AyudaScreen')}>
-        <Ionicons name="notifications-outline" size={32} color="#151F6D" />
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('PerfilScreen')}>
-        <MaterialIcons name="account-circle" size={32} color="#151F6D" />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+          <MaterialIcons name="account-circle" size={34} color="#151F6D" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  navbarContainer: {
     width: '100%',
     backgroundColor: '#BCD9EA',
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingVertical: 12,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingHorizontal: 40,
+    paddingTop: 15,
+    paddingBottom: 15,
     borderTopColor: '#151F6D',
-    position: 'relative', // NECESARIO para que el botón absoluto funcione
+    position: 'relative',
   },
-  logo: {
-    width: 50,
-    height: 50,
-    resizeMode: 'contain',
+  sideButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 50,
   },
-  inicioButton: {
+  inicioButtonWrapper: {
     position: 'absolute',
-    top: -30, // eleva el botón sobre la barra
-    alignSelf: 'center', // lo centra horizontalmente
+    top: -34, // eleva el botón
+    left: 0,
+    right: 0,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 10,
   },
-  inicioIconWrapper: {
-    width: 62,
-    height: 62,
-    backgroundColor: '#FFFFF3',
-    borderRadius: 30,
+  inicioButton: {
     alignItems: 'center',
     justifyContent: 'center',
-    shadowOpacity: 0.12,
-    shadowRadius: 6,
   },
-
+  inicioIconWrapper: {
+    width: 75,
+    height: 75,
+    backgroundColor: '#FFFFF3',
+    borderRadius: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 10,
+  },
+  logo: {
+    width: 55,
+    height: 55,
+    resizeMode: 'contain',
+  },
 });

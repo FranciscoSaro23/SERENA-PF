@@ -7,8 +7,7 @@ import Dropdown from '../components/Dropdown';
 import { useState, useEffect, useCallback } from 'react';
 import NavBar from '../shared/Navbar';
 
-
-export default function PersonalizarScreen() {
+export default function PersonalizableScreen() {
   const route = useRoute();
   const navigation = useNavigation();
   const { presetModeId } = route.params || {};
@@ -28,16 +27,13 @@ export default function PersonalizarScreen() {
   const noEditables = ['1', '2', '3'];
   const esEditable = !noEditables.includes(String(presetModeId));
 
-  // Extrae el trackId de Spotify
   const extraerSpotifyTrackId = (url) => {
     const regex = /open\.spotify\.com\/track\/([a-zA-Z0-9]+)/;
     const match = url.match(regex);
     return match ? match[1] : null;
   };
 
-  // Construye URL de portada vía oEmbed
   const fetchCoverAndEmbed = async (trackId) => {
-    // Portada a través del endpoint oEmbed
     try {
       const res = await fetch(`https://open.spotify.com/oembed?url=https://open.spotify.com/track/${trackId}`);
       const json = await res.json();
@@ -46,7 +42,6 @@ export default function PersonalizarScreen() {
       console.warn('No se pudo obtener portada', e);
       setCoverUrl('');
     }
-    // Embed player
     setEmbedUrl(`https://open.spotify.com/embed/track/${trackId}`);
   };
 
@@ -90,7 +85,6 @@ export default function PersonalizarScreen() {
             .slice(1)
         }`
       );
-      // Si ya tenía música, carga cover
       const sel = canciones.find(c => String(c.id) === String(data.id_musica));
       if (sel) {
         const tid = extraerSpotifyTrackId(sel.link);
@@ -154,7 +148,7 @@ export default function PersonalizarScreen() {
       if (error) {
         setMensaje('Error al actualizar modo.');
       } else {
-        setModoGuardado(true);  // Marca modo como guardado
+        setModoGuardado(true);
         navigation.goBack();
       }
     } else {
@@ -162,7 +156,7 @@ export default function PersonalizarScreen() {
       if (error) {
         setMensaje('Error al guardar modo.');
       } else {
-        setModoGuardado(true);  // Marca modo como guardado
+        setModoGuardado(true);
         navigation.goBack();
       }
     }
@@ -174,7 +168,6 @@ export default function PersonalizarScreen() {
       setMensaje('Primero guarda el modo antes de enviarlo.');
       return;
     }
-    // Aquí pondrías la lógica real de enviar datos al dispositivo
     setMensaje('Modo enviado al dispositivo.');
   };
 
@@ -469,5 +462,6 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: '600',
     },
+    
   });
   

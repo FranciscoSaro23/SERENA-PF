@@ -4,7 +4,7 @@ import { supabase } from '../services/supabaseClient';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import NavBar from '../shared/Navbar';
 
-export default PredeterminadosScreen = () => {
+export default function PredeterminadosScreen () {
   const [presetModes, setPresetModes] = useState([]);
   const [editingModeId, setEditingModeId] = useState(null);
   const navigation = useNavigation();
