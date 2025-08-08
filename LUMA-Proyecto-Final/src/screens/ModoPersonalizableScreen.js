@@ -268,8 +268,6 @@ export default function PersonalizableScreen() {
           disabled={!modoGuardado}
           style={({ pressed }) => [
             styles.botonEnviar,
-            { opacity: modoGuardado ? 1 : 0.4 },
-            pressed && { opacity: 0.6 }
           ]}
         >
           <Text style={styles.textoBoton}>
@@ -286,182 +284,152 @@ export default function PersonalizableScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    backgroundColor: '#f0f0f0',
-  },
-  center: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  nuevaCancionBtn: {
-    backgroundColor: '#1e5631',
-    padding: 12,
-    borderRadius: 25,
-    alignSelf: 'center',
-    marginBottom: 20,
-  },
-  nuevaCancionText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#1e5631', textAlign: 'center', marginBottom: 20 },
-  label: { fontSize: 16, color: '#333', marginBottom: 5 },
-  input: {
-    borderWidth: 1, borderColor: '#ccc', borderRadius: 12,
-    padding: 10, backgroundColor: '#fff', marginBottom: 15,
-  },
-  coverContainer: { alignItems: 'center', marginBottom: 15 },
-  cover: { width: 250, height: 250, borderRadius: 12 },
-  embedContainer: { height: 80, marginBottom: 20, flex: 1, },
-  colorDisplay: { textAlign: 'center', marginBottom: 10, fontSize: 16 },
-  picker: { width: 250, height: 250, alignSelf: 'center', marginBottom: 40 },
-  message: { color: 'red', textAlign: 'center', marginTop: 10
-},
   screenContainer: {
     flex: 1,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#FFFFF3',
     justifyContent: 'space-between',
   },
   scrollContent: {
     padding: 20,
-    paddingBottom: 100,
+    paddingBottom: 120,
   },
-    // Contenedor principal de la pantalla
-    screenContainer: {
-      flex: 1,
-      backgroundColor: '#FFFFF3',        // fondo suave crema
-      justifyContent: 'space-between',   // NavBar fijo abajo
-    },
-    // Scroll interno con padding generoso
-    scrollContent: {
-      padding: 20,
-      paddingBottom: 120,                // espacio para la NavBar
-    },
-  
-    // Botón “+ Agregar canción”
-    nuevaCancionBtn: {
-      backgroundColor: '#0a0d41',        // azul profundo
-      paddingVertical: 14,
-      paddingHorizontal: 28,
-      borderRadius: 30,
-      alignSelf: 'center',
-      marginBottom: 24,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.1,
-      shadowRadius: 6,
-      elevation: 6,
-    },
-    nuevaCancionText: {
-      color: '#FFFFEE',
-      fontSize: 16,
-      fontWeight: '600',
-      textAlign: 'center',
-    },
-  
-    // Título grande
-    title: {
-      fontSize: 26,
-      fontWeight: '700',
-      color: '#0a0d41',
-      textAlign: 'center',
-      marginBottom: 20,
-    },
-  
-    // Etiquetas de campo
-    label: {
-      fontSize: 16,
-      fontWeight: '500',
-      color: '#0a0d41',
-      marginBottom: 8,
-    },
-  
-    // Inputs y dropdown
-    input: {
-      backgroundColor: '#FFFFFF',
-      borderWidth: 1,
-      borderColor: '#B9D9EB',
-      borderRadius: 12,
-      paddingVertical: 12,
-      paddingHorizontal: 16,
-      marginBottom: 18,
-      fontSize: 16,
-      color: '#0a0d41',
-    },
-    pickerContainer: {
-      backgroundColor: '#FFFFFF',
-      borderWidth: 1,
-      borderColor: '#B9D9EB',
-      borderRadius: 12,
-      marginBottom: 18,
-    },
-  
-    // Cover art
-    coverContainer: {
-      alignItems: 'center',
-      marginBottom: 18,
-    },
-    cover: {
-      width: 200,
-      height: 200,
-      borderRadius: 16,
-    },
-  
-    // Embed player
-    embedContainer: {
-      height: 80,
-      marginBottom: 24,
-    },
-  
-    // Color display
-    colorDisplay: {
-      fontSize: 16,
-      textAlign: 'center',
-      color: '#0a0d41',
-      marginBottom: 12,
-    },
-    picker: {
-      width: 260,
-      height: 260,
-      alignSelf: 'center',
-      marginBottom: 32,
-    },
-  
-    // Mensaje de error o confirmación
-    message: {
-      fontSize: 15,
-      textAlign: 'center',
-      color: '#C73F4A',
-      marginTop: 12,
-      marginBottom: 24,
-    },
-  
-    // Loading
-    center: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    botonGuardar: {
-      backgroundColor: '#1e5631',
-      borderRadius: 12,
-      paddingVertical: 14,
-      paddingHorizontal: 24,
-      marginBottom: 16,
-      alignItems: 'center',
-    },
-    botonEnviar: {
-      backgroundColor: '#107896',
-      borderRadius: 12,
-      paddingVertical: 14,
-      paddingHorizontal: 24,
-      marginBottom: 30,
-      alignItems: 'center',
-    },
-    textoBoton: {
-      color: '#fff',
-      fontSize: 18,
-      fontWeight: '600',
-    },
-    
-  });
-  
+
+  // Botón + Agregar canción
+  nuevaCancionBtn: {
+    backgroundColor: '#0A0D41',
+    paddingVertical: 14,
+    paddingHorizontal: 28,
+    borderRadius: 30,
+    alignSelf: 'center',
+    marginBottom: 24,
+    shadowColor: '#0A0D41',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  nuevaCancionText: {
+    color: '#FFFFF3',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+
+  // Título
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#0A0D41',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+
+  // Labels
+  label: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#0A0D41',
+    marginBottom: 6,
+  },
+
+  // Inputs y dropdowns
+  input: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#B9D9EB',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginBottom: 18,
+    fontSize: 16,
+    color: '#0A0D41',
+  },
+  pickerContainer: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#B9D9EB',
+    borderRadius: 12,
+    marginBottom: 18,
+  },
+
+  // Portada canción
+  coverContainer: {
+    alignItems: 'center',
+    marginBottom: 18,
+  },
+  cover: {
+    width: 200,
+    height: 200,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: '#C4C6E7',
+  },
+
+  // Player embebido
+  embedContainer: {
+    height: 80,
+    marginBottom: 24,
+    borderRadius: 12,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#B9D9EB',
+  },
+
+  // Color RGB
+  colorDisplay: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: '#0A0D41',
+    marginBottom: 12,
+    fontWeight: '500',
+  },
+  picker: {
+    width: 260,
+    height: 260,
+    alignSelf: 'center',
+    marginBottom: 32,
+  },
+
+  // Botones de acción
+  botonGuardar: {
+    backgroundColor: '#0A0D41',
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    marginBottom: 16,
+    marginTop: 16,
+    alignItems: 'center',
+    shadowColor: '#0A0D41',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  botonEnviar: {
+    backgroundColor: '#B9D9EB',
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    marginBottom: 30,
+    alignItems: 'center',
+    shadowColor: '#0A0D41',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  textoBoton: {
+    color: '#FFFFF3',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+
+  // Mensajes
+  message: {
+    fontSize: 15,
+    textAlign: 'center',
+    color: '#C73F4A',
+    marginTop: 12,
+    marginBottom: 24,
+  },
+});
+

@@ -50,9 +50,6 @@ export default function LoginScreen({ navigation }) {
       <Pressable style={styles.link} onPress={handleNavigateToRegister}>
         <Text style={styles.linkText}>¿No tienes cuenta? Regístrate</Text>
       </Pressable>
-      <Pressable style={styles.link} onPress={handleNavigateToPerfil}>
-        <Text style={styles.linkText}>Ir al Perfil</Text>
-      </Pressable>
     </View>
   );
 }
