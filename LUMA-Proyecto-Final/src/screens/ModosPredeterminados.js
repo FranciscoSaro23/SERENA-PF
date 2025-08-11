@@ -64,7 +64,7 @@ export default function PredeterminadosScreen () {
   };
 
   const renderPresetMode = ({ item, index }) => {
-    const locked = item.id_usuario === null && index >= 3;
+    const isPredetermined = item.id_usuario === null;
     const isEditing = editingModeId === item.id;
 
     if (isEditing) {
@@ -88,18 +88,18 @@ export default function PredeterminadosScreen () {
       <TouchableOpacity
         style={[
           styles.modeContainer,
-          locked ? styles.lockedContainer : styles.unlockedContainer,
+          isPredetermined ? styles.lockedContainer : styles.unlockedContainer,
         ]}
-        disabled={locked}
+        disabled={isPredetermined}
         onPress={() => navigation.navigate('ModoPersonalizableScreen', { presetModeId: item.id })}
         onLongPress={() => setEditingModeId(item.id)}
       >
         <View style={styles.radioCircle} />
-        <Text style={[styles.modeText, locked ? styles.lockedText : styles.unlockedText]}>
+        <Text style={[styles.modeText, isPredetermined ? styles.lockedText : styles.unlockedText]}>
           {item.nombre}
         </Text>
-        <Text style={[styles.icon, locked && styles.lockedText]}>
-          {locked ? '🔒' : '⚙️'}
+        <Text style={[styles.icon, isPredetermined && styles.lockedText]}>
+          {isPredetermined ? '🔒' : '⚙️'}
         </Text>
       </TouchableOpacity>
     );
@@ -112,7 +112,6 @@ export default function PredeterminadosScreen () {
   return (
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Modos Predeterminados</Text>
         <FlatList
           data={presetModes}
           keyExtractor={(item) => item.id.toString()}
@@ -159,10 +158,10 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   unlockedContainer: {
-    backgroundColor: '#0F1C65',
+    backgroundColor: '#4F84B5', // Different blue for user-created modes
   },
   lockedContainer: {
-    backgroundColor: '#BFC4DC',
+    backgroundColor: '#0F1C65', // Original blue color for predetermined modes 1, 2, 3
   },
   radioCircle: {
     width: 18,

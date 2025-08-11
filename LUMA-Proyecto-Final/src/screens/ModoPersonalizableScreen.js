@@ -19,6 +19,7 @@ export default function PersonalizableScreen() {
   const [rgb3, setRgb3] = useState('');
   const [colorHex, setColorHex] = useState('#ffffff');
   const [mensaje, setMensaje] = useState('');
+  const [observaciones, setObservaciones] = useState('');
   const [loading, setLoading] = useState(false);
   const [canciones, setCanciones] = useState([]);
   const [coverUrl, setCoverUrl] = useState('');
@@ -85,6 +86,7 @@ export default function PersonalizableScreen() {
             .slice(1)
         }`
       );
+      setObservaciones(data.observaciones || '');
       const sel = canciones.find(c => String(c.id) === String(data.id_musica));
       if (sel) {
         const tid = extraerSpotifyTrackId(sel.link);
@@ -141,6 +143,7 @@ export default function PersonalizableScreen() {
       rgb2: parseInt(rgb2),
       rgb3: parseInt(rgb3),
       id_usuario: usuarioIdPrueba,
+      observaciones: observaciones,
     };
     setLoading(true);
     if (presetModeId && presetModeId !== 'custom') {
@@ -247,6 +250,17 @@ export default function PersonalizableScreen() {
           style={styles.picker}
           thumbSize={30}
           sliderSize={30}
+          disabled={!esEditable}
+        />
+
+        <Text style={styles.label}>Observaciones del Paciente</Text>
+        <TextInput
+          style={[styles.input, styles.textArea]}
+          value={observaciones}
+          onChangeText={setObservaciones}
+          editable={esEditable}
+          multiline
+          numberOfLines={4}
         />
   
         <Pressable
@@ -391,31 +405,21 @@ const styles = StyleSheet.create({
 
   // Botones de acción
   botonGuardar: {
-    backgroundColor: '#0A0D41',
+    backgroundColor: '#A790A5',
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 24,
     marginBottom: 16,
     marginTop: 16,
     alignItems: 'center',
-    shadowColor: '#0A0D41',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
   },
   botonEnviar: {
-    backgroundColor: '#B9D9EB',
+    backgroundColor: '#ADCBE1',
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 24,
     marginBottom: 30,
     alignItems: 'center',
-    shadowColor: '#0A0D41',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    elevation: 3,
   },
   textoBoton: {
     color: '#FFFFF3',
