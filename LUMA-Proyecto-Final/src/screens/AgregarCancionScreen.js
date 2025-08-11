@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, Alert, ActivityIndicator, Image, ScrollView } from 'react-native';
+import { View, TextInput, Text, StyleSheet, Alert, ActivityIndicator, Image, ScrollView, Pressable } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 import { useNavigation } from '@react-navigation/native';
 
@@ -70,82 +70,132 @@ export default function AgregarCancionScreen() {
 
   if (loading) {
     return (
-      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
-        <ActivityIndicator size="large" color="#1e5631" />
-        <Text>Cargando...</Text>
+      <View style={[styles.screenContainer, styles.center]}>
+        <ActivityIndicator size="large" color="#4f1399ff" />
+        <Text style={styles.loadingText}>Cargando...</Text>
       </View>
     );
   }
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
+    <View style={styles.screenContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.title}>Agregar Nueva Canción</Text>
+        
         <Text style={styles.label}>Nombre de la Canción</Text>
         <TextInput
           value={nombreCancion}
           onChangeText={setNombreCancion}
           placeholder="Ej: Meditación"
           style={styles.input}
+          placeholderTextColor="#B9D9EB"
         />
+        
         <Text style={styles.label}>Pega Aquí tu Link de Spotify</Text>
         <TextInput
           value={link}
           onChangeText={setLink}
           placeholder="Ej: https://open.spotify.com/track/..."
           style={styles.input}
+          placeholderTextColor="#B9D9EB"
         />
+        
         {imagenSpotify && (
-          <View style={styles.imageContainer}>
-            <Image source={{ uri: imagenSpotify }} style={styles.image} />
+          <View style={styles.coverContainer}>
+            <Image source={{ uri: imagenSpotify }} style={styles.cover} />
           </View>
         )}
-        <Button title="Guardar Canción" onPress={guardarCancion} color="#1e5631" />
+        
+        <Pressable
+          style={({ pressed }) => [
+            styles.botonGuardar,
+            pressed && { opacity: 0.8 }
+          ]}
+          onPress={guardarCancion}
+        >
+          <Text style={styles.textoBoton}>Guardar Canción</Text>
+        </Pressable>
+        
         {!!mensaje && <Text style={styles.message}>{mensaje}</Text>}
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screenContainer: {
+    flex: 1,
+    backgroundColor: '#FFFFF3',
+    justifyContent: 'space-between',
+  },
+  scrollContent: {
     padding: 20,
-    backgroundColor: '#f0f0f0',
-    height: '100%',
+    paddingBottom: 120,
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1e5631',
+    fontWeight: '700',
+    color: '#0A0D41',
     textAlign: 'center',
     marginBottom: 20,
   },
   label: {
-    marginBottom: 5,
     fontSize: 16,
-    color: '#333',
+    fontWeight: '500',
+    color: '#0A0D41',
+    marginBottom: 6,
   },
   input: {
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#B9D9EB',
     borderRadius: 12,
-    padding: 10,
-    marginBottom: 15,
-    backgroundColor: '#fff',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginBottom: 18,
+    fontSize: 16,
+    color: '#0A0D41',
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#0A0D41',
+    marginTop: 12,
   },
   message: {
-    marginTop: 20,
-    fontSize: 16,
+    fontSize: 15,
     textAlign: 'center',
-    color: 'green',
+    color: '#C73F4A',
+    marginTop: 12,
+    marginBottom: 24,
   },
-  imageContainer: {
+  coverContainer: {
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 18,
   },
-  image: {
-    width: 300,
-    height: 300,
+  cover: {
+    width: 200,
+    height: 200,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: '#C4C6E7',
+  },
+  botonGuardar: {
+    backgroundColor: '#4f1399ff',
     borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    marginBottom: 16,
+    marginTop: 16,
+    alignItems: 'center',
+  },
+  textoBoton: {
+    color: '#FFFFF3',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });

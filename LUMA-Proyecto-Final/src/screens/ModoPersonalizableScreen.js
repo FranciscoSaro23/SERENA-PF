@@ -316,11 +316,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignSelf: 'center',
     marginBottom: 24,
-    shadowColor: '#0A0D41',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    elevation: 4,
   },
   nuevaCancionText: {
     color: '#FFFFF3',
@@ -405,7 +400,7 @@ const styles = StyleSheet.create({
 
   // Botones de acción
   botonGuardar: {
-    backgroundColor: '#A790A5',
+    backgroundColor: '#4f1399ff',
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 24,
@@ -414,7 +409,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   botonEnviar: {
-    backgroundColor: '#ADCBE1',
+    backgroundColor: '#602e8bff',
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 24,

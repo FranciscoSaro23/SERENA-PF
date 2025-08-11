@@ -90,9 +90,8 @@ export default function PredeterminadosScreen () {
           styles.modeContainer,
           isPredetermined ? styles.lockedContainer : styles.unlockedContainer,
         ]}
-        disabled={isPredetermined}
         onPress={() => navigation.navigate('ModoPersonalizableScreen', { presetModeId: item.id })}
-        onLongPress={() => setEditingModeId(item.id)}
+        onLongPress={() => !isPredetermined && setEditingModeId(item.id)}
       >
         <View style={styles.radioCircle} />
         <Text style={[styles.modeText, isPredetermined ? styles.lockedText : styles.unlockedText]}>
