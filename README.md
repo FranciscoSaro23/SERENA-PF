@@ -1,7 +1,7 @@
-Repositorio en React Native del proyecto LUMA.
-Hecho por: Francisco Sarobe - Lola Grille - Eugenia Lucero - Michelle Epelbaum
+Repositorio en React Native del proyecto SERENA
+Hecho por: Francisco Sarobe - Lola Grille - Eugenia Lucero
 
-cd LUMA-Proyecto-Final
+cd SERENA
 npm i
 npm i -g expo 
 npm i expo@latest 
