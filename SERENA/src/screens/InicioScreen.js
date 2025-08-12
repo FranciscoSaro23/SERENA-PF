@@ -7,18 +7,18 @@ export default function InicioScreen() {
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.titulo}>
-          Bienvenido <Text style={styles.usuario}>usuario</Text>,{'\n'} vincúlate con tu Luma  </Text>
+          Bienvenido <Text style={styles.usuario}>usuario</Text>,{'\n'} vincúlate con tu Serena  </Text>
         <TouchableOpacity style={styles.boton}>
           <Text style={styles.botonTexto}>EMPEZAR</Text>
         </TouchableOpacity>
         <Text style={styles.subtitulo}>Iluminá tu calma, estés donde estés</Text>
         <View style={styles.mockup} />
-        <Text style={styles.subtitulo}>¿Qué es Luma?</Text>
+        <Text style={styles.subtitulo}>¿Qué es Serena?</Text>
         <Text style={styles.parrafo}>
-          Luma es un dispositivo sensorial portátil diseñado para acompañar a
+          Serena es un dispositivo sensorial portátil diseñado para acompañar a
           personas neurodivergentes en situaciones de estrés, ansiedad o
           sobreestimulación. A través de una experiencia controlada desde esta
-          aplicación móvil, Luma promueve la relajación y el bienestar emocional
+          aplicación móvil, Serena promueve la relajación y el bienestar emocional
           de manera accesible, segura y empática. Su diseño inclusivo y funcional
           permite utilizarlo en cualquier entorno, ofreciendo contención y calma
           allí donde más se necesita.

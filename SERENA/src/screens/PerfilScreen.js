@@ -20,7 +20,7 @@ export default function PerfilScreen () {
           </TouchableOpacity>
         </View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Mi Luma</Text>
+          <Text style={styles.sectionTitle}>Mi Serena</Text>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Preferencias sensoriales</Text>
           </TouchableOpacity>
