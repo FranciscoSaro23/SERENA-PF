@@ -7,7 +7,7 @@ export default function InicioScreen() {
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.titulo}>
-          Bienvenido <Text style={styles.usuario}>usuario</Text>,{'\n'} vincúlate con tu Serena  </Text>
+          Bienvenido <Text style={styles.usuario}>usuario</Text>,{'\n'} vincúlate con Serena  </Text>
         <TouchableOpacity style={styles.boton}>
           <Text style={styles.botonTexto}>EMPEZAR</Text>
         </TouchableOpacity>
