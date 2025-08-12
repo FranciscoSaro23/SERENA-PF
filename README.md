@@ -1,4 +1,4 @@
-Repositorio en React Native del proyecto SERENA
+SERENA
 Hecho por: Francisco Sarobe - Lola Grille - Eugenia Lucero
 
 cd SERENA
