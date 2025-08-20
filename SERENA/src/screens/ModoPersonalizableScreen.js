@@ -6,6 +6,7 @@ import { WebView } from 'react-native-webview';
 import Dropdown from '../components/Dropdown';
 import { useState, useEffect, useCallback } from 'react';
 import NavBar from '../shared/Navbar';
+import Slider from '@react-native-community/slider';
 
 export default function PersonalizableScreen() {
   const route = useRoute();
@@ -25,6 +26,7 @@ export default function PersonalizableScreen() {
   const [coverUrl, setCoverUrl] = useState('');
   const [embedUrl, setEmbedUrl] = useState('');
   const [modoGuardado, setModoGuardado] = useState(false);
+  const [ventilador, setVentilador] = useState(0);
   const noEditables = ['1', '2', '3'];
   const esEditable = !noEditables.includes(String(presetModeId));
 
@@ -84,9 +86,9 @@ export default function PersonalizableScreen() {
           ((1 << 24) + ((data.rgb1 || 255) << 16) + ((data.rgb2 || 255) << 8) + (data.rgb3 || 255))
             .toString(16)
             .slice(1)
-        }`
-      );
+        }`);
       setObservaciones(data.observaciones || '');
+      setVentilador(Math.round((data.ventilador ?? 0) / 25));
       const sel = canciones.find(c => String(c.id) === String(data.id_musica));
       if (sel) {
         const tid = extraerSpotifyTrackId(sel.link);
@@ -144,6 +146,7 @@ export default function PersonalizableScreen() {
       rgb3: parseInt(rgb3),
       id_usuario: usuarioIdPrueba,
       observaciones: observaciones,
+      ventilador: ventilador * 25,
     };
     setLoading(true);
     if (presetModeId && presetModeId !== 'custom') {
@@ -262,7 +265,14 @@ export default function PersonalizableScreen() {
           multiline
           numberOfLines={4}
         />
-  
+
+        <Text style={styles.label}>Ventilador</Text>
+        <View style={styles.sliderContainer}>
+        <Text style={styles.sliderValue}>{ventilador}</Text>
+      <Slider style={{width: '100%', height: 40}} minimumValue={0} maximumValue={10} step={1} value={ventilador}
+        onValueChange={(val) => setVentilador(val)} minimumTrackTintColor="#4f1399ff" maximumTrackTintColor="#ccc" thumbTintColor="#602e8bff" disabled={!esEditable} />
+      </View>
+
         <Pressable
           onPress={guardarModo}
           disabled={!esEditable}
@@ -430,5 +440,15 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginBottom: 24,
   },
+  sliderContainer: {
+    marginBottom: 24,
+  },
+  sliderValue: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#0A0D41',
+    textAlign: 'center',
+    marginBottom: 8,
+  },  
 });
 

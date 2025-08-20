@@ -12,7 +12,7 @@ export default function InicioScreen() {
           <Text style={styles.botonTexto}>EMPEZAR</Text>
         </TouchableOpacity>
         <Text style={styles.subtitulo}>Iluminá tu calma, estés donde estés</Text>
-        <View style={styles.mockup} />
+        {/* <View style={styles.mockup} /> */}
         <Text style={styles.subtitulo}>¿Qué es Serena?</Text>
         <Text style={styles.parrafo}>
           Serena es un dispositivo sensorial portátil diseñado para acompañar a
