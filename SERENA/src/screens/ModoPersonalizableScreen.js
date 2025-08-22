@@ -87,7 +87,8 @@ export default function PersonalizableScreen() {
             .toString(16)
             .slice(1)
         }`);
-      setObservaciones(data.observaciones || '');
+      // For preset modes (1, 2, 3), always set observaciones to empty string
+      setObservaciones(!esEditable ? '' : (data.observaciones || ''));
       setVentilador(Math.round((data.ventilador ?? 0) / 25));
       const sel = canciones.find(c => String(c.id) === String(data.id_musica));
       if (sel) {
@@ -111,14 +112,22 @@ export default function PersonalizableScreen() {
   };
 
   const camposValidos = () => {
-    return (
-      nombre.trim() &&
-      idMusica &&
-      !isNaN(idMusica) &&
-      rgb1 && !isNaN(rgb1) &&
-      rgb2 && !isNaN(rgb2) &&
-      rgb3 && !isNaN(rgb3)
-    );
+    // Validar que el nombre no esté vacío
+    if (!nombre.trim()) {
+      return false;
+    }
+    
+    // Validar que si se proporciona un ID de música, sea un número válido
+    if (idMusica && isNaN(idMusica)) {
+      return false;
+    }
+    
+    // Validar que los valores RGB sean números válidos
+    if (!rgb1 || isNaN(rgb1) || !rgb2 || isNaN(rgb2) || !rgb3 || isNaN(rgb3)) {
+      return false;
+    }
+    
+    return true;
   };
 
   useEffect(() => {
@@ -128,6 +137,16 @@ export default function PersonalizableScreen() {
       setModoGuardado(false);
     }
   }, [presetModeId]);
+
+  // Auto-clear messages after 10 seconds
+  useEffect(() => {
+    if (mensaje) {
+      const timer = setTimeout(() => {
+        setMensaje('');
+      }, 10000); // 10 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [mensaje]);
 
   const guardarModo = async () => {
     if (!camposValidos()) {
@@ -140,12 +159,12 @@ export default function PersonalizableScreen() {
     }
     const modoData = {
       nombre,
-      id_musica: parseInt(idMusica),
+      id_musica: idMusica ? parseInt(idMusica) : null,
       rgb1: parseInt(rgb1),
       rgb2: parseInt(rgb2),
       rgb3: parseInt(rgb3),
       id_usuario: usuarioIdPrueba,
-      observaciones: observaciones,
+      observaciones: !esEditable ? null : observaciones,
       ventilador: ventilador * 25,
     };
     setLoading(true);
@@ -155,7 +174,7 @@ export default function PersonalizableScreen() {
         setMensaje('Error al actualizar modo.');
       } else {
         setModoGuardado(true);
-        navigation.goBack();
+        setMensaje('SUCCESS:Modo actualizado con éxito');
       }
     } else {
       const { error } = await supabase.from('MODO').insert([modoData]);
@@ -163,7 +182,7 @@ export default function PersonalizableScreen() {
         setMensaje('Error al guardar modo.');
       } else {
         setModoGuardado(true);
-        navigation.goBack();
+        setMensaje('SUCCESS:Modo guardado con éxito');
       }
     }
     setLoading(false);
@@ -202,7 +221,7 @@ export default function PersonalizableScreen() {
   
         <Text style={styles.label}>Nombre del Paciente</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, !esEditable && styles.inputDisabled]}
           value={nombre}
           onChangeText={setNombre}
           editable={esEditable}
@@ -256,15 +275,14 @@ export default function PersonalizableScreen() {
           disabled={!esEditable}
         />
 
-        <Text style={styles.label}>Observaciones del Paciente</Text>
-        <TextInput
-          style={[styles.input, styles.textArea]}
-          value={observaciones}
-          onChangeText={setObservaciones}
-          editable={esEditable}
-          multiline
-          numberOfLines={4}
-        />
+        {esEditable && (
+          <>
+            <Text style={styles.label}>Observaciones del Paciente</Text>
+            <TextInput
+              style={[styles.input, styles.textArea]} value={observaciones} onChangeText={setObservaciones} editable={esEditable} multiline
+            />
+          </>
+        )}
 
         <Text style={styles.label}>Ventilador (velocidad)</Text>
         <View style={styles.sliderContainer}>
@@ -294,12 +312,17 @@ export default function PersonalizableScreen() {
             styles.botonEnviar,
           ]}
         >
-          <Text style={styles.textoBoton}>
-            Enviar a dispositivo
-          </Text>
+        <Text style={styles.textoBoton}> Enviar a dispositivo </Text>
         </Pressable>
 
-        {mensaje ? <Text style={styles.message}>{mensaje}</Text> : null}
+        {mensaje ? (
+          <Text style={[
+            styles.message, 
+            mensaje.startsWith('SUCCESS:') ? styles.successMessage : styles.errorMessage
+          ]}>
+            {mensaje.replace('SUCCESS:', '')}
+          </Text>
+        ) : null}
       </ScrollView>
   
       <NavBar />
@@ -344,7 +367,7 @@ const styles = StyleSheet.create({
 
   // Labels
   label: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '500',
     color: '#0A0D41',
     marginBottom: 6,
@@ -354,13 +377,29 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: '#B9D9EB',
+    borderColor: '#CCCCCC',
     borderRadius: 12,
     paddingVertical: 12,
     paddingHorizontal: 16,
     marginBottom: 18,
     fontSize: 16,
     color: '#0A0D41',
+  },
+  textArea: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginBottom: 18,
+    fontSize: 16,
+    color: '#0A0D41',
+    height: 80,
+    textAlignVertical: 'top',
+  },
+  inputDisabled: {
+    backgroundColor: '#E7E7E7',
   },
   pickerContainer: {
     backgroundColor: '#FFFFFF',
@@ -405,7 +444,7 @@ const styles = StyleSheet.create({
     width: 260,
     height: 260,
     alignSelf: 'center',
-    marginBottom: 32,
+    marginBottom: 48,
   },
 
   // Botones de acción
@@ -435,6 +474,21 @@ const styles = StyleSheet.create({
   // Mensajes
   message: {
     fontSize: 15,
+    textAlign: 'center',
+    color: '#C73F4A',
+    marginTop: 12,
+    marginBottom: 24,
+  },
+  successMessage: {
+    fontSize: 24,
+    textAlign: 'center',
+    color: '#2E8B57',
+    marginTop: 12,
+    marginBottom: 24,
+    fontWeight: '600',
+  },
+  errorMessage: {
+    fontSize: 24,
     textAlign: 'center',
     color: '#C73F4A',
     marginTop: 12,

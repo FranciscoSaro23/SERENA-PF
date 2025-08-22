@@ -111,12 +111,13 @@ export default function PredeterminadosScreen () {
   return (
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.pageTitle}>Editar Modos</Text>
         <FlatList
           data={presetModes}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderPresetMode}
           contentContainerStyle={styles.listContainer}
-          scrollEnabled={false} // ya usamos ScrollView
+          scrollEnabled={false}
           ListFooterComponent={
             <TouchableOpacity style={styles.customizeButton} onPress={agregarNuevoModo}>
               <Text style={styles.customizeText}> + Personalizar</Text>
@@ -132,16 +133,23 @@ export default function PredeterminadosScreen () {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: '#FFFDF5',
+    backgroundColor: '#FFFFF3',
   },
   container: {
     paddingTop: 60,
     paddingHorizontal: 20,
     paddingBottom: 90, // espacio para que el contenido no quede detrás del navbar
   },
+  pageTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#0A0D41',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
   title: {
     fontSize: 20,
-    color: '#0F1C65',
+    color: '#0A0D41',
     fontWeight: '600',
     marginBottom: 20,
   },
@@ -157,17 +165,17 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   unlockedContainer: {
-    backgroundColor: '#4F84B5', // Different blue for user-created modes
+    backgroundColor: '#B9D9EB',
   },
   lockedContainer: {
-    backgroundColor: '#0F1C65', // Original blue color for predetermined modes 1, 2, 3
+    backgroundColor: '#0A0D41',
   },
   radioCircle: {
     width: 18,
     height: 18,
     borderRadius: 9,
     borderWidth: 2,
-    borderColor: '#0F1C65',
+    borderColor: '#0A0D41',
     backgroundColor: '#FFF',
     marginRight: 12,
   },
@@ -188,7 +196,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1.5,
-    borderColor: '#0F1C65',
+    borderColor: '#0A0D41',
     borderRadius: 20,
     paddingVertical: 12,
     paddingHorizontal: 12,
@@ -196,12 +204,12 @@ const styles = StyleSheet.create({
   },
   customizeText: {
     fontSize: 14,
-    color: '#0F1C65',
+    color: '#0A0D41',
     fontWeight: '500',
     marginLeft: 12,
   },
   editContainer: {
-    backgroundColor: '#FFFDF5',
+    backgroundColor: '#FFFFF3',
     borderRadius: 10,
     padding: 10,
     marginBottom: 12,
@@ -210,7 +218,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
     marginBottom: 6,
-    color: '#0F1C65',
+    color: '#0A0D41',
   },
   actionText: {
     fontSize: 14,

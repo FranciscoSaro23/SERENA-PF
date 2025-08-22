@@ -15,13 +15,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="ModosPredeterminadosScreen" component={PredeterminadosScreen} />
-        <Stack.Screen name="ModoPersonalizableScreen" component={PersonalizarScreen} />
-        <Stack.Screen name="AgregarCancionScreen" component={AgregarCancionScreen} />
-        <Stack.Screen name="InicioScreen" component={InicioScreen} />
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-        <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} />
+      <Stack.Screen name="ModosPredeterminadosScreen" component={PredeterminadosScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
+        <Stack.Screen name="ModoPersonalizableScreen" component={PersonalizarScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
+        <Stack.Screen name="AgregarCancionScreen" component={AgregarCancionScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
+        <Stack.Screen name="InicioScreen" component={InicioScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
+        <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

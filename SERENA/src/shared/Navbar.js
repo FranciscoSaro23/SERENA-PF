@@ -10,11 +10,11 @@ export default function NavBar() {
     <View style={styles.navbarContainer}>
       <View style={styles.sideButtons}>
         <TouchableOpacity onPress={() => navigation.navigate('ConfiguracionScreen')}>
-          <Ionicons name="settings-sharp" size={34} color="#151F6D" />
+          <Ionicons name="settings-sharp" size={34} color="#0A0D41" />
         </TouchableOpacity>
         
         <TouchableOpacity onPress={() => navigation.navigate('ModosPredeterminadosScreen')}>
-          <Feather name="edit-3" size={34} color="#151F6D" />
+          <Feather name="edit-3" size={34} color="#0A0D41" />
         </TouchableOpacity>
       </View>
 
@@ -35,11 +35,11 @@ export default function NavBar() {
 
       <View style={styles.sideButtons}>
         <TouchableOpacity onPress={() => navigation.navigate('AyudaScreen')}>
-          <Ionicons name="notifications-outline" size={34} color="#151F6D" />
+          <Ionicons name="notifications-outline" size={34} color="#0A0D41" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-          <MaterialIcons name="account-circle" size={34} color="#151F6D" />
+          <MaterialIcons name="account-circle" size={34} color="#0A0D41" />
         </TouchableOpacity>
       </View>
     </View>
@@ -49,14 +49,14 @@ export default function NavBar() {
 const styles = StyleSheet.create({
   navbarContainer: {
     width: '100%',
-    backgroundColor: '#BCD9EA',
+    backgroundColor: '#B9D9EB',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     paddingHorizontal: 40,
     paddingTop: 15,
     paddingBottom: 15,
-    borderTopColor: '#151F6D',
+    borderTopColor: '#0A0D41',
     position: 'relative',
   },
   sideButtons: {
