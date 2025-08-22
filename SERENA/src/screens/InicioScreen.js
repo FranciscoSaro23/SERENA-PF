@@ -16,12 +16,9 @@ export default function InicioScreen() {
         <Text style={styles.subtitulo}>¿Qué es Serena?</Text>
         <Text style={styles.parrafo}>
           Serena es un dispositivo sensorial portátil diseñado para acompañar a
-          personas neurodivergentes en situaciones de estrés, ansiedad o
-          sobreestimulación. A través de una experiencia controlada desde esta
-          aplicación móvil, Serena promueve la relajación y el bienestar emocional
-          de manera accesible, segura y empática. Su diseño inclusivo y funcional
-          permite utilizarlo en cualquier entorno, ofreciendo contención y calma
-          allí donde más se necesita.
+          personas neurodivergentes en situaciones de estrés, ansiedad o sobreestimulación. A través de una experiencia controlada desde esta
+          aplicación móvil, Serena promueve la relajación y el bienestar emocional de manera accesible, segura y empática. Su diseño inclusivo y funcional
+          permite utilizarlo en cualquier entorno, ofreciendo contención y calma allí donde más se necesita.
         </Text>
       </ScrollView>
       <NavBar />

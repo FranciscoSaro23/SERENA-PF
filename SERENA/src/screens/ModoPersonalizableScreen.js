@@ -266,7 +266,7 @@ export default function PersonalizableScreen() {
           numberOfLines={4}
         />
 
-        <Text style={styles.label}>Ventilador</Text>
+        <Text style={styles.label}>Ventilador (velocidad)</Text>
         <View style={styles.sliderContainer}>
         <Text style={styles.sliderValue}>{ventilador}</Text>
       <Slider style={{width: '100%', height: 40}} minimumValue={0} maximumValue={10} step={1} value={ventilador}
@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sliderValue: {
-    fontSize: 16,
+    fontSize: 25,
     fontWeight: '600',
     color: '#0A0D41',
     textAlign: 'center',
