@@ -288,6 +288,8 @@ export default function PersonalizableScreen() {
             Enviar a dispositivo
           </Text>
         </Pressable>
+        <Button title="Buscar dispositivo Bluetooth" onPress={() => navigation.navigate('BLEScanner')} />
+
 
         {mensaje ? <Text style={styles.message}>{mensaje}</Text> : null}
       </ScrollView>

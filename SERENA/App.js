@@ -8,6 +8,7 @@ import InicioScreen from './src/screens/InicioScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import ConfiguracionScreen from './src/screens/ConfiguracionScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
+import BLEScanner from './src/screens/BLEScanner';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ export default function App() {
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
         <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} />
+        <Stack.Screen name="BLEScanner" component={BLEScanner} options={{ title: 'Buscar Dispositivo' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
