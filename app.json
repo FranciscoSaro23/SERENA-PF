@@ -1,0 +1,10 @@
+{
+  "android": {
+    "package": "com.anonymous.serenapf"
+  },
+  "extra": {
+    "eas": {
+      "projectId": "ad22d00d-61d7-46cb-87cb-1488d02ac16f"
+    }
+  }
+}
