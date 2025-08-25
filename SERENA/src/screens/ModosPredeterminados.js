@@ -36,13 +36,59 @@ export default function PredeterminadosScreen () {
   };
 
   const onRename = (id) => {
-    Alert.alert('Renombrar', `Función para renombrar modo ${id} (pendiente)`);
+    const modoActual = presetModes.find(mode => mode.id === id);
+    const nombreActual = modoActual ? modoActual.nombre : '';
+    
+    Alert.prompt(
+      'Renombrar Modo',
+      'Edite el nombre:',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Renombrar',
+          onPress: (nuevoNombre) => {
+            if (nuevoNombre && nuevoNombre.trim() !== '') {
+              renombrarModo(id, nuevoNombre.trim());
+            } else {
+              Alert.alert('Error', 'El nombre no puede estar vacío');
+            }
+          },
+        },
+      ],
+      'plain-text',
+      nombreActual,
+      'default'
+    );
+  };
+
+  const renombrarModo = async (id, nuevoNombre) => {
+    const { error } = await supabase
+      .from('MODO')
+      .update({ nombre: nuevoNombre })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error al renombrar modo:', error.message);
+      Alert.alert('Error', 'No se pudo renombrar el modo');
+    } else {
+      // Actualizar el estado local
+      setPresetModes(prev => prev.map(mode => 
+        mode.id === id ? { ...mode, nombre: nuevoNombre } : mode
+      ));
+      setEditingModeId(null); // Salir del modo edición
+    }
   };
 
   const onDelete = (id) => {
+    const modoActual = presetModes.find(mode => mode.id === id);
+    const nombreModo = modoActual ? modoActual.nombre : 'este modo';
+    
     Alert.alert(
       'Eliminar',
-      `¿Está seguro que desea eliminar el modo ${id}?`,
+      `¿Está seguro que desea eliminar el modo "${nombreModo}"?`,
       [
         { text: 'Cancelar', style: 'cancel' },
         { text: 'Eliminar', style: 'destructive', onPress: () => eliminarModo(id) },
@@ -71,14 +117,14 @@ export default function PredeterminadosScreen () {
       return (
         <View style={styles.editContainer}>
           <Text style={styles.editTitle}>{item.nombre}</Text>
-          <TouchableOpacity onPress={() => onRename(item.id)}>
-            <Text style={[styles.actionText, { color: 'blue' }]}>Renombrar</Text>
+          <TouchableOpacity style={styles.renameButton} onPress={() => onRename(item.id)}>
+            <Text style={styles.actionButtonText}>Renombrar</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => onDelete(item.id)}>
-            <Text style={[styles.actionText, { color: 'red' }]}>Eliminar</Text>
+          <TouchableOpacity style={styles.deleteButton} onPress={() => onDelete(item.id)}>
+            <Text style={styles.actionButtonText}>Eliminar</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={onCancelEdit}>
-            <Text style={[styles.actionText, { color: 'blue' }]}>Cancelar</Text>
+          <TouchableOpacity style={styles.cancelButton} onPress={onCancelEdit}>
+            <Text style={styles.actionButtonText}>Cancelar</Text>
           </TouchableOpacity>
         </View>
       );
@@ -184,7 +230,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   unlockedText: {
-    color: '#fff',
+    color: '#161A68',
   },
   lockedText: {
     color: '#fff',
@@ -223,5 +269,38 @@ const styles = StyleSheet.create({
   actionText: {
     fontSize: 14,
     marginVertical: 2,
+  },
+  renameButton: {
+    backgroundColor: '#B9D9EB',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    marginVertical: 4,
+    borderWidth: 1,
+    borderColor: '#0A0D41',
+  },
+  deleteButton: {
+    backgroundColor: '#FF6B6B',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    marginVertical: 4,
+    borderWidth: 1,
+    borderColor: '#CC0000',
+  },
+  cancelButton: {
+    backgroundColor: '#FFFFF3',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    marginVertical: 4,
+    borderWidth: 1,
+    borderColor: '#0A0D41',
+  },
+  actionButtonText: {
+    fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: '#0A0D41',
   },
 });

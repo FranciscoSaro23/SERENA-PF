@@ -1,4 +1,4 @@
-import { View, TextInput, Text, StyleSheet, ActivityIndicator, TouchableOpacity, ScrollView, Image, Pressable } from 'react-native';
+import { View, TextInput, Text, StyleSheet, ActivityIndicator, TouchableOpacity, ScrollView, Image, Pressable, Alert } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 import ColorPicker from 'react-native-color-picker-wheel';
 import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -77,7 +77,7 @@ export default function PersonalizableScreen() {
       setMensaje('Error al cargar el modo.');
     } else {
       setNombre(data.nombre || '');
-      setIdMusica(String(data.id_musica || ''));
+      setIdMusica(data.id_musica ? String(data.id_musica) : '');
       setRgb1(String(data.rgb1 ?? ''));
       setRgb2(String(data.rgb2 ?? ''));
       setRgb3(String(data.rgb3 ?? ''));
@@ -90,10 +90,17 @@ export default function PersonalizableScreen() {
       // For preset modes (1, 2, 3), always set observaciones to empty string
       setObservaciones(!esEditable ? '' : (data.observaciones || ''));
       setVentilador(Math.round((data.ventilador ?? 0) / 25));
-      const sel = canciones.find(c => String(c.id) === String(data.id_musica));
-      if (sel) {
-        const tid = extraerSpotifyTrackId(sel.link);
-        if (tid) await fetchCoverAndEmbed(tid);
+      
+      // Only fetch cover if there's a song selected
+      if (data.id_musica) {
+        const sel = canciones.find(c => String(c.id) === String(data.id_musica));
+        if (sel) {
+          const tid = extraerSpotifyTrackId(sel.link);
+          if (tid) await fetchCoverAndEmbed(tid);
+        }
+      } else {
+        setCoverUrl('');
+        setEmbedUrl('');
       }
       setMensaje('');
     }
@@ -111,23 +118,30 @@ export default function PersonalizableScreen() {
     setRgb3(String(b));
   };
 
-  const camposValidos = () => {
+  const validarCampos = () => {
     // Validar que el nombre no esté vacío
     if (!nombre.trim()) {
-      return false;
+      return 'El nombre del paciente es requerido';
     }
     
     // Validar que si se proporciona un ID de música, sea un número válido
-    if (idMusica && isNaN(idMusica)) {
-      return false;
+    // Permitir que idMusica esté vacío (será null)
+    if (idMusica && idMusica.trim() !== '' && isNaN(idMusica)) {
+      return 'El ID de música debe ser un número válido';
     }
     
     // Validar que los valores RGB sean números válidos
-    if (!rgb1 || isNaN(rgb1) || !rgb2 || isNaN(rgb2) || !rgb3 || isNaN(rgb3)) {
-      return false;
+    if (!rgb1 || isNaN(rgb1)) {
+      return 'El valor RGB 1 es requerido y debe ser un número';
+    }
+    if (!rgb2 || isNaN(rgb2)) {
+      return 'El valor RGB 2 es requerido y debe ser un número';
+    }
+    if (!rgb3 || isNaN(rgb3)) {
+      return 'El valor RGB 3 es requerido y debe ser un número';
     }
     
-    return true;
+    return null; // No hay errores
   };
 
   useEffect(() => {
@@ -149,12 +163,13 @@ export default function PersonalizableScreen() {
   }, [mensaje]);
 
   const guardarModo = async () => {
-    if (!camposValidos()) {
-      setMensaje('Completá todos los campos correctamente.');
+    if (!esEditable) {
+      Alert.alert('Error', 'Este modo no es editable.');
       return;
     }
-    if (!esEditable) {
-      setMensaje('Este modo no es editable.');
+    const errorValidacion = validarCampos();
+    if (errorValidacion) {
+      Alert.alert('Error de validación', errorValidacion);
       return;
     }
     const modoData = {
@@ -171,18 +186,18 @@ export default function PersonalizableScreen() {
     if (presetModeId && presetModeId !== 'custom') {
       const { error } = await supabase.from('MODO').update(modoData).eq('id', presetModeId);
       if (error) {
-        setMensaje('Error al actualizar modo.');
+        Alert.alert('Error', 'Error al actualizar modo.');
       } else {
         setModoGuardado(true);
-        setMensaje('SUCCESS:Modo actualizado con éxito');
+        Alert.alert('Éxito', 'Modo actualizado con éxito!');
       }
     } else {
       const { error } = await supabase.from('MODO').insert([modoData]);
       if (error) {
-        setMensaje('Error al guardar modo.');
+        Alert.alert('Error', 'Error al guardar modo.');
       } else {
         setModoGuardado(true);
-        setMensaje('SUCCESS:Modo guardado con éxito');
+        Alert.alert('Éxito', 'Modo guardado con éxito!');
       }
     }
     setLoading(false);
@@ -190,10 +205,10 @@ export default function PersonalizableScreen() {
 
   const enviarADispositivo = () => {
     if (!modoGuardado) {
-      setMensaje('Primero guarda el modo antes de enviarlo.');
+      Alert.alert('Error', 'Primero guarda el modo antes de enviarlo.');
       return;
     }
-    setMensaje('Modo enviado al dispositivo.');
+    Alert.alert('Éxito', 'Modo enviado al dispositivo.');
   };
 
   if (loading) {
@@ -229,18 +244,27 @@ export default function PersonalizableScreen() {
   
         <Text style={styles.label}>Seleccionar una Canción de Spotify</Text>
         <Dropdown
-          options={canciones.map(c => ({
-            label: c.nombreCancion,
-            value: String(c.id),
-          }))}
+          options={[
+            { label: 'Ninguna canción', value: '' },
+            ...canciones.map(c => ({
+              label: c.nombreCancion,
+              value: String(c.id),
+            }))
+          ]}
           selectedValue={idMusica}
           onValueChange={async (val) => {
             setIdMusica(val);
-            const sel = canciones.find(c => String(c.id) === val);
-            if (sel) {
-              const tid = extraerSpotifyTrackId(sel.link);
-              if (tid) await fetchCoverAndEmbed(tid);
-              else setCoverUrl('');
+            if (val === '') {
+              // Clear song-related UI when no song is selected
+              setCoverUrl('');
+              setEmbedUrl('');
+            } else {
+              const sel = canciones.find(c => String(c.id) === val);
+              if (sel) {
+                const tid = extraerSpotifyTrackId(sel.link);
+                if (tid) await fetchCoverAndEmbed(tid);
+                else setCoverUrl('');
+              }
             }
           }}
           enabled={esEditable}
@@ -269,7 +293,7 @@ export default function PersonalizableScreen() {
         <ColorPicker
           color={colorHex}
           onColorChange={onColorSelected}
-          style={styles.picker}
+          style={[styles.picker, !esEditable && styles.pickerDisabled]}
           thumbSize={30}
           sliderSize={30}
           disabled={!esEditable}
@@ -293,7 +317,6 @@ export default function PersonalizableScreen() {
 
         <Pressable
           onPress={guardarModo}
-          disabled={!esEditable}
           style={({ pressed }) => [
             styles.botonGuardar,
             { opacity: modoGuardado ? 0.4 : 1 },
@@ -360,7 +383,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '700',
-    color: '#0A0D41',
+    color: '#161A68',
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -369,7 +392,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 18,
     fontWeight: '500',
-    color: '#0A0D41',
+    color: '#161A68',
     marginBottom: 6,
   },
 
@@ -445,6 +468,9 @@ const styles = StyleSheet.create({
     height: 260,
     alignSelf: 'center',
     marginBottom: 48,
+  },
+  pickerDisabled: {
+    opacity: 0.5,
   },
 
   // Botones de acción
