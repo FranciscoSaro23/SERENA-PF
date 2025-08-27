@@ -315,18 +315,20 @@ export default function PersonalizableScreen() {
         onValueChange={(val) => setVentilador(val)} minimumTrackTintColor="#4f1399ff" maximumTrackTintColor="#ccc" thumbTintColor="#602e8bff" disabled={!esEditable} />
       </View>
 
-        <Pressable
-          onPress={guardarModo}
-          style={({ pressed }) => [
-            styles.botonGuardar,
-            { opacity: modoGuardado ? 0.4 : 1 },
-            pressed && { opacity: 0.6 }
-          ]}
-        >
-          <Text style={styles.textoBoton}>
-            {presetModeId && presetModeId !== 'custom' ? 'Actualizar Modo' : 'Guardar Modo'}
-          </Text>
-        </Pressable>
+        {esEditable && (
+          <Pressable
+            onPress={guardarModo}
+            style={({ pressed }) => [
+              styles.botonGuardar,
+              { opacity: modoGuardado ? 0.4 : 1 },
+              pressed && { opacity: 0.6 }
+            ]}
+          >
+            <Text style={styles.textoBoton}>
+              {presetModeId && presetModeId !== 'custom' ? 'Actualizar Modo' : 'Guardar Modo'}
+            </Text>
+          </Pressable>
+        )}
 
         <Pressable
           onPress={enviarADispositivo}
@@ -335,7 +337,7 @@ export default function PersonalizableScreen() {
             styles.botonEnviar,
           ]}
         >
-        <Text style={styles.textoBoton}> Enviar a dispositivo </Text>
+          <Text style={styles.textoBoton}> Enviar a dispositivo </Text>
         </Pressable>
 
         {mensaje ? (
