@@ -24,7 +24,7 @@ export default function Dropdown({ options, selectedValue, onValueChange, enable
       >
         <View style={styles.selectorContent}>
           <Text style={styles.selectedText}>{selectedLabel}</Text>
-          <Text style={styles.arrow}>▼</Text>
+          {enabled && <Text style={styles.arrow}>▼</Text>}
         </View>
       </TouchableOpacity>
 
