@@ -237,17 +237,10 @@ export default function PersonalizableScreen() {
   return (
     <View style={styles.screenContainer}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AgregarCancionScreen')}
-          style={styles.nuevaCancionBtn}
-        >
-          <Text style={styles.nuevaCancionText}>+ Agregar canción</Text>
-        </TouchableOpacity>
-  
         <Text style={styles.title}>
           {presetModeId && presetModeId !== 'custom' ? 'Editar Modo' : 'Personalizar Modo'}
         </Text>
-  
+
         <Text style={styles.label}>Nombre del Paciente</Text>
         <TextInput
           style={[styles.input, !esEditable && styles.inputDisabled]}
@@ -269,7 +262,6 @@ export default function PersonalizableScreen() {
           onValueChange={async (val) => {
             setIdMusica(val);
             if (val === '') {
-              // Clear song-related UI when no song is selected
               setCoverUrl('');
               setEmbedUrl('');
             } else {
@@ -301,7 +293,13 @@ export default function PersonalizableScreen() {
             />
           </View>
         ) : null}
-  
+        
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AgregarCancionScreen')}
+          style={styles.nuevaCancionBtn}>
+          <Text style={styles.nuevaCancionText}>+ Agregar canción</Text>
+        </TouchableOpacity>
+        
         <Text style={styles.label}>Color RGB</Text>
         <Text style={styles.colorDisplay}>R:{rgb1} G:{rgb2} B:{rgb3}</Text>
         <ColorPicker
@@ -310,8 +308,7 @@ export default function PersonalizableScreen() {
           style={[styles.picker, !esEditable && styles.pickerDisabled]}
           thumbSize={30}
           sliderSize={30}
-          disabled={!esEditable}
-        />
+          disabled={!esEditable}/>
 
         {esEditable && (
           <>
@@ -322,8 +319,9 @@ export default function PersonalizableScreen() {
           </>
         )}
 
+
+ <View style={styles.sliderContainer}>
         <Text style={styles.label}>Ventilador (velocidad)</Text>
-        <View style={styles.sliderContainer}>
         <Text style={styles.sliderValue}>{ventilador}</Text>
       <Slider style={{width: '100%', height: 40}} minimumValue={0} maximumValue={10} step={1} value={ventilador}
         onValueChange={(val) => setVentilador(val)} minimumTrackTintColor="#161A68" maximumTrackTintColor="#ccc" thumbTintColor="#161A68" disabled={!esEditable} />
@@ -383,8 +381,8 @@ const styles = StyleSheet.create({
   // Botón + Agregar canción
   nuevaCancionBtn: {
     backgroundColor: '#0A0D41',
-    paddingVertical: 14,
-    paddingHorizontal: 28,
+    paddingVertical: 10,
+    paddingHorizontal: 24,
     borderRadius: 30,
     alignSelf: 'center',
     marginBottom: 24,
@@ -397,7 +395,7 @@ const styles = StyleSheet.create({
 
   // Título
   title: {
-    fontSize: 24,
+    fontSize: 34,
     fontWeight: '700',
     color: '#161A68',
     textAlign: 'center',
@@ -425,9 +423,9 @@ const styles = StyleSheet.create({
     color: '#0A0D41',
   },
   textArea: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FFFFF9',
     borderWidth: 1,
-    borderColor: '#CCCCCC',
+    borderColor: '#B9D9EB',
     borderRadius: 12,
     paddingVertical: 12,
     paddingHorizontal: 16,
@@ -543,6 +541,20 @@ const styles = StyleSheet.create({
   },
   sliderContainer: {
     marginBottom: 24,
+    width: '100%',
+    alignSelf: 'stretch',
+    backgroundColor: '#FFFF9',
+    borderWidth: 2.2,
+    borderColor: '#B9D9EB',
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 24,
+    // Sombras (Android/iOS)
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 6,
   },
   sliderValue: {
     fontSize: 26,

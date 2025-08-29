@@ -15,14 +15,14 @@ export default function InicioConUsuarioScreen({ navigation }) {
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.titulo}>
-          Bienvenido <Text style={styles.usuario}>{emailUsername || 'usuario'}</Text>,{'\n'} vincúlate con Serena  
+          Bienvenido <Text style={styles.usuario}>{emailUsername || 'usuario'}</Text>,{'\n'} vinculate con Serena  
         </Text>
         <TouchableOpacity style={styles.boton} onPress={handleEmpezar}>
-          <Text style={styles.botonTexto}>EMPEZAR</Text>
+          <Text style={styles.botonTexto}>EMPEZAR ACTIVIDAD</Text>
         </TouchableOpacity>
-        <Text style={styles.subtitulo}>Iluminá tu calma, estés donde estés</Text>
-        {/* <View style={styles.mockup} /> */}
-        <Text style={styles.subtitulo}>¿Qué es Serena?</Text>
+        <Text style={styles.subtitulo}>Tu dispositivo esta listo para usarse.</Text>
+        <img> </img>
+        <Text style={styles.subtitulo}>¿Qué más se puede hacer con Serena?</Text>
         <Text style={styles.parrafo}>
           Serena es un dispositivo sensorial portátil diseñado para acompañar a
           personas neurodivergentes en situaciones de estrés, ansiedad o sobreestimulación. A través de una experiencia controlada desde esta

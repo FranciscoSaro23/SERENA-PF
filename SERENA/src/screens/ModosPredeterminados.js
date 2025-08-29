@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     paddingBottom: 90, // espacio para que el contenido no quede detrás del navbar
   },
   pageTitle: {
-    fontSize: 24,
+    fontSize: 35,
     fontWeight: '700',
     color: '#0A0D41',
     textAlign: 'center',
@@ -231,9 +231,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 20,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    marginBottom: 12,
+    paddingVertical: 13,
+    paddingHorizontal: 13,
+    marginBottom: 13,
   },
   unlockedContainer: {
     backgroundColor: '#B9D9EB',
@@ -248,11 +248,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#0A0D41',
     backgroundColor: '#FFF',
-    marginRight: 12,
+    marginRight: 13,
   },
   modeText: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 15,
   },
   unlockedText: {
     color: '#161A68',
@@ -269,21 +269,21 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: '#0A0D41',
     borderRadius: 20,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    marginBottom: 12,
+    paddingVertical: 13,
+    paddingHorizontal: 13,
+    marginBottom: 13,
   },
   customizeText: {
     fontSize: 14,
     color: '#0A0D41',
     fontWeight: '500',
-    marginLeft: 12,
+    marginLeft: 13,
   },
   editContainer: {
     backgroundColor: '#FFFFF3',
     borderRadius: 10,
     padding: 10,
-    marginBottom: 12,
+    marginBottom: 13,
   },
   editTitle: {
     fontWeight: '600',
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
   renameButton: {
     backgroundColor: '#B9D9EB',
     paddingVertical: 8,
-    paddingHorizontal: 12,
+    paddingHorizontal: 13,
     borderRadius: 10,
     marginVertical: 4,
     borderWidth: 1,
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
   deleteButton: {
     backgroundColor: '#FF6B6B',
     paddingVertical: 8,
-    paddingHorizontal: 12,
+    paddingHorizontal: 13,
     borderRadius: 10,
     marginVertical: 4,
     borderWidth: 1,
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
   cancelButton: {
     backgroundColor: '#FFFFF3',
     paddingVertical: 8,
-    paddingHorizontal: 12,
+    paddingHorizontal: 13,
     borderRadius: 10,
     marginVertical: 4,
     borderWidth: 1,
