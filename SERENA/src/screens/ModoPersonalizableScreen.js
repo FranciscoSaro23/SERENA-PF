@@ -12,7 +12,7 @@ export default function PersonalizableScreen() {
   const route = useRoute();
   const navigation = useNavigation();
   const { presetModeId } = route.params || {};
-  const usuarioIdPrueba = 'd28065e7-5749-4e55-889d-ff6699200ba8';
+  const [currentUserId, setCurrentUserId] = useState(null);
   const [nombre, setNombre] = useState('');
   const [idMusica, setIdMusica] = useState('');
   const [rgb1, setRgb1] = useState('');
@@ -29,6 +29,16 @@ export default function PersonalizableScreen() {
   const [ventilador, setVentilador] = useState(0);
   const noEditables = ['1', '2', '3'];
   const esEditable = !noEditables.includes(String(presetModeId));
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setCurrentUserId(session.user.id);
+      }
+    };
+    getCurrentUser();
+  }, []);
 
   const extraerSpotifyTrackId = (url) => {
     const regex = /open\.spotify\.com\/track\/([a-zA-Z0-9]+)/;
@@ -172,13 +182,17 @@ export default function PersonalizableScreen() {
       Alert.alert('Error de validación', errorValidacion);
       return;
     }
+    if (!currentUserId) {
+      Alert.alert('Error', 'No se pudo obtener el usuario actual. Por favor, inicie sesión nuevamente.');
+      return;
+    }
     const modoData = {
       nombre,
       id_musica: idMusica ? parseInt(idMusica) : null,
       rgb1: parseInt(rgb1),
       rgb2: parseInt(rgb2),
       rgb3: parseInt(rgb3),
-      id_usuario: usuarioIdPrueba,
+      id_usuario: currentUserId,
       observaciones: !esEditable ? null : observaciones,
       ventilador: ventilador * 25,
     };
@@ -312,7 +326,7 @@ export default function PersonalizableScreen() {
         <View style={styles.sliderContainer}>
         <Text style={styles.sliderValue}>{ventilador}</Text>
       <Slider style={{width: '100%', height: 40}} minimumValue={0} maximumValue={10} step={1} value={ventilador}
-        onValueChange={(val) => setVentilador(val)} minimumTrackTintColor="#4f1399ff" maximumTrackTintColor="#ccc" thumbTintColor="#602e8bff" disabled={!esEditable} />
+        onValueChange={(val) => setVentilador(val)} minimumTrackTintColor="#161A68" maximumTrackTintColor="#ccc" thumbTintColor="#161A68" disabled={!esEditable} />
       </View>
 
         {esEditable && (
@@ -324,7 +338,7 @@ export default function PersonalizableScreen() {
               pressed && { opacity: 0.6 }
             ]}
           >
-            <Text style={styles.textoBoton}>
+            <Text style={styles.textoBotonGuardar}>
               {presetModeId && presetModeId !== 'custom' ? 'Actualizar Modo' : 'Guardar Modo'}
             </Text>
           </Pressable>
@@ -477,7 +491,7 @@ const styles = StyleSheet.create({
 
   // Botones de acción
   botonGuardar: {
-    backgroundColor: '#4f1399ff',
+    backgroundColor: '#B9D9EB',
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 24,
@@ -486,7 +500,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   botonEnviar: {
-    backgroundColor: '#602e8bff',
+    backgroundColor: '#161A68',
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 24,
@@ -497,6 +511,11 @@ const styles = StyleSheet.create({
     color: '#FFFFF3',
     fontSize: 18,
     fontWeight: '600',
+  },
+  textoBotonGuardar: {
+    color: "#161A68",   // azul oscuro
+    fontSize: 18,
+    fontWeight: "bold",
   },
 
   // Mensajes
@@ -526,11 +545,17 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sliderValue: {
-    fontSize: 25,
-    fontWeight: '600',
-    color: '#0A0D41',
+    fontSize: 26,
+    fontWeight: '700',
+    color: '#161A68',
     textAlign: 'center',
+    marginBottom: 12,
+  },
+  sliderTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#161A68',
     marginBottom: 8,
-  },  
+    textAlign: 'center',
+  },
 });
-

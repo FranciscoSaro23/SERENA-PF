@@ -7,7 +7,7 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -15,7 +15,11 @@ export default function LoginScreen({ navigation }) {
     if (error) {
       Alert.alert('Error', error.message);
     } else {
+      // Extract username from email (everything before @)
+      const emailUsername = email.split('@')[0];
       Alert.alert('Login exitoso');
+      // Navigate to inicioConUsuario screen with the email username
+      navigation.navigate('inicioConUsuario', { emailUsername });
     }
   };
 

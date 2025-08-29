@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -7,16 +7,28 @@ import NavBar from '../shared/Navbar';
 export default function PredeterminadosScreen () {
   const [presetModes, setPresetModes] = useState([]);
   const [editingModeId, setEditingModeId] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(null);
   const navigation = useNavigation();
-  const usuarioIdPrueba = 'd28065e7-5749-4e55-889d-ff6699200ba8';
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setCurrentUserId(session.user.id);
+      }
+    };
+    getCurrentUser();
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
       fetchPresetModes();
-    }, [])
+    }, [currentUserId])
   );
 
   const fetchPresetModes = async () => {
+    console.log('Fetching modes for user:', currentUserId);
+    
     const { data, error } = await supabase
       .from('MODO')
       .select('id, nombre, id_usuario')
@@ -25,12 +37,25 @@ export default function PredeterminadosScreen () {
     if (error) {
       console.error('Error al obtener modos:', error);
     } else {
-      const predeterminados = data
-        .filter((m) => m.id_usuario === null)
-        .slice(0, 3);
+      console.log('All modes from database:', data);
+      
+      // Always include predetermined modes (id_usuario === null)
+      const predeterminados = data.filter((m) => m.id_usuario === null);
+      console.log('Predetermined modes:', predeterminados);
 
-      const personalizados = data.filter((m) => m.id_usuario === usuarioIdPrueba);
-      const allModes = [...predeterminados, ...personalizados];
+      // Include personalized modes for the logged-in user
+      const personalizados = currentUserId 
+        ? data.filter((m) => m.id_usuario === currentUserId)
+        : [];
+      console.log('Personalized modes:', personalizados);
+
+      // Combine both lists, avoiding duplicates if any
+      const allModesMap = new Map();
+      predeterminados.forEach(m => allModesMap.set(m.id, m));
+      personalizados.forEach(m => allModesMap.set(m.id, m));
+      const allModes = Array.from(allModesMap.values());
+
+      console.log('Final modes to display:', allModes);
       setPresetModes(allModes);
     }
   };
