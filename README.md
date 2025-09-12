@@ -21,3 +21,4 @@ npm i lucide-react
 npm install react-native-color-picker
 npm install react-native-webview
 npx expo install @react-native-community/slider
+npm install --save expo@latest
