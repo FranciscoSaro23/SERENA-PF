@@ -23,9 +23,5 @@ npm install react-native-webview
 npx expo install @react-native-community/slider
 npm install --save expo@latest
 
-
-cada vez que abrimos el proyecto instalar: 
-
-cd SERENA
+solución del error:
 npm install --legacy-peer-deps
-npx expo start --tunnel
