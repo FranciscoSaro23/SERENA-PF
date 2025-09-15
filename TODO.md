@@ -1,3 +1,0 @@
-- [x] Modificar InicioScreen.js para incluir lógica condicional basada en emailUsername param
-- [ ] Actualizar LoginScreen.js para navegar a 'InicioScreen' en lugar de 'InicioConUsuario'
-- [ ] Eliminar InicioConUsuario.js
