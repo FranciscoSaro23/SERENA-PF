@@ -318,10 +318,9 @@ export default function PersonalizableScreen() {
             />
           </>
         )}
-
-
- <View style={styles.sliderContainer}>
+ 
         <Text style={styles.label}>Ventilador (velocidad)</Text>
+        <View style={styles.sliderContainer}>
         <Text style={styles.sliderValue}>{ventilador}</Text>
       <Slider style={{width: '100%', height: 40}} minimumValue={0} maximumValue={10} step={1} value={ventilador}
         onValueChange={(val) => setVentilador(val)} minimumTrackTintColor="#161A68" maximumTrackTintColor="#ccc" thumbTintColor="#161A68" disabled={!esEditable} />
@@ -371,203 +370,145 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     backgroundColor: '#FFFFF3',
-    justifyContent: 'space-between',
   },
   scrollContent: {
     padding: 20,
-    paddingBottom: 120,
-  },
-
-  // Botón + Agregar canción
-  nuevaCancionBtn: {
-    backgroundColor: '#0A0D41',
-    paddingVertical: 10,
-    paddingHorizontal: 24,
-    borderRadius: 30,
-    alignSelf: 'center',
-    marginBottom: 24,
-  },
-  nuevaCancionText: {
-    color: '#FFFFF3',
-    fontSize: 16,
-    fontWeight: '600',
+    paddingBottom: 140,
   },
 
   // Título
   title: {
-    fontSize: 34,
+    fontSize: 32,
     fontWeight: '700',
     color: '#161A68',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 24,
   },
 
   // Labels
   label: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '500',
-    color: '#161A68',
+    color: '#374151', // gris oscuro
     marginBottom: 6,
+    marginTop: 15,
   },
 
-  // Inputs y dropdowns
+  // Inputs
   input: {
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: '#CCCCCC',
-    borderRadius: 12,
+    borderColor: '#D1D5DB',
+    borderRadius: 16,
     paddingVertical: 12,
     paddingHorizontal: 16,
     marginBottom: 18,
     fontSize: 16,
     color: '#0A0D41',
-  },
-  textArea: {
-    backgroundColor: '#FFFFF9',
-    borderWidth: 1,
-    borderColor: '#B9D9EB',
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    marginBottom: 18,
-    fontSize: 16,
-    color: '#0A0D41',
-    height: 80,
-    textAlignVertical: 'top',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 3,
+    elevation: 2,
   },
   inputDisabled: {
-    backgroundColor: '#E7E7E7',
+    backgroundColor: '#F3F4F6',
+    color: '#9CA3AF',
   },
-  pickerContainer: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#B9D9EB',
-    borderRadius: 12,
-    marginBottom: 18,
+  textArea: {
+    height: 100,
+    textAlignVertical: 'top',
   },
 
-  // Portada canción
+  // Botones
+  botonGuardar: {
+    backgroundColor: '#161A68',
+    borderRadius: 16,
+    paddingVertical: 14,
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  textoBotonGuardar: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  botonEnviar: {
+    backgroundColor: '#E0F7FA',
+    borderRadius: 16,
+    paddingVertical: 14,
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  textoBoton: {
+    color: '#161A68',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+
+  // Botón secundario (+ canción)
+  nuevaCancionBtn: { backgroundColor: '#0A0D41', paddingVertical: 10, paddingHorizontal: 24, borderRadius: 30, alignSelf: 'center', marginBottom: 24, }, nuevaCancionText: { color: '#FFFFF3', fontSize: 16, fontWeight: '600', },
+  // Cover
   coverContainer: {
     alignItems: 'center',
-    marginBottom: 18,
+    marginVertical: 16,
   },
   cover: {
     width: 200,
     height: 200,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: '#C4C6E7',
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 5,
+    elevation: 5,
   },
 
-  // Player embebido
-  embedContainer: {
-    height: 80,
-    marginBottom: 24,
-    borderRadius: 12,
-    overflow: 'hidden',
+  // Slider (tarjeta)
+  sliderContainer: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 28,
     borderWidth: 1,
-    borderColor: '#B9D9EB',
+    borderColor: '#E5E7EB',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 3,
+    elevation: 3,
   },
-
-  // Color RGB
-  colorDisplay: {
-    fontSize: 16,
+  sliderValue: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#161A68',
     textAlign: 'center',
-    color: '#0A0D41',
-    marginBottom: 12,
-    fontWeight: '500',
-  },
-  picker: {
-    width: 260,
-    height: 260,
-    alignSelf: 'center',
-    marginBottom: 48,
-  },
-  pickerDisabled: {
-    opacity: 0.5,
-  },
-
-  // Botones de acción
-  botonGuardar: {
-    backgroundColor: '#B9D9EB',
-    borderRadius: 12,
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    marginBottom: 16,
-    marginTop: 16,
-    alignItems: 'center',
-  },
-  botonEnviar: {
-    backgroundColor: '#161A68',
-    borderRadius: 12,
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    marginBottom: 30,
-    alignItems: 'center',
-  },
-  textoBoton: {
-    color: '#FFFFF3',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  textoBotonGuardar: {
-    color: "#161A68",   // azul oscuro
-    fontSize: 18,
-    fontWeight: "bold",
+    marginBottom: 10,
   },
 
   // Mensajes
   message: {
-    fontSize: 15,
+    fontSize: 16,
     textAlign: 'center',
-    color: '#C73F4A',
-    marginTop: 12,
-    marginBottom: 24,
+    marginVertical: 12,
+    padding: 10,
+    borderRadius: 12,
   },
   successMessage: {
-    fontSize: 24,
-    textAlign: 'center',
-    color: '#2E8B57',
-    marginTop: 12,
-    marginBottom: 24,
+    backgroundColor: '#D1FAE5',
+    color: '#065F46',
     fontWeight: '600',
   },
   errorMessage: {
-    fontSize: 24,
-    textAlign: 'center',
-    color: '#C73F4A',
-    marginTop: 12,
-    marginBottom: 24,
-  },
-  sliderContainer: {
-    marginBottom: 24,
-    width: '100%',
-    alignSelf: 'stretch',
-    backgroundColor: '#FFFF9',
-    borderWidth: 2.2,
-    borderColor: '#B9D9EB',
-    borderRadius: 20,
-    padding: 16,
-    marginBottom: 24,
-    // Sombras (Android/iOS)
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    elevation: 6,
-  },
-  sliderValue: {
-    fontSize: 26,
-    fontWeight: '700',
-    color: '#161A68',
-    textAlign: 'center',
-    marginBottom: 12,
-  },
-  sliderTitle: {
-    fontSize: 18,
+    backgroundColor: '#FEE2E2',
+    color: '#991B1B',
     fontWeight: '600',
-    color: '#161A68',
-    marginBottom: 8,
-    textAlign: 'center',
   },
 });
+
