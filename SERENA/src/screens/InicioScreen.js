@@ -1,19 +1,27 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
 import NavBar from '../shared/Navbar';
+import { useRoute } from '@react-navigation/native';
 
-export default function InicioScreen() {
+export default function InicioScreen({ navigation }) {
+  const route = useRoute();
+  const { emailUsername } = route.params || {};
+
+  const handleEmpezar = () => {
+    navigation.navigate('PredeterminadosScreen');
+  };
+
   return (
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.titulo}>
-          Bienvenido <Text style={styles.usuario}>usuario</Text>,{'\n'} vincúlate con Serena  </Text>
-        <TouchableOpacity style={styles.boton}>
-          <Text style={styles.botonTexto}>EMPEZAR</Text>
+          Bienvenido <Text style={styles.usuario}>{emailUsername || 'usuario'}</Text>,{'\n'} vincúlate con Serena
+        </Text>
+        <TouchableOpacity style={styles.boton} onPress={emailUsername ? handleEmpezar : undefined}>
+          <Text style={styles.botonTexto}>{emailUsername ? 'EMPEZAR ACTIVIDAD' : 'EMPEZAR'}</Text>
         </TouchableOpacity>
-        <Text style={styles.subtitulo}>Iluminá tu calma, estés donde estés</Text>
-        {/* <View style={styles.mockup} /> */}
-        <Text style={styles.subtitulo}>¿Qué es Serena?</Text>
+        <Text style={styles.subtitulo}>{emailUsername ? 'Tu dispositivo esta listo para usarse.' : 'Iluminá tu calma, estés donde estés'}</Text>
+        <Text style={styles.subtitulo}>{emailUsername ? '¿Qué más se puede hacer con Serena?' : '¿Qué es Serena?'}</Text>
         <Text style={styles.parrafo}>
           Serena es un dispositivo sensorial portátil diseñado para acompañar a
           personas neurodivergentes en situaciones de estrés, ansiedad o sobreestimulación. A través de una experiencia controlada desde esta

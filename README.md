@@ -24,7 +24,7 @@ npx expo install @react-native-community/slider
 npm install --save expo@latest
 
 
-cada vez que abrimos el pryecto instalar: 
+cada vez que abrimos el proyecto instalar: 
 
 cd SERENA
 npm install --legacy-peer-deps

@@ -137,19 +137,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
+  // Título principal
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: '700',
-    color: '#0A0D41',
+    color: '#161A68',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 24,
   },
+
+  // Labels
   label: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '500',
-    color: '#0A0D41',
+    color: '#161A68',
     marginBottom: 6,
   },
+
+  // Inputs
   input: {
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
@@ -161,18 +167,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#0A0D41',
   },
+
+  // Texto de carga
   loadingText: {
     fontSize: 16,
-    color: '#0A0D41',
+    color: '#161A68',
     marginTop: 12,
   },
+
+  // Mensajes
   message: {
-    fontSize: 15,
+    fontSize: 16,
     textAlign: 'center',
-    color: '#C73F4A',
+    color: '#2E8B57', // verde éxito
     marginTop: 12,
     marginBottom: 24,
+    fontWeight: '500',
   },
+
+  // Portada de Spotify
   coverContainer: {
     alignItems: 'center',
     marginBottom: 18,
@@ -182,20 +195,33 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 16,
     borderWidth: 2,
-    borderColor: '#C4C6E7',
+    borderColor: '#B9D9EB',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 6,
   },
+
+  // Botón Guardar
   botonGuardar: {
-    backgroundColor: '#4f1399ff',
+    backgroundColor: '#B9D9EB',   // celeste
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 24,
-    marginBottom: 16,
-    marginTop: 16,
+    marginBottom: 20,
+    marginTop: 20,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 4,
   },
   textoBoton: {
-    color: '#FFFFF3',
+    color: '#161A68',  // azul oscuro
     fontSize: 18,
     fontWeight: '600',
   },
 });
+

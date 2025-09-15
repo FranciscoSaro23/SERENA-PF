@@ -1,10 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
+import { supabase } from '../services/supabaseClient';
 
 export default function NavBar() {
   const navigation = useNavigation();
+  const [userEmail, setUserEmail] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (data?.user?.email) {
+        setUserEmail(data.user.email);
+      } else {
+        setUserEmail(null);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const handleInicioPress = () => {
+    if (userEmail) {
+      const emailUsername = userEmail.split('@')[0];
+      navigation.navigate('InicioScreen', { emailUsername });
+    } else {
+      navigation.navigate('InicioScreen');
+    }
+  };
 
   return (
     <View style={styles.navbarContainer}>
@@ -20,7 +43,7 @@ export default function NavBar() {
 
       <View style={styles.inicioButtonWrapper}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('InicioScreen')}
+          onPress={handleInicioPress}
           style={styles.inicioButton}
         >
           <View style={styles.inicioIconWrapper}>

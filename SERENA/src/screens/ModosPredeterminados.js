@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, ScrollView }
 import { supabase } from '../services/supabaseClient';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import NavBar from '../shared/Navbar';
+import { commonStyles } from "../styles/commonStyles";
 
 export default function PredeterminadosScreen () {
   const [presetModes, setPresetModes] = useState([]);
@@ -140,16 +141,16 @@ export default function PredeterminadosScreen () {
 
     if (isEditing) {
       return (
-        <View style={styles.editContainer}>
-          <Text style={styles.editTitle}>{item.nombre}</Text>
-          <TouchableOpacity style={styles.renameButton} onPress={() => onRename(item.id)}>
-            <Text style={styles.actionButtonText}>Renombrar</Text>
+        <View style={commonStyles.editContainer}>
+          <Text style={commonStyles.editTitle}>{item.nombre}</Text>
+          <TouchableOpacity style={commonStyles.renameButton} onPress={() => onRename(item.id)}>
+            <Text style={commonStyles.actionButtonText}>Renombrar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.deleteButton} onPress={() => onDelete(item.id)}>
-            <Text style={styles.actionButtonText}>Eliminar</Text>
+          <TouchableOpacity style={commonStyles.deleteButton} onPress={() => onDelete(item.id)}>
+            <Text style={commonStyles.actionButtonText}>Eliminar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.cancelButton} onPress={onCancelEdit}>
-            <Text style={styles.actionButtonText}>Cancelar</Text>
+          <TouchableOpacity style={commonStyles.cancelButton} onPress={onCancelEdit}>
+            <Text style={commonStyles.actionButtonText}>Cancelar</Text>
           </TouchableOpacity>
         </View>
       );
@@ -158,17 +159,17 @@ export default function PredeterminadosScreen () {
     return (
       <TouchableOpacity
         style={[
-          styles.modeContainer,
-          isPredetermined ? styles.lockedContainer : styles.unlockedContainer,
+          commonStyles.modeContainer,
+          isPredetermined ? commonStyles.lockedContainer : commonStyles.unlockedContainer,
         ]}
         onPress={() => navigation.navigate('ModoPersonalizableScreen', { presetModeId: item.id })}
         onLongPress={() => !isPredetermined && setEditingModeId(item.id)}
       >
-        <View style={styles.radioCircle} />
-        <Text style={[styles.modeText, isPredetermined ? styles.lockedText : styles.unlockedText]}>
+        <View style={commonStyles.radioCircle} />
+        <Text style={[commonStyles.modeText, isPredetermined ? commonStyles.lockedText : commonStyles.unlockedText]}>
           {item.nombre}
         </Text>
-        <Text style={[styles.icon, isPredetermined && styles.lockedText]}>
+        <Text style={[commonStyles.icon, isPredetermined && commonStyles.lockedText]}>
           {isPredetermined ? '🔒' : '⚙️'}
         </Text>
       </TouchableOpacity>
@@ -180,18 +181,18 @@ export default function PredeterminadosScreen () {
   };
 
   return (
-    <View style={styles.wrapper}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.pageTitle}>Editar Modos</Text>
+    <View style={commonStyles.wrapper}>
+      <ScrollView contentContainerStyle={commonStyles.container}>
+        <Text style={commonStyles.pageTitle}>Editar Modos</Text>
         <FlatList
           data={presetModes}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderPresetMode}
-          contentContainerStyle={styles.listContainer}
+          contentContainerStyle={commonStyles.listContainer}
           scrollEnabled={false}
           ListFooterComponent={
-            <TouchableOpacity style={styles.customizeButton} onPress={agregarNuevoModo}>
-              <Text style={styles.customizeText}> + Personalizar</Text>
+            <TouchableOpacity style={commonStyles.customizeButton} onPress={agregarNuevoModo}>
+              <Text style={commonStyles.customizeText}> + Personalizar</Text>
             </TouchableOpacity>
           }
         />
@@ -200,132 +201,3 @@ export default function PredeterminadosScreen () {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: '#FFFFF3',
-  },
-  container: {
-    paddingTop: 60,
-    paddingHorizontal: 20,
-    paddingBottom: 90, // espacio para que el contenido no quede detrás del navbar
-  },
-  pageTitle: {
-    fontSize: 35,
-    fontWeight: '700',
-    color: '#0A0D41',
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 20,
-    color: '#0A0D41',
-    fontWeight: '600',
-    marginBottom: 20,
-  },
-  listContainer: {
-    paddingBottom: 20,
-  },
-  modeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 20,
-    paddingVertical: 13,
-    paddingHorizontal: 13,
-    marginBottom: 13,
-  },
-  unlockedContainer: {
-    backgroundColor: '#B9D9EB',
-  },
-  lockedContainer: {
-    backgroundColor: '#0A0D41',
-  },
-  radioCircle: {
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    borderWidth: 2,
-    borderColor: '#0A0D41',
-    backgroundColor: '#FFF',
-    marginRight: 13,
-  },
-  modeText: {
-    flex: 1,
-    fontSize: 15,
-  },
-  unlockedText: {
-    color: '#161A68',
-  },
-  lockedText: {
-    color: '#fff',
-  },
-  icon: {
-    fontSize: 18,
-  },
-  customizeButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1.5,
-    borderColor: '#0A0D41',
-    borderRadius: 20,
-    paddingVertical: 13,
-    paddingHorizontal: 13,
-    marginBottom: 13,
-  },
-  customizeText: {
-    fontSize: 14,
-    color: '#0A0D41',
-    fontWeight: '500',
-    marginLeft: 13,
-  },
-  editContainer: {
-    backgroundColor: '#FFFFF3',
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 13,
-  },
-  editTitle: {
-    fontWeight: '600',
-    fontSize: 16,
-    marginBottom: 6,
-    color: '#0A0D41',
-  },
-  actionText: {
-    fontSize: 14,
-    marginVertical: 2,
-  },
-  renameButton: {
-    backgroundColor: '#B9D9EB',
-    paddingVertical: 8,
-    paddingHorizontal: 13,
-    borderRadius: 10,
-    marginVertical: 4,
-    borderWidth: 1,
-    borderColor: '#0A0D41',
-  },
-  deleteButton: {
-    backgroundColor: '#FF6B6B',
-    paddingVertical: 8,
-    paddingHorizontal: 13,
-    borderRadius: 10,
-    marginVertical: 4,
-    borderWidth: 1,
-    borderColor: '#CC0000',
-  },
-  cancelButton: {
-    backgroundColor: '#FFFFF3',
-    paddingVertical: 8,
-    paddingHorizontal: 13,
-    borderRadius: 10,
-    marginVertical: 4,
-    borderWidth: 1,
-    borderColor: '#0A0D41',
-  },
-  actionButtonText: {
-    fontSize: 14,
-    fontWeight: '500',
-    textAlign: 'center',
-    color: '#0A0D41',
-  },
-});

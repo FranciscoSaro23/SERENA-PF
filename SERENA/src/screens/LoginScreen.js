@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Text, Alert, Pressable,  Image } from 'react-native';
+import { View, TextInput, StyleSheet, Text, Alert, Pressable, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleLogin = async () => {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -16,8 +17,7 @@ export default function LoginScreen({ navigation }) {
       Alert.alert('Error', error.message);
     } else {
       const emailUsername = email.split('@')[0];
-      Alert.alert('Login exitoso');
-      navigation.navigate('inicioConUsuario', { emailUsername });
+      navigation.navigate('InicioScreen', { emailUsername });
     }
   };
 
@@ -29,43 +29,58 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-<View style={styles.container}>
-  <Image 
-    source={require('../../assets/icon.png')} 
-    style={styles.logo} 
-    resizeMode="contain"
-  />
-  <Text style={styles.title}>Iniciar Sesión</Text>
-  
-  <TextInput
-    placeholder="Email"
-    style={styles.input}
-    onChangeText={setEmail}
-    value={email}
-    keyboardType="email-address"
-    autoCapitalize="none"
-  />
-  <TextInput
-    placeholder="Contraseña"
-    style={styles.input}
-    secureTextEntry
-    onChangeText={setPassword}
-    value={password}
-  />
-  <Pressable style={styles.button} onPress={handleLogin}>
-    <Text style={styles.buttonText}>Entrar</Text>
-  </Pressable>
-  <Pressable style={styles.link} onPress={handleNavigateToRegister}>
-    <Text style={styles.linkText}>¿No tienes cuenta? Regístrate</Text>
-  </Pressable>
-</View>
+<KeyboardAvoidingView style={styles.keyboardAvoidingView} behavior="padding">
+  <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
+    <Image
+      source={require('../../assets/icon.png')}
+      style={styles.logo}
+      resizeMode="contain"
+    />
+    <Text style={styles.title}>Iniciar Sesión</Text>
+
+    <TextInput
+      placeholder="Email"
+      style={styles.input}
+      onChangeText={setEmail}
+      value={email}
+      keyboardType="email-address"
+      autoCapitalize="none"
+    />
+    <View style={styles.passwordContainer}>
+      <TextInput
+        placeholder="Contraseña"
+        style={[styles.input, { flex: 1, marginBottom: 0 }]}
+        secureTextEntry={!isPasswordVisible}
+        onChangeText={setPassword}
+        value={password}
+      />
+      <Pressable
+        style={styles.toggleButton}
+        onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+      >
+        <Text style={styles.toggleButtonText}>
+          {isPasswordVisible ? '👁️' : '🙈'}
+        </Text>
+      </Pressable>
+    </View>
+    <Pressable style={styles.button} onPress={handleLogin}>
+      <Text style={styles.buttonText}>Entrar</Text>
+    </Pressable>
+    <Pressable style={styles.link} onPress={handleNavigateToRegister}>
+      <Text style={styles.linkText}>¿No tienes cuenta? Regístrate</Text>
+    </Pressable>
+  </ScrollView>
+</KeyboardAvoidingView>
 
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  keyboardAvoidingView: {
     flex: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
     backgroundColor: '#FFFFF3',
     padding: 24,
     justifyContent: 'center',
@@ -92,6 +107,23 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  toggleButton: {
+    marginLeft: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    backgroundColor: '#161A68',
+    borderRadius: 12,
+  },
+  toggleButtonText: {
+    color: '#FFFFF3',
+    fontSize: 16,
+    fontWeight: '600',
   },
   button: {
     backgroundColor: '#161A68',

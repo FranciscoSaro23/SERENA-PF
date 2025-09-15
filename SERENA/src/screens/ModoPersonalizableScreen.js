@@ -7,6 +7,7 @@ import Dropdown from '../components/Dropdown';
 import { useState, useEffect, useCallback } from 'react';
 import NavBar from '../shared/Navbar';
 import Slider from '@react-native-community/slider';
+import { commonStyles } from "../styles/commonStyles";
 
 export default function PersonalizableScreen() {
   const route = useRoute();
@@ -227,7 +228,7 @@ export default function PersonalizableScreen() {
 
   if (loading) {
     return (
-      <View style={[styles.container, styles.center]}>
+      <View style={[commonStyles.container, commonStyles.center]}>
         <ActivityIndicator size="large" color="#1e5631" />
         <Text>Cargando...</Text>
       </View>
@@ -235,21 +236,21 @@ export default function PersonalizableScreen() {
   }
 
   return (
-    <View style={styles.screenContainer}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.title}>
+    <View style={commonStyles.screenContainer}>
+      <ScrollView contentContainerStyle={commonStyles.scrollContent}>
+        <Text style={commonStyles.title}>
           {presetModeId && presetModeId !== 'custom' ? 'Editar Modo' : 'Personalizar Modo'}
         </Text>
 
-        <Text style={styles.label}>Nombre del Paciente</Text>
+        <Text style={commonStyles.label}>Nombre del Paciente</Text>
         <TextInput
-          style={[styles.input, !esEditable && styles.inputDisabled]}
+          style={[commonStyles.input, !esEditable && commonStyles.inputDisabled]}
           value={nombre}
           onChangeText={setNombre}
           editable={esEditable}
         />
   
-        <Text style={styles.label}>Seleccionar una Canción de Spotify</Text>
+        <Text style={commonStyles.label}>Seleccionar una Canción de Spotify</Text>
         <Dropdown
           options={[
             { label: 'Ninguna canción', value: '' },
@@ -277,13 +278,13 @@ export default function PersonalizableScreen() {
         />
   
         {coverUrl ? (
-          <View style={styles.coverContainer}>
-            <Image source={{ uri: coverUrl }} style={styles.cover} />
+          <View style={commonStyles.coverContainer}>
+            <Image source={{ uri: coverUrl }} style={commonStyles.cover} />
           </View>
         ) : null}
   
         {embedUrl ? (
-          <View style={styles.embedContainer}>
+          <View style={commonStyles.embedContainer}>
             <WebView
               source={{ uri: embedUrl }}
               javaScriptEnabled
@@ -296,32 +297,32 @@ export default function PersonalizableScreen() {
         
         <TouchableOpacity
           onPress={() => navigation.navigate('AgregarCancionScreen')}
-          style={styles.nuevaCancionBtn}>
-          <Text style={styles.nuevaCancionText}>+ Agregar canción</Text>
+          style={commonStyles.nuevaCancionBtn}>
+          <Text style={commonStyles.nuevaCancionText}>+ Agregar canción</Text>
         </TouchableOpacity>
         
-        <Text style={styles.label}>Color RGB</Text>
-        <Text style={styles.colorDisplay}>R:{rgb1} G:{rgb2} B:{rgb3}</Text>
+        <Text style={commonStyles.label}>Color de la luz</Text>
+        <Text style={commonStyles.colorDisplay}>R:{rgb1} G:{rgb2} B:{rgb3}</Text>
         <ColorPicker
           color={colorHex}
           onColorChange={onColorSelected}
-          style={[styles.picker, !esEditable && styles.pickerDisabled]}
+          style={[commonStyles.picker, !esEditable && commonStyles.pickerDisabled]}
           thumbSize={30}
           sliderSize={30}
           disabled={!esEditable}/>
 
         {esEditable && (
           <>
-            <Text style={styles.label}>Observaciones del Paciente</Text>
+            <Text style={commonStyles.label}>Observaciones del Paciente</Text>
             <TextInput
-              style={[styles.input, styles.textArea]} value={observaciones} onChangeText={setObservaciones} editable={esEditable} multiline
+              style={[commonStyles.input, commonStyles.textArea]} value={observaciones} onChangeText={setObservaciones} editable={esEditable} multiline
             />
           </>
         )}
  
-        <Text style={styles.label}>Ventilador (velocidad)</Text>
-        <View style={styles.sliderContainer}>
-        <Text style={styles.sliderValue}>{ventilador}</Text>
+        <Text style={commonStyles.label}>Ventilador (velocidad)</Text>
+        <View style={commonStyles.sliderContainer}>
+        <Text style={commonStyles.sliderValue}>{ventilador}</Text>
       <Slider style={{width: '100%', height: 40}} minimumValue={0} maximumValue={10} step={1} value={ventilador}
         onValueChange={(val) => setVentilador(val)} minimumTrackTintColor="#161A68" maximumTrackTintColor="#ccc" thumbTintColor="#161A68" disabled={!esEditable} />
       </View>
@@ -330,12 +331,12 @@ export default function PersonalizableScreen() {
           <Pressable
             onPress={guardarModo}
             style={({ pressed }) => [
-              styles.botonGuardar,
+              commonStyles.botonGuardar,
               { opacity: modoGuardado ? 0.4 : 1 },
               pressed && { opacity: 0.6 }
             ]}
           >
-            <Text style={styles.textoBotonGuardar}>
+            <Text style={commonStyles.textoBotonGuardar}>
               {presetModeId && presetModeId !== 'custom' ? 'Actualizar Modo' : 'Guardar Modo'}
             </Text>
           </Pressable>
@@ -345,16 +346,16 @@ export default function PersonalizableScreen() {
           onPress={enviarADispositivo}
           disabled={!modoGuardado}
           style={({ pressed }) => [
-            styles.botonEnviar,
+            commonStyles.botonEnviar,
           ]}
         >
-          <Text style={styles.textoBoton}> Enviar a dispositivo </Text>
+          <Text style={commonStyles.textoBoton}> Enviar a dispositivo </Text>
         </Pressable>
 
         {mensaje ? (
           <Text style={[
-            styles.message, 
-            mensaje.startsWith('SUCCESS:') ? styles.successMessage : styles.errorMessage
+            commonStyles.message, 
+            mensaje.startsWith('SUCCESS:') ? commonStyles.successMessage : commonStyles.errorMessage
           ]}>
             {mensaje.replace('SUCCESS:', '')}
           </Text>
@@ -365,150 +366,3 @@ export default function PersonalizableScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  screenContainer: {
-    flex: 1,
-    backgroundColor: '#FFFFF3',
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 140,
-  },
-
-  // Título
-  title: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: '#161A68',
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-
-  // Labels
-  label: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#374151', // gris oscuro
-    marginBottom: 6,
-    marginTop: 15,
-  },
-
-  // Inputs
-  input: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#D1D5DB',
-    borderRadius: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    marginBottom: 18,
-    fontSize: 16,
-    color: '#0A0D41',
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  inputDisabled: {
-    backgroundColor: '#F3F4F6',
-    color: '#9CA3AF',
-  },
-  textArea: {
-    height: 100,
-    textAlignVertical: 'top',
-  },
-
-  // Botones
-  botonGuardar: {
-    backgroundColor: '#161A68',
-    borderRadius: 16,
-    paddingVertical: 14,
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOpacity: 0.15,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 4,
-    elevation: 4,
-  },
-  textoBotonGuardar: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  botonEnviar: {
-    backgroundColor: '#E0F7FA',
-    borderRadius: 16,
-    paddingVertical: 14,
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  textoBoton: {
-    color: '#161A68',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-
-  // Botón secundario (+ canción)
-  nuevaCancionBtn: { backgroundColor: '#0A0D41', paddingVertical: 10, paddingHorizontal: 24, borderRadius: 30, alignSelf: 'center', marginBottom: 24, }, nuevaCancionText: { color: '#FFFFF3', fontSize: 16, fontWeight: '600', },
-  // Cover
-  coverContainer: {
-    alignItems: 'center',
-    marginVertical: 16,
-  },
-  cover: {
-    width: 200,
-    height: 200,
-    borderRadius: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 5,
-    elevation: 5,
-  },
-
-  // Slider (tarjeta)
-  sliderContainer: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    padding: 16,
-    marginBottom: 28,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  sliderValue: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#161A68',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-
-  // Mensajes
-  message: {
-    fontSize: 16,
-    textAlign: 'center',
-    marginVertical: 12,
-    padding: 10,
-    borderRadius: 12,
-  },
-  successMessage: {
-    backgroundColor: '#D1FAE5',
-    color: '#065F46',
-    fontWeight: '600',
-  },
-  errorMessage: {
-    backgroundColor: '#FEE2E2',
-    color: '#991B1B',
-    fontWeight: '600',
-  },
-});
-

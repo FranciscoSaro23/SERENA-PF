@@ -16,14 +16,14 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen name="ModosPredeterminadosScreen" component={PredeterminadosScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
-        <Stack.Screen name="ModoPersonalizableScreen" component={PersonalizarScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
-        <Stack.Screen name="AgregarCancionScreen" component={AgregarCancionScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
-        <Stack.Screen name="InicioScreen" component={InicioScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
-        <Stack.Screen name="InicioConUsuario" component={InicioConUsuarioScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
-        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
-        <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
-        <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} options={{ headerTitle: '', headerBackTitleVisible: false }}/>
+      <Stack.Screen name="ModosPredeterminadosScreen" component={PredeterminadosScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
+        <Stack.Screen name="ModoPersonalizableScreen" component={PersonalizarScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
+        <Stack.Screen name="AgregarCancionScreen" component={AgregarCancionScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
+        <Stack.Screen name="InicioScreen" component={InicioScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
+        <Stack.Screen name="InicioConUsuario" component={InicioConUsuarioScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
+        <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
