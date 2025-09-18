@@ -306,21 +306,21 @@ export default function PersonalizableScreen() {
         <ColorPicker
           color={colorHex}
           onColorChange={onColorSelected}
-          style={[commonStyles.picker, !esEditable && commonStyles.pickerDisabled]}
+          style={[commonStyles.picker, !esEditable && commonStyles.pickerDisabled, !esEditable && { marginTop: 80 }]}
           thumbSize={30}
           sliderSize={30}
           disabled={!esEditable}/>
 
         {esEditable && (
           <>
-            <Text style={commonStyles.label}>Observaciones del Paciente</Text>
+            <Text style={[commonStyles.label, { marginTop: 80 }]}>Observaciones del Paciente</Text>
             <TextInput
               style={[commonStyles.input, commonStyles.textArea]} value={observaciones} onChangeText={setObservaciones} editable={esEditable} multiline
             />
           </>
         )}
  
-        <Text style={commonStyles.label}>Ventilador (velocidad)</Text>
+        <Text style={[commonStyles.label, !esEditable && { marginTop: 90 }]}>Ventilador (velocidad)</Text>
         <View style={commonStyles.sliderContainer}>
         <Text style={commonStyles.sliderValue}>{ventilador}</Text>
       <Slider style={{width: '100%', height: 40}} minimumValue={0} maximumValue={10} step={1} value={ventilador}
@@ -361,7 +361,6 @@ export default function PersonalizableScreen() {
           </Text>
         ) : null}
       </ScrollView>
-  
       <NavBar />
     </View>
   );

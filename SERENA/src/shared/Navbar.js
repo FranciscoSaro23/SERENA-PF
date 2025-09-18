@@ -80,7 +80,10 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 20,
     borderTopColor: '#0A0D41',
-    position: 'relative',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   sideButtons: {
     flexDirection: 'row',

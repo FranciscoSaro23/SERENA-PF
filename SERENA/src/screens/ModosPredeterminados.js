@@ -28,8 +28,6 @@ export default function PredeterminadosScreen () {
   );
 
   const fetchPresetModes = async () => {
-    console.log('Fetching modes for user:', currentUserId);
-    
     const { data, error } = await supabase
       .from('MODO')
       .select('id, nombre, id_usuario')
@@ -37,26 +35,20 @@ export default function PredeterminadosScreen () {
 
     if (error) {
       console.error('Error al obtener modos:', error);
-    } else {
-      console.log('All modes from database:', data);
-      
-      // Always include predetermined modes (id_usuario === null)
-      const predeterminados = data.filter((m) => m.id_usuario === null);
-      console.log('Predetermined modes:', predeterminados);
+      Alert.alert('Error', 'No se pudieron cargar los modos predeterminados.');
+      return; // Exit early on error to avoid processing null data
+    }
 
-      // Include personalized modes for the logged-in user
-      const personalizados = currentUserId 
+    // Process data regardless of error (but only if data exists)
+    if (data) {
+      const predeterminados = data.filter((m) => m.id_usuario === null);
+      const personalizados = currentUserId
         ? data.filter((m) => m.id_usuario === currentUserId)
         : [];
-      console.log('Personalized modes:', personalizados);
-
-      // Combine both lists, avoiding duplicates if any
       const allModesMap = new Map();
       predeterminados.forEach(m => allModesMap.set(m.id, m));
       personalizados.forEach(m => allModesMap.set(m.id, m));
       const allModes = Array.from(allModesMap.values());
-
-      console.log('Final modes to display:', allModes);
       setPresetModes(allModes);
     }
   };

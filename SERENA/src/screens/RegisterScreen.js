@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text, Alert, TouchableOpacity, Pressable, Image} from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text, Alert, TouchableOpacity, Pressable, Image, ScrollView, KeyboardAvoidingView} from 'react-native';
 import { supabase } from '../services/supabaseClient';
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleSignUp = async () => {
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Las contraseñas no coinciden');
+      return;
+    }
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -21,43 +27,55 @@ export default function RegisterScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>    
-    <Image 
-      source={require('../../assets/icon.png')} 
-      style={styles.logo} 
-      resizeMode="contain"
-    />
-    <Text style={styles.title}>Registrarse</Text>
-    <TextInput
-      placeholder="Email"
-      style={styles.input}
-      onChangeText={setEmail}
-      value={email}
-      keyboardType="email-address"
-      autoCapitalize="none"
-    />
-    <TextInput
-      placeholder="Contraseña"
-      style={styles.input}
-      secureTextEntry
-      onChangeText={setPassword}
-      value={password}
-    />
+    <KeyboardAvoidingView style={styles.keyboardAvoidingView} behavior="padding">
+      <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
+        <Image
+          source={require('../../assets/icon.png')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <Text style={styles.title}>Registrarse</Text>
+        <TextInput
+          placeholder="Email"
+          style={styles.input}
+          onChangeText={setEmail}
+          value={email}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+        <TextInput
+          placeholder="Contraseña"
+          style={styles.input}
+          secureTextEntry
+          onChangeText={setPassword}
+          value={password}
+        />
+        <TextInput
+          placeholder="Confirmar Contraseña"
+          style={styles.input}
+          secureTextEntry
+          onChangeText={setConfirmPassword}
+          value={confirmPassword}
+        />
 
-    <Pressable style={styles.button} onPress={handleSignUp}>
-      <Text style={styles.buttonText}>Registrarse</Text>
-    </Pressable>
-    
-    <Pressable style={styles.link} onPress={() => navigation.navigate('LoginScreen')}>
-      <Text style={styles.linkText}>¿Ya tienes cuenta? Iniciar sesión</Text>
-    </Pressable>
-  </View>
+        <Pressable style={styles.button} onPress={handleSignUp}>
+          <Text style={styles.buttonText}>Registrarse</Text>
+        </Pressable>
+
+        <Pressable style={styles.link} onPress={() => navigation.navigate('LoginScreen')}>
+          <Text style={styles.linkText}>¿Ya tienes cuenta? Iniciar sesión</Text>
+        </Pressable>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  keyboardAvoidingView: {
     flex: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
     backgroundColor: '#FFFFF3',
     padding: 24,
     justifyContent: 'center',
@@ -86,7 +104,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   button: {
-    backgroundColor: '#161A68',      // igual que LoginScreen
+    backgroundColor: '#161A68',
     paddingVertical: 16,
     borderRadius: 12,
     marginBottom: 16,
@@ -98,10 +116,9 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   buttonText: {
-    color: '#FFFFF3',                // texto blanco
+    color: '#FFFFF3',
     fontSize: 18,
     fontWeight: '600',
-    textAlign: 'center',
   },
   link: {
     marginTop: 10,

@@ -6,12 +6,17 @@ export const commonStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFF6",
   },
+  screenContainer: {
+    flex: 1,
+    backgroundColor: "#FFFFF6",
+    position: 'relative',
+  },
   container: {
     padding: 20,
   },
   scrollContent: {
     padding: 20,
-    paddingBottom: 140,
+    paddingBottom: 200,
   },
   listContainer: {
     paddingBottom: 40,
@@ -230,7 +235,7 @@ export const commonStyles = StyleSheet.create({
     fontSize: 16,
   },
   lockedText: {
-    color: "#9CA3AF",
+    color: "#161A68",
   },
   unlockedText: {
     color: "#161A68",
