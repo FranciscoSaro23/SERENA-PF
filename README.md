@@ -25,3 +25,4 @@ npm install --save expo@latest
 
 solución del error:
 npm install --legacy-peer-deps
+npx expo install react-native-reanimated

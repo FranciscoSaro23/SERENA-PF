@@ -7,7 +7,7 @@ import Dropdown from '../components/Dropdown';
 import { useState, useEffect, useCallback } from 'react';
 import NavBar from '../shared/Navbar';
 import Slider from '@react-native-community/slider';
-import { commonStyles } from "../styles/commonStyles";
+import { commonStyles } from "../styles/ModoStyles";
 
 export default function PersonalizableScreen() {
   const route = useRoute();

@@ -5,7 +5,6 @@ import PredeterminadosScreen from './src/screens/ModosPredeterminados';
 import PersonalizarScreen from './src/screens/ModoPersonalizableScreen';
 import AgregarCancionScreen from './src/screens/AgregarCancionScreen';
 import InicioScreen from './src/screens/InicioScreen';
-import InicioConUsuarioScreen from './src/screens/InicioConUsuario';
 import LoginScreen from './src/screens/LoginScreen';
 import ConfiguracionScreen from './src/screens/ConfiguracionScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
@@ -20,7 +19,6 @@ export default function App() {
         <Stack.Screen name="ModoPersonalizableScreen" component={PersonalizarScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="AgregarCancionScreen" component={AgregarCancionScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="InicioScreen" component={InicioScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
-        <Stack.Screen name="InicioConUsuario" component={InicioConUsuarioScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>

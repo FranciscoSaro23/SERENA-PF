@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, ScrollView }
 import { supabase } from '../services/supabaseClient';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import NavBar from '../shared/Navbar';
-import { commonStyles } from "../styles/commonStyles";
+import { commonStyles } from "../styles/ModoStyles";
 
 export default function PredeterminadosScreen () {
   const [presetModes, setPresetModes] = useState([]);
