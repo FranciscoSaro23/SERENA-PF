@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
-import { supabase } from '../services/supabaseClient';
+import { supabase } from '../services/supabaseClient'; 
 
 export default function NavBar() {
   const navigation = useNavigation();
@@ -26,6 +26,14 @@ export default function NavBar() {
       navigation.navigate('InicioScreen', { emailUsername });
     } else {
       navigation.navigate('InicioScreen');
+    }
+  };
+
+  const handleLoginPress = () => {
+    if (userEmail) {
+      navigation.navigate('PerfilScreen');
+    } else {
+      navigation.navigate('LoginScreen');
     }
   };
 
@@ -61,7 +69,7 @@ export default function NavBar() {
           <Ionicons name="notifications-outline" size={37} color="#0A0D41" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+        <TouchableOpacity onPress={handleLoginPress}>
           <MaterialIcons name="account-circle" size={37} color="#0A0D41" />
         </TouchableOpacity>
       </View>

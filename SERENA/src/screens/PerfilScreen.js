@@ -1,89 +1,119 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
+import NavBar from '../shared/Navbar';
 
-export default function PerfilScreen () {
+export default function PerfilScreen() {
   const [userName, setUserName] = useState('Nombre usuario');
-  const [userAge, setUserAge] = useState('Edad');
+  const [userDescription, setUserDescription] = useState('Descripción:');
 
   const handleEditProfile = () => {
-    console.log('Editando perfil');
+    console.log('Editando perfil...');
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
+    <View style={styles.wrapper}>
+      <ScrollView contentContainerStyle={styles.container}>
+        {/* Avatar y datos */}
         <View style={styles.profileHeader}>
+          <Image
+            source={require('../../assets/avatar.jpg')}
+            style={styles.avatar}
+          />
           <Text style={styles.userName}>{userName}</Text>
-          <Text style={styles.userAge}>{userAge}</Text>
+          <Text style={styles.userDescription}>{userDescription}</Text>
+
           <TouchableOpacity style={styles.editButton} onPress={handleEditProfile}>
             <Text style={styles.editButtonText}>Editar perfil</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Mi Serena</Text>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Preferencias sensoriales</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Estadísticas</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Actividades realizadas</Text>
-          </TouchableOpacity>
+
+        {/* Opciones del perfil */}
+        <Text style={styles.sectionTitle}>Este es tu espacio personal con Serena.</Text>
+
+        <View style={styles.option}>
+          <Text style={styles.optionText}>Mi dispositivo</Text>
+          <Text style={styles.arrow}>&gt;</Text>
+        </View>
+        <View style={styles.option}>
+          <Text style={styles.optionText}>Preferencias sensoriales</Text>
+          <Text style={styles.arrow}>&gt;</Text>
+        </View>
+        <View style={styles.option}>
+          <Text style={styles.optionText}>Estadísticas</Text>
+          <Text style={styles.arrow}>&gt;</Text>
+        </View>
+        <View style={styles.option}>
+          <Text style={styles.optionText}>Actividades realizadas</Text>
+          <Text style={styles.arrow}>&gt;</Text>
         </View>
       </ScrollView>
+      <NavBar />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
-    paddingVertical: 24,
+    backgroundColor: '#FFFEF5',
+  },
+  container: {
+    padding: 20,
+    paddingBottom: 80,
   },
   profileHeader: {
     alignItems: 'center',
-    marginVertical: 16,
+    marginBottom: 20,
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 12,
   },
   userName: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
+    color: '#161A68',
     marginBottom: 4,
   },
-  userAge: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
+  userDescription: {
+    fontSize: 16,
+    color: '#444',
+    marginBottom: 12,
   },
   editButton: {
-    backgroundColor: '#007AFF',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 4,
+    backgroundColor: '#161A68',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
   },
   editButtonText: {
     color: '#fff',
+    fontWeight: '600',
     fontSize: 14,
-    fontWeight: 'bold',
-  },
-  section: {
-    marginVertical: 16,
   },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontWeight: '600',
+    color: '#161A68',
+    marginVertical: 15,
   },
-  button: {
-    backgroundColor: '#F0F0F0',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 4,
-    marginVertical: 8,
+  option: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
   },
-  buttonText: {
-    fontSize: 14,
+  optionText: {
+    fontSize: 16,
+    color: '#161A68',
+  },
+  arrow: {
+    fontSize: 16,
+    color: '#161A68',
+    fontWeight: '600',
   },
 });

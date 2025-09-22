@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import NavBar from '../shared/Navbar';
 import { useRoute } from '@react-navigation/native';
 
@@ -17,17 +17,39 @@ export default function InicioScreen({ navigation }) {
         <Text style={styles.titulo}>
           Bienvenido <Text style={styles.usuario}>{emailUsername || 'usuario'}</Text>,{'\n'} vincúlate con Serena
         </Text>
+
         <TouchableOpacity style={styles.boton} onPress={emailUsername ? handleEmpezar : undefined}>
           <Text style={styles.botonTexto}>{emailUsername ? 'EMPEZAR ACTIVIDAD' : 'EMPEZAR'}</Text>
         </TouchableOpacity>
-        <Text style={styles.subtitulo}>{emailUsername ? 'Tu dispositivo esta listo para usarse.' : 'Iluminá tu calma, estés donde estés'}</Text>
-        <Text style={styles.subtitulo}>{emailUsername ? '¿Qué más se puede hacer con Serena?' : '¿Qué es Serena?'}</Text>
-        <Text style={styles.parrafo}>
-          Serena es un dispositivo sensorial portátil diseñado para acompañar a
-          personas neurodivergentes en situaciones de estrés, ansiedad o sobreestimulación. A través de una experiencia controlada desde esta
-          aplicación móvil, Serena promueve la relajación y el bienestar emocional de manera accesible, segura y empática. Su diseño inclusivo y funcional
-          permite utilizarlo en cualquier entorno, ofreciendo contención y calma allí donde más se necesita.
+
+        <Text style={styles.subtitulo} >
+          {emailUsername ? 'Tu dispositivo está listo para usarse.' : 'Iluminá tu calma, estés donde estés'}
         </Text>
+
+        {/* === Logo en lugar de texto === */}
+        <Image source={require('../../assets/icon.png')} style={styles.logo} />
+
+        {/* === Sección de beneficios con cards === */}
+        <View style={styles.card}>
+          <Image source={require('../../assets/meditacion.png')} style={styles.icon} />
+          <Text style={styles.cardText}>
+            Ejercicios diarios para mejorar tu bienestar emocional
+          </Text>
+        </View>
+
+        <View style={styles.card}>
+          <Image source={require('../../assets/profesional.png')} style={styles.icon} />
+          <Text style={styles.cardText}>
+            3 modos predeterminados creados con ayuda de profesionales
+          </Text>
+        </View>
+
+        <View style={styles.card}>
+          <Image source={require('../../assets/lapiz.png')} style={styles.icon} />
+          <Text style={styles.cardText}>
+            Personaliza los modos o crea uno nuevo para tu mejor experiencia
+          </Text>
+        </View>
       </ScrollView>
       <NavBar />
     </View>
@@ -40,12 +62,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFEF5',
   },
   container: {
-    padding: 10,
+    padding: 15,
     alignItems: 'center',
-    paddingBottom: 40,
+    paddingBottom: 50,
   },
   titulo: {
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#13145C',
     textAlign: 'center',
@@ -57,15 +79,15 @@ const styles = StyleSheet.create({
   },
   boton: {
     backgroundColor: '#13145C',
-    paddingVertical: 12,
-    paddingHorizontal: 40,
-    borderRadius: 20,
-    marginBottom: 20,
-    elevation: 3,
+    paddingVertical: 14,
+    paddingHorizontal: 45,
+    borderRadius: 25,
+    marginBottom: 25,
+    elevation: 4,
   },
   botonTexto: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
   },
   subtitulo: {
@@ -73,22 +95,39 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#13145C',
     textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 7,
+    marginBottom: 20,
   },
-  parrafo: {
+  logo: {
+    width: 80,
+    height: 80,
+    marginBottom: 5,
+    resizeMode: 'contain',
+  },
+  // ==== Cards ====
+  card: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#D9D9D9',
+    borderRadius: 15,
+    padding: 15,
+    marginTop: 12,
+    width: '95%',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  icon: {
+    width: 70,
+    height: 70,
+    marginRight: 15,
+    resizeMode: 'contain',
+  },
+  cardText: {
+    flex: 1,
+    color: '#161A68',
     fontSize: 16,
-    textAlign: 'center',
-    color: '#444',
-    lineHeight: 22,
-    marginTop: 10,
-    paddingHorizontal: 10,
-  },
-  mockup: {
-    width: 280,
-    height: 160,
-    backgroundColor: '#ccc',
-    borderRadius: 20,
-    marginVertical: 20,
+    fontWeight: 'bold',
   },
 });
