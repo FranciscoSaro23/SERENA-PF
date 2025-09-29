@@ -49,7 +49,7 @@ export default function LoginScreen({ navigation }) {
     <View style={styles.passwordContainer}>
       <TextInput
         placeholder="Contraseña"
-        style={[styles.input, { flex: 1, marginBottom: 0 }]}
+        style={[styles.input, { marginBottom: 0, paddingRight: 50 }]}
         secureTextEntry={!isPasswordVisible}
         onChangeText={setPassword}
         value={password}
@@ -58,9 +58,10 @@ export default function LoginScreen({ navigation }) {
         style={styles.toggleButton}
         onPress={() => setIsPasswordVisible(!isPasswordVisible)}
       >
-        <Text style={styles.toggleButtonText}>
-          {isPasswordVisible ? '👁️' : '🙈'}
-        </Text>
+        <Image
+          source={isPasswordVisible ? require('../../assets/ver.png') : require('../../assets/ojo-cerrado.png')}
+          style={styles.eyeImage}
+        />
       </Pressable>
     </View>
     <Pressable style={styles.button} onPress={handleLogin}>
@@ -109,21 +110,20 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   passwordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    position: 'relative',
     marginBottom: 20,
   },
   toggleButton: {
-    marginLeft: 10,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    backgroundColor: '#161A68',
-    borderRadius: 12,
+    position: 'absolute',
+    right: 15,
+    top: '50%',
+    transform: [{ translateY: -12 }],
+    padding: 5,
   },
-  toggleButtonText: {
-    color: '#FFFFF3',
-    fontSize: 16,
-    fontWeight: '600',
+  eyeImage: {
+    width: 22,
+    height: 22,
+    marginBottom: 10,
   },
   button: {
     backgroundColor: '#161A68',

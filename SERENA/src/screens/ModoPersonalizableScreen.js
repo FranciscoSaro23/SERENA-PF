@@ -218,12 +218,30 @@ export default function PersonalizableScreen() {
     setLoading(false);
   };
 
-  const enviarADispositivo = () => {
+  const enviarADispositivo = async () => {
     if (!modoGuardado) {
       Alert.alert('Error', 'Primero guarda el modo antes de enviarlo.');
       return;
     }
-    Alert.alert('Éxito', 'Modo enviado al dispositivo.');
+
+    try {
+      const isBluetoothEnabled = await new Promise((resolve, reject) => {
+        BluetoothSerial.isEnabled(
+          (enabled) => resolve(enabled),
+          (error) => reject(error)
+        );
+      });
+
+      if (!isBluetoothEnabled) {
+        Alert.alert('Error', 'Prenda el bluetooth para poder conectarse al dispositivo');
+        return;
+      }
+
+      Alert.alert('Éxito', 'Modo enviado al dispositivo.');
+    } catch (error) {
+      console.error('Error checking Bluetooth:', error);
+      Alert.alert('Error', 'Error al verificar Bluetooth.');
+    }
   };
 
   if (loading) {
@@ -342,15 +360,15 @@ export default function PersonalizableScreen() {
           </Pressable>
         )}
 
-        <Pressable
+        {/* <Pressable
           onPress={enviarADispositivo}
           disabled={!modoGuardado}
           style={({ pressed }) => [
             commonStyles.botonEnviar,
           ]}
         >
-          <Text style={commonStyles.textoBoton}> Enviar a dispositivo </Text>
-        </Pressable>
+           */}<Text style={commonStyles.textoBoton}> Enviar a dispositivo </Text>
+        {/* </Pressable> */}
 
         {mensaje ? (
           <Text style={[

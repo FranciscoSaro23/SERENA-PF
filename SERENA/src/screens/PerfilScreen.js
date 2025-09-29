@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import NavBar from '../shared/Navbar';
+import { supabase } from '../services/supabaseClient';
 
 export default function PerfilScreen() {
   const [userName, setUserName] = useState('Nombre usuario');
   const [userDescription, setUserDescription] = useState('Descripción:');
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setUserName(session.user.email);
+        setUserDescription(`Email: ${session.user.email}`);
+      }
+    };
+    getCurrentUser();
+  }, []);
 
   const handleEditProfile = () => {
     console.log('Editando perfil...');
@@ -64,6 +76,7 @@ const styles = StyleSheet.create({
   profileHeader: {
     alignItems: 'center',
     marginBottom: 20,
+    marginTop: 50,
   },
   avatar: {
     width: 100,

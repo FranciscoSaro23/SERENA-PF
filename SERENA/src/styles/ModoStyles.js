@@ -34,6 +34,7 @@ export const commonStyles = StyleSheet.create({
     color: "#161A68",
     textAlign: "center",
     marginBottom: 20,
+    marginTop: 50,
   },
   title: {
     fontSize: 32,

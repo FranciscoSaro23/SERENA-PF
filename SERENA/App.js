@@ -12,10 +12,60 @@ import PerfilScreen from './src/screens/PerfilScreen';
 
 const Stack = createNativeStackNavigator();
 
+function MainTabs() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerTitleAlign: 'center',
+        headerTintColor: '#fff',
+        headerStyle: { backgroundColor: '#161A68' }, // azul oscuro
+        tabBarStyle: { backgroundColor: '#E0F7FA' }, // celeste
+        tabBarActiveTintColor: '#161A68',
+        tabBarInactiveTintColor: 'gray',
+      }}
+    >
+      <Tab.Screen
+        name="Inicio"
+        component={InicioScreen}
+        options={{
+          headerTitle: 'Inicio',
+          headerLeft: () => null, // 👈 sin botón back
+        }}
+      />
+      <Tab.Screen
+        name="Modos"
+        component={PredeterminadosScreen}
+        options={{
+          headerTitle: 'Modos Predeterminados',
+          headerLeft: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="Config"
+        component={ConfiguracionScreen}
+        options={{
+          headerTitle: 'Configuración',
+          headerLeft: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="Perfil"
+        component={PerfilScreen}
+        options={{
+          headerTitle: 'Mi Perfil',
+          headerLeft: () => null,
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+          headerShown: false,            // 👈 oculta el header en todas
+        }}>
       <Stack.Screen name="ModosPredeterminadosScreen" component={PredeterminadosScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="ModoPersonalizableScreen" component={PersonalizarScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="AgregarCancionScreen" component={AgregarCancionScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>

@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
     marginBottom: 15,
+    marginTop: 50,
   },
   usuario: {
     color: '#8E1C2D',

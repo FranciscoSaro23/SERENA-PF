@@ -65,9 +65,10 @@ export default function RegisterScreen({ navigation }) {
             style={styles.eyeButton}
             onPress={togglePasswordVisibility}
           >
-            <Text style={styles.eyeEmoji}>
-              {showPassword ? '🙈' : '👁️'}
-            </Text>
+            <Image
+              source={showPassword ? require('../../assets/ver.png') : require('../../assets/ojo-cerrado.png')}
+              style={styles.eyeImage}
+            />
           </TouchableOpacity>
         </View>
 
@@ -83,9 +84,10 @@ export default function RegisterScreen({ navigation }) {
             style={styles.eyeButton}
             onPress={toggleConfirmPasswordVisibility}
           >
-            <Text style={styles.eyeEmoji}>
-              {showConfirmPassword ? '🙈' : '👁️'}
-            </Text>
+            <Image
+              source={showConfirmPassword ? require('../../assets/ver.png') : require('../../assets/ojo-cerrado.png')}
+              style={styles.eyeImage}
+            />
           </TouchableOpacity>
         </View>
 
@@ -193,7 +195,8 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -12 }],
     padding: 5,
   },
-  eyeEmoji: {
-    fontSize: 20,
+  eyeImage: {
+    width: 24,
+    height: 24,
   },
 });
