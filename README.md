@@ -6,6 +6,7 @@ npm i
 npm i -g expo
 npm i expo@latest 
 npm install --global @expo/ngrok@^4.1.0
+npx expo start --tunnel
 
 npx expo install @react-navigation/native  
 npx expo install @react-navigation/bottom-tabs 

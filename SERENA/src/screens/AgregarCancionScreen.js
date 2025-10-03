@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, StyleSheet, Alert, ActivityIndicator, Image, ScrollView, Pressable } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 import { useNavigation } from '@react-navigation/native';
+import { commonStyles } from '../styles/ModoStyles';
 
 export default function AgregarCancionScreen() {
   const navigation = useNavigation();
@@ -80,7 +81,13 @@ export default function AgregarCancionScreen() {
   return (
     <View style={styles.screenContainer}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.title}>Agregar Nueva Canción</Text>
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={[commonStyles.nuevaCancionBtn, { marginTop: 40, marginBottom: 20 }]}
+        >
+          <Text style={commonStyles.nuevaCancionText}>←</Text>
+        </Pressable>
+        <Text style={styles.title}>Agregar canción</Text>
         
         <Text style={styles.label}>Nombre de la Canción</Text>
         <TextInput
@@ -108,12 +115,12 @@ export default function AgregarCancionScreen() {
         
         <Pressable
           style={({ pressed }) => [
-            styles.botonGuardar,
+            commonStyles.botonGuardar,
             pressed && { opacity: 0.8 }
           ]}
           onPress={guardarCancion}
         >
-          <Text style={styles.textoBoton}>Guardar Canción</Text>
+          <Text style={commonStyles.textoBotonGuardar}>Guardar Canción</Text>
         </Pressable>
         
         {!!mensaje && <Text style={styles.message}>{mensaje}</Text>}
@@ -145,6 +152,7 @@ const styles = StyleSheet.create({
     color: '#161A68',
     textAlign: 'center',
     marginBottom: 24,
+    marginTop: 50,
   },
 
   // Labels
@@ -201,27 +209,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 6,
     elevation: 6,
-  },
-
-  // Botón Guardar
-  botonGuardar: {
-    backgroundColor: '#B9D9EB',   // celeste
-    borderRadius: 12,
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    marginBottom: 20,
-    marginTop: 20,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 4,
-  },
-  textoBoton: {
-    color: '#161A68',  // azul oscuro
-    fontSize: 18,
-    fontWeight: '600',
   },
 });
 

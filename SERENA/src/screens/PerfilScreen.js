@@ -79,9 +79,9 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 200,
+    height: 200,
+    borderRadius: 100,
     marginBottom: 12,
   },
   userName: {
@@ -127,6 +127,6 @@ const styles = StyleSheet.create({
   arrow: {
     fontSize: 16,
     color: '#161A68',
-    fontWeight: '600',
+    fontWeight: '1000',
   },
 });

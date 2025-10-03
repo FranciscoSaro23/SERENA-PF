@@ -66,7 +66,7 @@ export default function NavBar() {
 
       <View style={styles.sideButtons}>
         <TouchableOpacity onPress={() => navigation.navigate('AyudaScreen')}>
-          <Ionicons name="notifications-outline" size={37} color="#0A0D41" />
+          <Ionicons name="help-circle-outline" size={37} color="#0A0D41" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={handleLoginPress}>

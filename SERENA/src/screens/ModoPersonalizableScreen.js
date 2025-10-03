@@ -256,10 +256,15 @@ export default function PersonalizableScreen() {
   return (
     <View style={commonStyles.screenContainer}>
       <ScrollView contentContainerStyle={commonStyles.scrollContent}>
+      <TouchableOpacity
+          onPress={() => navigation.navigate('ModosPredeterminadosScreen')}
+          style={[commonStyles.nuevaCancionBtn, { marginTop: 40 }]}>
+          <Text style={commonStyles.nuevaCancionText}>←</Text>
+        </TouchableOpacity>
         <Text style={commonStyles.title}>
           {presetModeId && presetModeId !== 'custom' ? 'Editar Modo' : 'Personalizar Modo'}
         </Text>
-
+       
         <Text style={commonStyles.label}>Nombre del Paciente</Text>
         <TextInput
           style={[commonStyles.input, !esEditable && commonStyles.inputDisabled]}
@@ -313,11 +318,13 @@ export default function PersonalizableScreen() {
           </View>
         ) : null}
         
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AgregarCancionScreen')}
-          style={commonStyles.nuevaCancionBtn}>
-          <Text style={commonStyles.nuevaCancionText}>+ Agregar canción</Text>
-        </TouchableOpacity>
+        {esEditable && (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AgregarCancionScreen')}
+            style={commonStyles.nuevaCancionBtn}>
+            <Text style={commonStyles.nuevaCancionText}>+ Agregar canción</Text>
+          </TouchableOpacity>
+        )}
         
         <Text style={commonStyles.label}>Color de la luz</Text>
         <Text style={commonStyles.colorDisplay}>R:{rgb1} G:{rgb2} B:{rgb3}</Text>
@@ -350,7 +357,7 @@ export default function PersonalizableScreen() {
             onPress={guardarModo}
             style={({ pressed }) => [
               commonStyles.botonGuardar,
-              { opacity: modoGuardado ? 0.4 : 1 },
+              { marginBottom: 0 },
               pressed && { opacity: 0.6 }
             ]}
           >
@@ -360,15 +367,17 @@ export default function PersonalizableScreen() {
           </Pressable>
         )}
 
-        {/* <Pressable
+        <Pressable
           onPress={enviarADispositivo}
           disabled={!modoGuardado}
           style={({ pressed }) => [
-            commonStyles.botonEnviar,
+            commonStyles.botonGuardar,
+            { marginTop: 10 },
+            pressed && { opacity: 0.6 }
           ]}
         >
-           */}<Text style={commonStyles.textoBoton}> Enviar a dispositivo </Text>
-        {/* </Pressable> */}
+          <Text style={commonStyles.textoBotonGuardar}> Enviar a dispositivo </Text>
+        </Pressable>
 
         {mensaje ? (
           <Text style={[

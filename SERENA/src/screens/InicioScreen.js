@@ -19,7 +19,7 @@ export default function InicioScreen({ navigation }) {
         </Text>
 
         <TouchableOpacity style={styles.boton} onPress={emailUsername ? handleEmpezar : undefined}>
-          <Text style={styles.botonTexto}>{emailUsername ? 'EMPEZAR ACTIVIDAD' : 'EMPEZAR'}</Text>
+          <Text style={styles.botonTexto}>{emailUsername ? 'VER TUTORIAL' : 'EMPEZAR'}</Text>
         </TouchableOpacity>
 
         <Text style={styles.subtitulo} >

@@ -42,6 +42,7 @@ export const commonStyles = StyleSheet.create({
     color: "#161A68",
     textAlign: "center",
     marginBottom: 24,
+    marginTop: 10,
   },
 
   // LABELS
@@ -97,6 +98,7 @@ export const commonStyles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 18,
     fontWeight: "600",
+    alignItems: 'flex-start',
   },
   botonEnviar: {
     backgroundColor: "#E0F7FA",
@@ -117,7 +119,7 @@ export const commonStyles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 24,
     borderRadius: 30,
-    alignSelf: "center",
+    alignSelf: "flex-start",
     marginBottom: 24,
   },
   nuevaCancionText: {
