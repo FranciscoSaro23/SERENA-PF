@@ -9,6 +9,7 @@ import InicioScreen from './src/screens/InicioScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import ConfiguracionScreen from './src/screens/ConfiguracionScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
+import RegisterPasswordScreen from './src/screens/RegisterPasswordScreen';
 import PerfilScreen from './src/screens/PerfilScreen';
 import AyudaScreen from './src/screens/AyudaScreen';
 
@@ -83,6 +84,7 @@ export default function App() {
         <Stack.Screen name="InicioScreen" component={InicioScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
+        <Stack.Screen name="RegisterPasswordScreen" component={RegisterPasswordScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="PerfilScreen" component={PerfilScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="AyudaScreen" component={AyudaScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>

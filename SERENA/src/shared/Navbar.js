@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
 import { supabase } from '../services/supabaseClient'; 
 
 export default function NavBar() {
   const navigation = useNavigation();
+  const route = useRoute(); // 👈 detecta la screen actual
   const [userEmail, setUserEmail] = useState(null);
 
   useEffect(() => {
@@ -37,16 +38,20 @@ export default function NavBar() {
     }
   };
 
+  // 👇 Cambia el color según la pantalla actual
+  const navbarBackgroundColor =
+    route.name === 'AyudaScreen' ? '#FFFFF6' : '#B9D9EB'; // elegí el color que quieras
+
   return (
-    <View style={styles.navbarContainer}>
+    <View style={[styles.navbarContainer, { backgroundColor: navbarBackgroundColor }]}>
       {/* Botones del lado izquierdo */}
       <View style={styles.sideButtons}>
         <TouchableOpacity onPress={() => navigation.navigate('ConfiguracionScreen')}>
           <Ionicons name="settings-sharp" size={40} color="#0A0D41" />
         </TouchableOpacity>
-        
+
         <TouchableOpacity onPress={() => navigation.navigate('ModosPredeterminadosScreen')}>
-          <Feather name="edit-3" size={40} color="#0A0D41" />
+          <Feather name="edit-3" size={38} color="#0A0D41" />
         </TouchableOpacity>
       </View>
 
@@ -69,7 +74,7 @@ export default function NavBar() {
       {/* Botones del lado derecho */}
       <View style={styles.sideButtons}>
         <TouchableOpacity onPress={() => navigation.navigate('AyudaScreen')}>
-          <Ionicons name="help-circle-outline" size={48} color="#0A0D41" />
+          <Ionicons name="help-circle-outline" size={46} color="#0A0D41" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={handleLoginPress}>
@@ -83,7 +88,6 @@ export default function NavBar() {
 const styles = StyleSheet.create({
   navbarContainer: {
     width: '100%',
-    backgroundColor: '#B9D9EB',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
@@ -96,22 +100,22 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     elevation: 15,
-    zIndex: 1, // evita bloquear toques
+    zIndex: 1,
   },
   sideButtons: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 45, // separa más los iconos
+    gap: 45,
   },
   inicioButtonWrapper: {
     position: 'absolute',
-    top: -38, // eleva el botón
+    top: -38,
     left: 0,
     right: 0,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 2,
-    pointerEvents: 'box-none', // deja pasar toques a los costados
+    pointerEvents: 'box-none',
   },
   inicioButton: {
     alignItems: 'center',

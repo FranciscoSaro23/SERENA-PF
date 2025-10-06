@@ -1,60 +1,15 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text, Alert, TouchableOpacity, Pressable, Image, ScrollView, KeyboardAvoidingView, Platform} from 'react-native';
+import { View, TextInput, StyleSheet, Text, Alert, Pressable, Image, ScrollView, KeyboardAvoidingView} from 'react-native';
 import { supabase } from '../services/supabaseClient';
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [tipoUsuario, setTipoUsuario] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [telefono, setTelefono] = useState('');
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
 
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
-  const handleSignUp = async () => {
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Las contraseñas no coinciden');
-      return;
-    }
-
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (error) {
-      Alert.alert('Error', error.message);
-    } else {
-      const user = data.user;
-      if (user) {
-        const { error: insertError } = await supabase.from('perfiles').insert({
-          id: user.id,
-          nombre,
-          apellido,
-          tipo_usuario: tipoUsuario,
-          fecha_nacimiento: fechaNacimiento ? `${fechaNacimiento.split('/')[2]}-${fechaNacimiento.split('/')[1]}-${fechaNacimiento.split('/')[0]}` : null,
-          telefono,
-        });
-        if (insertError) {
-          Alert.alert('Error', 'Registro exitoso pero error al guardar perfil: ' + insertError.message);
-        } else {
-          Alert.alert('Registro exitoso', 'Por favor verifica tu email para confirmar tu cuenta.');
-          navigation.navigate('LoginScreen');
-        }
-      }
-    }
-  };
 
   return (
     <KeyboardAvoidingView style={styles.keyboardAvoidingView} behavior="padding">
@@ -100,13 +55,6 @@ export default function RegisterScreen({ navigation }) {
           keyboardType="numeric"
         />
         <TextInput
-          placeholder="Teléfono"
-          style={styles.input}
-          onChangeText={setTelefono}
-          value={telefono}
-          keyboardType="phone-pad"
-        />
-        <TextInput
           placeholder="Email"
           style={styles.input}
           onChangeText={setEmail}
@@ -114,46 +62,9 @@ export default function RegisterScreen({ navigation }) {
           keyboardType="email-address"
           autoCapitalize="none"
         />
-        <View style={styles.passwordContainer}>
-          <TextInput
-            placeholder="Contraseña"
-            style={styles.passwordInput}
-            secureTextEntry={!showPassword}
-            onChangeText={setPassword}
-            value={password}
-          />
-          <TouchableOpacity
-            style={styles.eyeButton}
-            onPress={togglePasswordVisibility}
-          >
-            <Image
-              source={showPassword ? require('../../assets/ver.png') : require('../../assets/ojo-cerrado.png')}
-              style={styles.eyeImage}
-            />
-          </TouchableOpacity>
-        </View>
 
-        <View style={styles.passwordContainer}>
-          <TextInput
-            placeholder="Confirmar Contraseña"
-            style={styles.passwordInput}
-            secureTextEntry={!showConfirmPassword}
-            onChangeText={setConfirmPassword}
-            value={confirmPassword}
-          />
-          <TouchableOpacity
-            style={styles.eyeButton}
-            onPress={toggleConfirmPasswordVisibility}
-          >
-            <Image
-              source={showConfirmPassword ? require('../../assets/ver.png') : require('../../assets/ojo-cerrado.png')}
-              style={styles.eyeImage}
-            />
-          </TouchableOpacity>
-        </View>
-
-        <Pressable style={styles.button} onPress={handleSignUp}>
-          <Text style={styles.buttonText}>Registrarse</Text>
+        <Pressable style={styles.button} onPress={() => navigation.navigate('RegisterPasswordScreen', { nombre, apellido, tipoUsuario, fechaNacimiento, email })}>
+          <Text style={styles.buttonText}>Siguiente</Text>
         </Pressable>
 
         <Pressable style={styles.link} onPress={() => navigation.navigate('LoginScreen')}>
@@ -198,9 +109,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
-  inputContainer: {
-    marginBottom: 20,
-  },
   button: {
     backgroundColor: '#161A68',
     paddingVertical: 16,
@@ -232,36 +140,5 @@ const styles = StyleSheet.create({
     height: 110,
     alignSelf: 'center',
     marginBottom: 30,
-  },
-  passwordContainer: {
-    position: 'relative',
-    marginBottom: 24,
-  },
-  passwordInput: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#B9D9EB',
-    borderRadius: 12,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    fontSize: 16,
-    color: '#0A0D41',
-    paddingRight: 50,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  eyeButton: {
-    position: 'absolute',
-    right: 15,
-    top: '50%',
-    transform: [{ translateY: -12 }],
-    padding: 5,
-  },
-  eyeImage: {
-    width: 24,
-    height: 24,
   },
 });
