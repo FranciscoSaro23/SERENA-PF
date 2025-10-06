@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text, Alert, TouchableOpacity, Pressable, Image, ScrollView, KeyboardAvoidingView} from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text, Alert, TouchableOpacity, Pressable, Image, ScrollView, KeyboardAvoidingView, Platform} from 'react-native';
 import { supabase } from '../services/supabaseClient';
 
 export default function RegisterScreen({ navigation }) {
@@ -8,6 +8,11 @@ export default function RegisterScreen({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [nombre, setNombre] = useState('');
+  const [apellido, setApellido] = useState('');
+  const [tipoUsuario, setTipoUsuario] = useState('');
+  const [fechaNacimiento, setFechaNacimiento] = useState('');
+  const [telefono, setTelefono] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -23,7 +28,7 @@ export default function RegisterScreen({ navigation }) {
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
@@ -31,8 +36,23 @@ export default function RegisterScreen({ navigation }) {
     if (error) {
       Alert.alert('Error', error.message);
     } else {
-      Alert.alert('Registro exitoso', 'Por favor verifica tu email para confirmar tu cuenta.');
-      navigation.navigate('LoginScreen');
+      const user = data.user;
+      if (user) {
+        const { error: insertError } = await supabase.from('perfiles').insert({
+          id: user.id,
+          nombre,
+          apellido,
+          tipo_usuario: tipoUsuario,
+          fecha_nacimiento: fechaNacimiento ? `${fechaNacimiento.split('/')[2]}-${fechaNacimiento.split('/')[1]}-${fechaNacimiento.split('/')[0]}` : null,
+          telefono,
+        });
+        if (insertError) {
+          Alert.alert('Error', 'Registro exitoso pero error al guardar perfil: ' + insertError.message);
+        } else {
+          Alert.alert('Registro exitoso', 'Por favor verifica tu email para confirmar tu cuenta.');
+          navigation.navigate('LoginScreen');
+        }
+      }
     }
   };
 
@@ -45,6 +65,47 @@ export default function RegisterScreen({ navigation }) {
           resizeMode="contain"
         />
         <Text style={styles.title}>Registrarse</Text>
+        <TextInput
+          placeholder="Nombre"
+          style={styles.input}
+          onChangeText={setNombre}
+          value={nombre}
+          autoCapitalize="words"
+        />
+        <TextInput
+          placeholder="Apellido"
+          style={styles.input}
+          onChangeText={setApellido}
+          value={apellido}
+          autoCapitalize="words"
+        />
+        <TextInput
+          placeholder="Tutor, Padre, Madre, Doctor, Paciente..."
+          style={styles.input}
+          onChangeText={setTipoUsuario}
+          value={tipoUsuario}
+          autoCapitalize="words"
+        />
+        <TextInput
+          placeholder="DD/MM/YYYY"
+          style={styles.input}
+          onChangeText={(text) => {
+            let formatted = text.replace(/\D/g, '');
+            if (formatted.length > 2) formatted = formatted.slice(0,2) + '/' + formatted.slice(2);
+            if (formatted.length > 5) formatted = formatted.slice(0,5) + '/' + formatted.slice(5);
+            if (formatted.length > 10) formatted = formatted.slice(0,10);
+            setFechaNacimiento(formatted);
+          }}
+          value={fechaNacimiento}
+          keyboardType="numeric"
+        />
+        <TextInput
+          placeholder="Teléfono"
+          style={styles.input}
+          onChangeText={setTelefono}
+          value={telefono}
+          keyboardType="phone-pad"
+        />
         <TextInput
           placeholder="Email"
           style={styles.input}
@@ -111,6 +172,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: '#FFFFF3',
     padding: 24,
+    paddingBottom: 40,
     justifyContent: 'center',
   },
   title: {
@@ -129,18 +191,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: '#0A0D41',
-    marginBottom: 20,
+    marginBottom: 24,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
   },
+  inputContainer: {
+    marginBottom: 20,
+  },
   button: {
     backgroundColor: '#161A68',
     paddingVertical: 16,
     borderRadius: 12,
-    marginBottom: 16,
+    marginBottom: 20,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
@@ -154,7 +219,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   link: {
-    marginTop: 10,
+    marginTop: 20,
     alignItems: 'center',
   },
   linkText: {
@@ -170,7 +235,7 @@ const styles = StyleSheet.create({
   },
   passwordContainer: {
     position: 'relative',
-    marginBottom: 20,
+    marginBottom: 24,
   },
   passwordInput: {
     backgroundColor: '#FFFFFF',
