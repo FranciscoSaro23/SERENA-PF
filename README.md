@@ -21,3 +21,4 @@ npm install react-native-color-picker
 npm install react-native-webview
 git push --set-upstream origin PruebasBluetoothFran
 https://github.com/dotintent/react-native-ble-plx/tree/master/example
+npx expo-doctor@latest
