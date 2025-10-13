@@ -9,6 +9,77 @@ export default function RegisterScreen({ navigation }) {
   const [tipoUsuario, setTipoUsuario] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
 
+  const [errorNombre, setErrorNombre] = useState('');
+  const [errorApellido, setErrorApellido] = useState('');
+  const [errorTipoUsuario, setErrorTipoUsuario] = useState('');
+  const [errorFechaNacimiento, setErrorFechaNacimiento] = useState('');
+  const [errorEmail, setErrorEmail] = useState('');
+
+  const validateNombre = (text) => {
+    if (!text.trim()) {
+      setErrorNombre('El nombre es requerido.');
+    } else if (!/^[a-zA-Z\s]+$/.test(text)) {
+      setErrorNombre('El nombre solo puede contener letras.');
+    } else {
+      setErrorNombre('');
+    }
+  };
+
+  const validateApellido = (text) => {
+    if (!text.trim()) {
+      setErrorApellido('El apellido es requerido.');
+    } else if (!/^[a-zA-Z\s]+$/.test(text)) {
+      setErrorApellido('El apellido solo puede contener letras.');
+    } else {
+      setErrorApellido('');
+    }
+  };
+
+  const validateTipoUsuario = (text) => {
+    if (!text.trim()) {
+      setErrorTipoUsuario('El tipo de usuario es requerido.');
+    } else {
+      setErrorTipoUsuario('');
+    }
+  };
+
+  const validateFechaNacimiento = (text) => {
+    if (!text.trim()) {
+      setErrorFechaNacimiento('La fecha de nacimiento es requerida.');
+    } else {
+      const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+      const match = text.match(dateRegex);
+      if (!match) {
+        setErrorFechaNacimiento('Formato inválido. Use DD/MM/YYYY.');
+      } else {
+        const day = parseInt(match[1], 10);
+        const month = parseInt(match[2], 10);
+        const year = parseInt(match[3], 10);
+        const date = new Date(year, month - 1, day);
+        if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+          setErrorFechaNacimiento('Fecha inválida.');
+        } else if (year < 1900 || year > new Date().getFullYear()) {
+          setErrorFechaNacimiento('Año inválido.');
+        } else {
+          setErrorFechaNacimiento('');
+        }
+      }
+    }
+  };
+
+  const validateEmail = (text) => {
+    if (!text.trim()) {
+      setErrorEmail('El email es requerido.');
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text)) {
+      setErrorEmail('Formato de email inválido.');
+    } else {
+      setErrorEmail('');
+    }
+  };
+
+  const isFormValid = !errorNombre && !errorApellido && !errorTipoUsuario && !errorFechaNacimiento && !errorEmail &&
+                      nombre.trim() && apellido.trim() && tipoUsuario.trim() && fechaNacimiento.trim() && email.trim();
+
 
 
   return (
@@ -23,24 +94,36 @@ export default function RegisterScreen({ navigation }) {
         <TextInput
           placeholder="Nombre"
           style={styles.input}
-          onChangeText={setNombre}
+          onChangeText={(text) => {
+            setNombre(text);
+            validateNombre(text);
+          }}
           value={nombre}
           autoCapitalize="words"
         />
+        {errorNombre ? <Text style={styles.errorText}>{errorNombre}</Text> : null}
         <TextInput
           placeholder="Apellido"
           style={styles.input}
-          onChangeText={setApellido}
+          onChangeText={(text) => {
+            setApellido(text);
+            validateApellido(text);
+          }}
           value={apellido}
           autoCapitalize="words"
         />
+        {errorApellido ? <Text style={styles.errorText}>{errorApellido}</Text> : null}
         <TextInput
           placeholder="Tutor, Padre, Madre, Doctor, Paciente..."
           style={styles.input}
-          onChangeText={setTipoUsuario}
+          onChangeText={(text) => {
+            setTipoUsuario(text);
+            validateTipoUsuario(text);
+          }}
           value={tipoUsuario}
           autoCapitalize="words"
         />
+        {errorTipoUsuario ? <Text style={styles.errorText}>{errorTipoUsuario}</Text> : null}
         <TextInput
           placeholder="DD/MM/YYYY"
           style={styles.input}
@@ -50,20 +133,26 @@ export default function RegisterScreen({ navigation }) {
             if (formatted.length > 5) formatted = formatted.slice(0,5) + '/' + formatted.slice(5);
             if (formatted.length > 10) formatted = formatted.slice(0,10);
             setFechaNacimiento(formatted);
+            validateFechaNacimiento(formatted);
           }}
           value={fechaNacimiento}
           keyboardType="numeric"
         />
+        {errorFechaNacimiento ? <Text style={styles.errorText}>{errorFechaNacimiento}</Text> : null}
         <TextInput
           placeholder="Email"
           style={styles.input}
-          onChangeText={setEmail}
+          onChangeText={(text) => {
+            setEmail(text);
+            validateEmail(text);
+          }}
           value={email}
           keyboardType="email-address"
           autoCapitalize="none"
         />
+        {errorEmail ? <Text style={styles.errorText}>{errorEmail}</Text> : null}
 
-        <Pressable style={styles.button} onPress={() => navigation.navigate('RegisterPasswordScreen', { nombre, apellido, tipoUsuario, fechaNacimiento, email })}>
+        <Pressable style={[styles.button, !isFormValid && styles.buttonDisabled]} onPress={() => isFormValid && navigation.navigate('RegisterPasswordScreen', { nombre, apellido, tipoUsuario, fechaNacimiento, email })} disabled={!isFormValid}>
           <Text style={styles.buttonText}>Siguiente</Text>
         </Pressable>
 
@@ -125,6 +214,15 @@ const styles = StyleSheet.create({
     color: '#FFFFF3',
     fontSize: 18,
     fontWeight: '600',
+  },
+  buttonDisabled: {
+    backgroundColor: '#B9D9EB',
+  },
+  errorText: {
+    color: '#FF0000',
+    fontSize: 14,
+    marginBottom: 16,
+    marginTop: -16,
   },
   link: {
     marginTop: 20,
