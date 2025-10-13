@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import NavBar from '../shared/Navbar';
@@ -20,7 +20,7 @@ export default function PredeterminadosScreen () {
     };
     getCurrentUser();
   }, []);
-
+  
   useFocusEffect(
     React.useCallback(() => {
       fetchPresetModes();
@@ -36,10 +36,9 @@ export default function PredeterminadosScreen () {
     if (error) {
       console.error('Error al obtener modos:', error);
       Alert.alert('Error', 'No se pudieron cargar los modos predeterminados.');
-      return; // Exit early on error to avoid processing null data
+      return;
     }
 
-    // Process data regardless of error (but only if data exists)
     if (data) {
       const predeterminados = data.filter((m) => m.id_usuario === null);
       const personalizados = currentUserId
@@ -96,7 +95,7 @@ export default function PredeterminadosScreen () {
       setPresetModes(prev => prev.map(mode => 
         mode.id === id ? { ...mode, nombre: nuevoNombre } : mode
       ));
-      setEditingModeId(null); // Salir del modo edición
+      setEditingModeId(null);
     }
   };
 

@@ -1,4 +1,5 @@
-import { View, TextInput, Text, StyleSheet, ActivityIndicator, TouchableOpacity, ScrollView, Image, Pressable, Alert } from 'react-native';
+
+import { View, TextInput, Text, StyleSheet, ActivityIndicator, TouchableOpacity, ScrollView, Image, Pressable, Alert, Vibration } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 import ColorPicker from 'react-native-color-picker-wheel';
 import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -28,6 +29,7 @@ export default function PersonalizableScreen() {
   const [embedUrl, setEmbedUrl] = useState('');
   const [modoGuardado, setModoGuardado] = useState(false);
   const [ventilador, setVentilador] = useState(0);
+
   const noEditables = ['1', '2', '3'];
   const esEditable = !noEditables.includes(String(presetModeId));
 
@@ -205,6 +207,7 @@ export default function PersonalizableScreen() {
       } else {
         setModoGuardado(true);
         Alert.alert('Éxito', 'Modo actualizado con éxito!');
+        Vibration.vibrate(500); // Vibración de éxito al guardar
       }
     } else {
       const { error } = await supabase.from('MODO').insert([modoData]);
@@ -213,6 +216,7 @@ export default function PersonalizableScreen() {
       } else {
         setModoGuardado(true);
         Alert.alert('Éxito', 'Modo guardado con éxito!');
+        Vibration.vibrate(500); // Vibración de éxito al guardar
       }
     }
     setLoading(false);
@@ -238,9 +242,11 @@ export default function PersonalizableScreen() {
       }
 
       Alert.alert('Éxito', 'Modo enviado al dispositivo.');
+      Vibration.vibrate(1000); // Vibración más larga para confirmación de envío
     } catch (error) {
       console.error('Error checking Bluetooth:', error);
       Alert.alert('Error', 'Error al verificar Bluetooth.');
+      Vibration.vibrate(200, true); // Vibración corta para error (pattern for error)
     }
   };
 
@@ -317,6 +323,9 @@ export default function PersonalizableScreen() {
             />
           </View>
         ) : null}
+        
+
+
         
         {esEditable && (
           <TouchableOpacity
