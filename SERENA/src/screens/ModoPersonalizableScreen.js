@@ -10,6 +10,11 @@ import NavBar from '../shared/Navbar';
 import Slider from '@react-native-community/slider';
 import { commonStyles } from "../styles/ModoStyles";
 
+/**
+ * Pantalla para personalizar o editar modos de terapia.
+ * Permite configurar nombre del paciente, canción, color de luz, observaciones y velocidad del ventilador.
+ * Soporta modos predefinidos (no editables) y modos personalizados.
+ */
 export default function PersonalizableScreen() {
   const route = useRoute();
   const navigation = useNavigation();
@@ -43,12 +48,14 @@ export default function PersonalizableScreen() {
     getCurrentUser();
   }, []);
 
+  // Función para extraer el ID de la pista de Spotify desde una URL
   const extraerSpotifyTrackId = (url) => {
     const regex = /open\.spotify\.com\/track\/([a-zA-Z0-9]+)/;
     const match = url.match(regex);
     return match ? match[1] : null;
   };
 
+  // Función para obtener la portada y la URL de inserción de Spotify para una pista
   const fetchCoverAndEmbed = async (trackId) => {
     try {
       const res = await fetch(`https://open.spotify.com/oembed?url=https://open.spotify.com/track/${trackId}`);
@@ -61,6 +68,7 @@ export default function PersonalizableScreen() {
     setEmbedUrl(`https://open.spotify.com/embed/track/${trackId}`);
   };
 
+  // Función para obtener todas las canciones desde la base de datos
   const obtenerCanciones = async () => {
     const { data, error } = await supabase.from('MUSICA').select('*');
     if (error) {
@@ -207,7 +215,7 @@ export default function PersonalizableScreen() {
       } else {
         setModoGuardado(true);
         Alert.alert('Éxito', 'Modo actualizado con éxito!');
-        Vibration.vibrate(500); // Vibración de éxito al guardar
+        Vibration.vibrate(500); // Vibración de éxito al guardar el modo
       }
     } else {
       const { error } = await supabase.from('MODO').insert([modoData]);
@@ -216,7 +224,7 @@ export default function PersonalizableScreen() {
       } else {
         setModoGuardado(true);
         Alert.alert('Éxito', 'Modo guardado con éxito!');
-        Vibration.vibrate(500); // Vibración de éxito al guardar
+        Vibration.vibrate(500); // Vibración de éxito al guardar el modo
       }
     }
     setLoading(false);
@@ -242,11 +250,11 @@ export default function PersonalizableScreen() {
       }
 
       Alert.alert('Éxito', 'Modo enviado al dispositivo.');
-      Vibration.vibrate(1000); // Vibración más larga para confirmación de envío
+      Vibration.vibrate(1000); // Vibración más larga para confirmación de envío al dispositivo
     } catch (error) {
       console.error('Error checking Bluetooth:', error);
       Alert.alert('Error', 'Error al verificar Bluetooth.');
-      Vibration.vibrate(200, true); // Vibración corta para error (pattern for error)
+      Vibration.vibrate(200, true); // Vibración corta para indicar un error
     }
   };
 

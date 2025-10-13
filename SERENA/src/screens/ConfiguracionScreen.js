@@ -1,10 +1,32 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Switch, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Switch, ScrollView, Alert } from 'react-native';
 import NavBar from '../shared/Navbar';
+import { supabase } from '../services/supabaseClient';
 
-export default function ConfiguracionScreen() {
+export default function ConfiguracionScreen({ navigation }) {
   const [sonidos, setSonidos] = useState(true);
   const [silencioso, setSilencioso] = useState(false);
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Cerrar Sesión',
+      '¿Estás seguro de que quieres cerrar sesión?',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Cerrar Sesión',
+          style: 'destructive',
+          onPress: async () => {
+            await supabase.auth.signOut();
+            navigation.navigate('LoginScreen');
+          },
+        },
+      ]
+    );
+  };
 
   return (
     <View style={styles.wrapper}>
@@ -71,7 +93,7 @@ export default function ConfiguracionScreen() {
           <TouchableOpacity>
             <Text style={styles.danger}>Cambiar cuenta</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleLogout}>
             <Text style={styles.danger}>Cerrar Sesión</Text>
           </TouchableOpacity>
         </View>
