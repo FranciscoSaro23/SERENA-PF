@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text, Alert, TouchableOpacity, Pressable, Image, ScrollView, KeyboardAvoidingView} from 'react-native';
 import { supabase } from '../services/supabaseClient';
 
-export default function RegisterPasswordScreen({ navigation, route }) {
+export default function RegisterContrasenia({ navigation, route }) {
   const { nombre, apellido, tipoUsuario, fechaNacimiento, email } = route.params;
 
   const [password, setPassword] = useState('');

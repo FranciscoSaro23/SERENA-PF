@@ -6,7 +6,7 @@ import { supabase } from '../services/supabaseClient';
 
 export default function NavBar() {
   const navigation = useNavigation();
-  const route = useRoute(); // 👈 detecta la screen actual
+  const route = useRoute(); // detecta la screen actual
   const [userEmail, setUserEmail] = useState(null);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function NavBar() {
     }
   };
 
-  // 👇 Cambia el color según la pantalla actual
+  // Cambia el color según la pantalla actual
   const navbarBackgroundColor =
     route.name === 'AyudaScreen' ? '#FFFFF6' : '#B9D9EB'; // elegí el color que quieras
 

@@ -39,7 +39,7 @@ export default function LoginScreen({ navigation }) {
     <Text style={styles.title}>Iniciar Sesión</Text>
 
     <TextInput
-      placeholder="Email"
+      placeholder="Ingrese su email:"
       style={styles.input}
       onChangeText={setEmail}
       value={email}
@@ -48,7 +48,7 @@ export default function LoginScreen({ navigation }) {
     />
     <View style={styles.passwordContainer}>
       <TextInput
-        placeholder="Contraseña"
+        placeholder="Ingrese su contraseña:"
         style={[styles.input, { marginBottom: 0, paddingRight: 50 }]}
         secureTextEntry={!isPasswordVisible}
         onChangeText={setPassword}

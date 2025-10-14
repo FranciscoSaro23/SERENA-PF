@@ -9,7 +9,7 @@ import InicioScreen from './src/screens/InicioScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import ConfiguracionScreen from './src/screens/ConfiguracionScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
-import RegisterPasswordScreen from './src/screens/RegisterPasswordScreen';
+import RegisterContrasenia from './src/screens/RegisterContrasenia';
 import PerfilScreen from './src/screens/PerfilScreen';
 import AyudaScreen from './src/screens/AyudaScreen';
 
@@ -33,7 +33,7 @@ function MainTabs() {
         component={InicioScreen}
         options={{
           headerTitle: 'Inicio',
-          headerLeft: () => null, // 👈 sin botón back
+          headerLeft: () => null, // sin botón back
         }}
       />
       <Tab.Screen
@@ -78,13 +78,13 @@ export default function App() {
       <Stack.Navigator screenOptions={{
           headerShown: false,
         }}>
-      <Stack.Screen name="ModosPredeterminadosScreen" component={PredeterminadosScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
+      <Stack.Screen name="InicioScreen" component={InicioScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
+        <Stack.Screen name="ModosPredeterminadosScreen" component={PredeterminadosScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="ModoPersonalizableScreen" component={PersonalizarScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="AgregarCancionScreen" component={AgregarCancionScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
-        <Stack.Screen name="InicioScreen" component={InicioScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
-        <Stack.Screen name="RegisterPasswordScreen" component={RegisterPasswordScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
+        <Stack.Screen name="RegisterContrasenia" component={RegisterContrasenia} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="ConfiguracionScreen" component={ConfiguracionScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="PerfilScreen" component={PerfilScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="AyudaScreen" component={AyudaScreen} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>

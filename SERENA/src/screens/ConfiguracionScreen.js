@@ -6,8 +6,12 @@ import { supabase } from '../services/supabaseClient';
 export default function ConfiguracionScreen({ navigation }) {
   const [sonidos, setSonidos] = useState(true);
   const [silencioso, setSilencioso] = useState(false);
-
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      Alert.alert('Error', 'No has iniciado sesión.');
+      return;
+    }
     Alert.alert(
       'Cerrar Sesión',
       '¿Estás seguro de que quieres cerrar sesión?',

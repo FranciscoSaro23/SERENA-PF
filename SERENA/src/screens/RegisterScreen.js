@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text, Alert, Pressable, Image, ScrollView, KeyboardAvoidingView} from 'react-native';
 import { supabase } from '../services/supabaseClient';
+import Dropdown from '../components/Dropdown';
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -8,6 +9,14 @@ export default function RegisterScreen({ navigation }) {
   const [apellido, setApellido] = useState('');
   const [tipoUsuario, setTipoUsuario] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
+
+  const tipoUsuarioOptions = [
+    { label: 'Tutor', value: 'Tutor' },
+    { label: 'Padre', value: 'Padre' },
+    { label: 'Madre', value: 'Madre' },
+    { label: 'Doctor', value: 'Doctor' },
+    { label: 'Paciente', value: 'Paciente' },
+  ];
 
   const [errorNombre, setErrorNombre] = useState('');
   const [errorApellido, setErrorApellido] = useState('');
@@ -92,7 +101,7 @@ export default function RegisterScreen({ navigation }) {
         />
         <Text style={styles.title}>Registrarse</Text>
         <TextInput
-          placeholder="Nombre"
+          placeholder="Ingrese su nombre:"
           style={styles.input}
           onChangeText={(text) => {
             setNombre(text);
@@ -103,7 +112,7 @@ export default function RegisterScreen({ navigation }) {
         />
         {errorNombre ? <Text style={styles.errorText}>{errorNombre}</Text> : null}
         <TextInput
-          placeholder="Apellido"
+          placeholder="Ingrese su apellido:"
           style={styles.input}
           onChangeText={(text) => {
             setApellido(text);
@@ -113,19 +122,20 @@ export default function RegisterScreen({ navigation }) {
           autoCapitalize="words"
         />
         {errorApellido ? <Text style={styles.errorText}>{errorApellido}</Text> : null}
-        <TextInput
-          placeholder="Tutor, Padre, Madre, Doctor, Paciente..."
-          style={styles.input}
-          onChangeText={(text) => {
-            setTipoUsuario(text);
-            validateTipoUsuario(text);
-          }}
-          value={tipoUsuario}
-          autoCapitalize="words"
-        />
+        <View style={styles.dropdownContainer}>
+          <Dropdown
+            options={tipoUsuarioOptions}
+            selectedValue={tipoUsuario}
+            onValueChange={(value) => {
+              setTipoUsuario(value);
+              validateTipoUsuario(value);
+            }}
+            enabled={true}
+          />
+        </View>
         {errorTipoUsuario ? <Text style={styles.errorText}>{errorTipoUsuario}</Text> : null}
         <TextInput
-          placeholder="DD/MM/YYYY"
+          placeholder="Fecha de nacimiento (DD/MM/YYYY):"
           style={styles.input}
           onChangeText={(text) => {
             let formatted = text.replace(/\D/g, '');
@@ -140,7 +150,7 @@ export default function RegisterScreen({ navigation }) {
         />
         {errorFechaNacimiento ? <Text style={styles.errorText}>{errorFechaNacimiento}</Text> : null}
         <TextInput
-          placeholder="Email"
+          placeholder="Ingrese su email:"
           style={styles.input}
           onChangeText={(text) => {
             setEmail(text);
@@ -152,7 +162,7 @@ export default function RegisterScreen({ navigation }) {
         />
         {errorEmail ? <Text style={styles.errorText}>{errorEmail}</Text> : null}
 
-        <Pressable style={[styles.button, !isFormValid && styles.buttonDisabled]} onPress={() => isFormValid && navigation.navigate('RegisterPasswordScreen', { nombre, apellido, tipoUsuario, fechaNacimiento, email })} disabled={!isFormValid}>
+        <Pressable style={[styles.button, !isFormValid && styles.buttonDisabled]} onPress={() => isFormValid && navigation.navigate('RegisterContrasenia', { nombre, apellido, tipoUsuario, fechaNacimiento, email })} disabled={!isFormValid}>
           <Text style={styles.buttonText}>Siguiente</Text>
         </Pressable>
 
@@ -197,6 +207,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
+  },
+  dropdownContainer: {
+    marginBottom: 24,
   },
   button: {
     backgroundColor: '#161A68',

@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 export default function Dropdown({ options, selectedValue, onValueChange, enabled }) {
   const [showOptions, setShowOptions] = useState(false);
 
-  const selectedLabel = options.find(o => o.value === selectedValue)?.label || "Elegí una canción";
+  const selectedLabel = options.find(o => o.value === selectedValue)?.label || "Seleccione el tipo de usuario:";
 
   const toggleDropdown = () => {
     if (enabled) setShowOptions(!showOptions);
@@ -47,8 +47,8 @@ export default function Dropdown({ options, selectedValue, onValueChange, enable
 
 const styles = StyleSheet.create({
   container: {
-    width: 250,
-    marginBottom: 15,
+    width: 320,
+    marginBottom: 7,
   },
   selector: {
     borderWidth: 1,
