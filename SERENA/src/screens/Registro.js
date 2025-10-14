@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, Text, Alert, Pressable, Image, ScrollView,
 import { supabase } from '../services/supabaseClient';
 import Dropdown from '../components/Dropdown';
 
-export default function RegisterScreen({ navigation }) {
+export default function Registro({ navigation }) {
   const [email, setEmail] = useState('');
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
@@ -162,7 +162,7 @@ export default function RegisterScreen({ navigation }) {
         />
         {errorEmail ? <Text style={styles.errorText}>{errorEmail}</Text> : null}
 
-        <Pressable style={[styles.button, !isFormValid && styles.buttonDisabled]} onPress={() => isFormValid && navigation.navigate('RegisterContrasenia', { nombre, apellido, tipoUsuario, fechaNacimiento, email })} disabled={!isFormValid}>
+        <Pressable style={[styles.button, !isFormValid && styles.buttonDisabled]} onPress={() => isFormValid && navigation.navigate('RegistroContrasenia', { nombre, apellido, tipoUsuario, fechaNacimiento, email })} disabled={!isFormValid}>
           <Text style={styles.buttonText}>Siguiente</Text>
         </Pressable>
 

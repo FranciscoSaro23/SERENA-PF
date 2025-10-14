@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput, Alert } from 'react-native';
-import NavBar from '../shared/Navbar';
+import Navbar from '../shared/Navbar';
 import { supabase } from '../services/supabaseClient';
 
 export default function PerfilScreen() {
@@ -135,7 +135,7 @@ export default function PerfilScreen() {
           <Text style={styles.arrow}>&gt;</Text>
         </View>
       </ScrollView>
-      <NavBar />
+      <Navbar />
     </View>
   );
 }

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import NavBar from '../shared/Navbar';
+import Navbar from '../shared/Navbar';
 import { commonStyles } from "../styles/ModoStyles";
 
-export default function PredeterminadosScreen () {
+export default function Modos () {
   const [presetModes, setPresetModes] = useState([]);
   const [editingModeId, setEditingModeId] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(null);
@@ -153,7 +153,7 @@ export default function PredeterminadosScreen () {
           commonStyles.modeContainer,
           isPredetermined ? commonStyles.lockedContainer : commonStyles.unlockedContainer,
         ]}
-        onPress={() => navigation.navigate('ModoPersonalizableScreen', { presetModeId: item.id })}
+        onPress={() => navigation.navigate('ModoPersonalizable', { presetModeId: item.id })}
         onLongPress={() => !isPredetermined && setEditingModeId(item.id)}
       >
         <View style={commonStyles.radioCircle} />
@@ -168,7 +168,7 @@ export default function PredeterminadosScreen () {
   };
 
   const agregarNuevoModo = () => {
-    navigation.navigate('ModoPersonalizableScreen', { presetModeId: null });
+    navigation.navigate('ModoPersonalizable', { presetModeId: null });
   };
 
   return (
@@ -188,7 +188,7 @@ export default function PredeterminadosScreen () {
           }
         />
       </ScrollView>
-      <NavBar />
+      <Navbar />
     </View>
   );
 };

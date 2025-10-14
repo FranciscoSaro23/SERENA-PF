@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import NavBar from '../shared/Navbar';
+import Navbar from '../shared/Navbar';
 
-export default function AyudaScreen() {
+export default function Ayuda() {
   return (
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
@@ -63,7 +63,7 @@ export default function AyudaScreen() {
 </Text>
       </ScrollView>
 
-      <NavBar />
+      <Navbar />
     </View>
   );
 }

@@ -4,9 +4,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
 import { supabase } from '../services/supabaseClient'; 
 
-export default function NavBar() {
+export default function Navbar() {
   const navigation = useNavigation();
-  const route = useRoute(); // detecta la screen actual
+  const route = useRoute();
   const [userEmail, setUserEmail] = useState(null);
 
   useEffect(() => {
@@ -24,33 +24,33 @@ export default function NavBar() {
   const handleInicioPress = () => {
     if (userEmail) {
       const emailUsername = userEmail.split('@')[0];
-      navigation.navigate('InicioScreen', { emailUsername });
+      navigation.navigate('Inicio', { emailUsername });
     } else {
-      navigation.navigate('InicioScreen');
+      navigation.navigate('Inicio');
     }
   };
 
   const handleLoginPress = () => {
     if (userEmail) {
-      navigation.navigate('PerfilScreen');
+      navigation.navigate('Perfil');
     } else {
-      navigation.navigate('LoginScreen');
+      navigation.navigate('Login');
     }
   };
 
   // Cambia el color según la pantalla actual
   const navbarBackgroundColor =
-    route.name === 'AyudaScreen' ? '#FFFFF6' : '#B9D9EB'; // elegí el color que quieras
+    route.name === 'Ayuda' ? '#FFFFF6' : '#B9D9EB';
 
   return (
     <View style={[styles.navbarContainer, { backgroundColor: navbarBackgroundColor }]}>
       {/* Botones del lado izquierdo */}
       <View style={styles.sideButtons}>
-        <TouchableOpacity onPress={() => navigation.navigate('ConfiguracionScreen')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Configuracion')}>
           <Ionicons name="settings-sharp" size={40} color="#0A0D41" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('ModosPredeterminadosScreen')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Modos')}>
           <Feather name="edit-3" size={38} color="#0A0D41" />
         </TouchableOpacity>
       </View>
@@ -73,7 +73,7 @@ export default function NavBar() {
 
       {/* Botones del lado derecho */}
       <View style={styles.sideButtons}>
-        <TouchableOpacity onPress={() => navigation.navigate('AyudaScreen')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Ayuda')}>
           <Ionicons name="help-circle-outline" size={46} color="#0A0D41" />
         </TouchableOpacity>
 

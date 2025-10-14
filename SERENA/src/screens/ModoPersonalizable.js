@@ -6,7 +6,7 @@ import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/nativ
 import { WebView } from 'react-native-webview';
 import Dropdown from '../components/Dropdown';
 import { useState, useEffect, useCallback } from 'react';
-import NavBar from '../shared/Navbar';
+import Navbar from '../shared/Navbar';
 import Slider from '@react-native-community/slider';
 import { commonStyles } from "../styles/ModoStyles";
 
@@ -15,7 +15,7 @@ import { commonStyles } from "../styles/ModoStyles";
  * Permite configurar nombre del paciente, canción, color de luz, observaciones y velocidad del ventilador.
  * Soporta modos predefinidos (no editables) y modos personalizados.
  */
-export default function PersonalizableScreen() {
+export default function ModoPersonalizable() {
   const route = useRoute();
   const navigation = useNavigation();
   const { presetModeId } = route.params || {};
@@ -405,7 +405,7 @@ export default function PersonalizableScreen() {
           </Text>
         ) : null}
       </ScrollView>
-      <NavBar />
+      <Navbar />
     </View>
   );
 }

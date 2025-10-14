@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text, Alert, Pressable, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 
-export default function LoginScreen({ navigation }) {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -22,7 +22,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   const handleNavigateToRegister = () => {
-    navigation.navigate('RegisterScreen');
+    navigation.navigate('Registro');
   };
   const handleNavigateToPerfil = () => {
     navigation.navigate('PerfilScreen');

@@ -4,7 +4,7 @@ import { supabase } from '../services/supabaseClient';
 import { useNavigation } from '@react-navigation/native';
 import { commonStyles } from '../styles/ModoStyles';
 
-export default function AgregarCancionScreen() {
+export default function AgregarCancion() {
   const navigation = useNavigation();
   const [nombreCancion, setNombreCancion] = useState('');
   const [link, setLink] = useState('');

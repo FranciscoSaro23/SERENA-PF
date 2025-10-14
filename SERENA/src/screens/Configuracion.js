@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Switch, ScrollView, Alert } from 'react-native';
-import NavBar from '../shared/Navbar';
+import Navbar from '../shared/Navbar';
 import { supabase } from '../services/supabaseClient';
 
 export default function ConfiguracionScreen({ navigation }) {
@@ -102,7 +102,7 @@ export default function ConfiguracionScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <NavBar />
+      <Navbar />
     </View>
   );
 }

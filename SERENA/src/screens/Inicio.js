@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
-import NavBar from '../shared/Navbar';
+import Navbar from '../shared/Navbar';
 import { useRoute } from '@react-navigation/native';
 
-export default function InicioScreen({ navigation }) {
+export default function Inicio({ navigation }) {
   const route = useRoute();
   const { emailUsername } = route.params || {};
 
@@ -51,7 +51,7 @@ export default function InicioScreen({ navigation }) {
           </Text>
         </View>
       </ScrollView>
-      <NavBar />
+      <Navbar />
     </View>
   );
 }
