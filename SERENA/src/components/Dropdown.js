@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 export default function Dropdown({ options, selectedValue, onValueChange, enabled }) {
   const [showOptions, setShowOptions] = useState(false);
 
-  const selectedLabel = options.find(o => o.value === selectedValue)?.label || "Seleccione el tipo de usuario:";
+  const selectedLabel = options.find(o => o.value === selectedValue)?.label || "¿Quién utiliza esta cuenta?";
 
   const toggleDropdown = () => {
     if (enabled) setShowOptions(!showOptions);
@@ -47,16 +47,22 @@ export default function Dropdown({ options, selectedValue, onValueChange, enable
 
 const styles = StyleSheet.create({
   container: {
-    width: 320,
-    marginBottom: 7,
+    width: '100%',
+    marginBottom: 12,
   },
   selector: {
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#B9D9EB',
     borderRadius: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    backgroundColor: '#fff',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    width: '100%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   disabled: {
     backgroundColor: '#eee',
@@ -68,7 +74,7 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     fontSize: 16,
-    color: '#333',
+    color: '#0A0D41',
   },
   arrow: {
     fontSize: 16,
@@ -78,14 +84,14 @@ const styles = StyleSheet.create({
   optionsContainer: {
     maxHeight: 150,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#B9D9EB',
     borderRadius: 12,
     backgroundColor: '#fff',
     marginTop: 5,
     elevation: 5,
     shadowColor: '#000',
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
   },
   option: {
@@ -96,5 +102,6 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 16,
+    color: '#0A0D41',
   },
 });

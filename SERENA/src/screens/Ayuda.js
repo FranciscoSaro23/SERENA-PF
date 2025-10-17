@@ -59,8 +59,8 @@ export default function Ayuda() {
         </View>
 
         <Text style={styles.footer}>
-  Gracias por confiar en Serena 💙
-</Text>
+          Gracias por confiar en Serena 💙
+        </Text>
       </ScrollView>
 
       <Navbar />
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FFFFF6',
     borderRadius: 16,
     padding: 15,
     marginBottom: 15,

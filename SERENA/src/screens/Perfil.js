@@ -2,13 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput, Alert } from 'react-native';
 import Navbar from '../shared/Navbar';
 import { supabase } from '../services/supabaseClient';
+import Dropdown from '../components/Dropdown';
 
-export default function PerfilScreen() {
+export default function Perfil() {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [tipoUsuario, setTipoUsuario] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+
+  const tipoUsuarioOptions = [
+    { label: 'Tutor', value: 'Tutor' },
+    { label: 'Padre', value: 'Padre' },
+    { label: 'Madre', value: 'Madre' },
+    { label: 'Doctor', value: 'Doctor' },
+    { label: 'Paciente', value: 'Paciente' },
+  ];
+
+  const [errorNombre, setErrorNombre] = useState('');
+  const [errorApellido, setErrorApellido] = useState('');
+  const [errorTipoUsuario, setErrorTipoUsuario] = useState('');
+  const [errorFechaNacimiento, setErrorFechaNacimiento] = useState('');
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -30,11 +44,70 @@ export default function PerfilScreen() {
     getCurrentUser();
   }, []);
 
+  const validateNombre = (text) => {
+    if (!text.trim()) {
+      setErrorNombre('El nombre es requerido.');
+    } else if (!/^[a-zA-Z\s]+$/.test(text)) {
+      setErrorNombre('El nombre solo puede contener letras.');
+    } else {
+      setErrorNombre('');
+    }
+  };
+
+  const validateApellido = (text) => {
+    if (!text.trim()) {
+      setErrorApellido('El apellido es requerido.');
+    } else if (!/^[a-zA-Z\s]+$/.test(text)) {
+      setErrorApellido('El apellido solo puede contener letras.');
+    } else {
+      setErrorApellido('');
+    }
+  };
+
+  const validateTipoUsuario = (text) => {
+    if (!text.trim()) {
+      setErrorTipoUsuario('El tipo de usuario es requerido.');
+    } else {
+      setErrorTipoUsuario('');
+    }
+  };
+
+  const validateFechaNacimiento = (text) => {
+    if (!text.trim()) {
+      setErrorFechaNacimiento('La fecha de nacimiento es requerida.');
+    } else {
+      const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+      const match = text.match(dateRegex);
+      if (!match) {
+        setErrorFechaNacimiento('Formato inválido. Use DD/MM/YYYY.');
+      } else {
+        const day = parseInt(match[1], 10);
+        const month = parseInt(match[2], 10);
+        const year = parseInt(match[3], 10);
+        const date = new Date(year, month - 1, day);
+        if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+          setErrorFechaNacimiento('Fecha inválida.');
+        } else if (year < 1900 || year > new Date().getFullYear()) {
+          setErrorFechaNacimiento('Año inválido.');
+        } else {
+          setErrorFechaNacimiento('');
+        }
+      }
+    }
+  };
+
+  const isFormValid = !errorNombre && !errorApellido && !errorTipoUsuario && !errorFechaNacimiento &&
+    nombre.trim() && apellido.trim() && tipoUsuario.trim() && fechaNacimiento.trim();
+
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
   };
 
   const handleSaveProfile = async () => {
+    if (!isFormValid) {
+      Alert.alert('Error', 'Por favor, corrige los errores antes de guardar.');
+      return;
+    }
     const { data: { session } } = await supabase.auth.getSession();
     if (session?.user) {
       const fechaFormatted = fechaNacimiento ? `${fechaNacimiento.split('/')[2]}-${fechaNacimiento.split('/')[1]}-${fechaNacimiento.split('/')[0]}` : null;
@@ -71,20 +144,36 @@ export default function PerfilScreen() {
                 style={styles.input}
                 placeholder="Nombre"
                 value={nombre}
-                onChangeText={setNombre}
+                onChangeText={(text) => {
+                  setNombre(text);
+                  validateNombre(text);
+                }}
+                autoCapitalize="words"
               />
+              {errorNombre ? <Text style={styles.errorText}>{errorNombre}</Text> : null}
               <TextInput
                 style={styles.input}
                 placeholder="Apellido"
                 value={apellido}
-                onChangeText={setApellido}
+                onChangeText={(text) => {
+                  setApellido(text);
+                  validateApellido(text);
+                }}
+                autoCapitalize="words"
               />
-              <TextInput
-                style={styles.input}
-                placeholder="Tipo de usuario"
-                value={tipoUsuario}
-                onChangeText={setTipoUsuario}
-              />
+              {errorApellido ? <Text style={styles.errorText}>{errorApellido}</Text> : null}
+              <View style={styles.dropdownContainer}>
+                <Dropdown
+                  options={tipoUsuarioOptions}
+                  selectedValue={tipoUsuario}
+                  onValueChange={(value) => {
+                    setTipoUsuario(value);
+                    validateTipoUsuario(value);
+                  }}
+                  enabled={true}
+                />
+              </View>
+              {errorTipoUsuario ? <Text style={styles.errorText}>{errorTipoUsuario}</Text> : null}
               <TextInput
                 style={styles.input}
                 placeholder="Fecha de nacimiento (DD/MM/YYYY)"
@@ -95,18 +184,19 @@ export default function PerfilScreen() {
                   if (formatted.length > 5) formatted = formatted.slice(0,5) + '/' + formatted.slice(5);
                   if (formatted.length > 10) formatted = formatted.slice(0,10);
                   setFechaNacimiento(formatted);
+                  validateFechaNacimiento(formatted);
                 }}
                 keyboardType="numeric"
               />
-              <TouchableOpacity style={styles.saveButton} onPress={handleSaveProfile}>
+              {errorFechaNacimiento ? <Text style={styles.errorText}>{errorFechaNacimiento}</Text> : null}
+              <TouchableOpacity style={[styles.saveButton, !isFormValid && styles.buttonDisabled]} onPress={handleSaveProfile} disabled={!isFormValid}>
                 <Text style={styles.saveButtonText}>Guardar</Text>
               </TouchableOpacity>
             </>
           ) : (
             <>
               <Text style={styles.userName}>{nombre} {apellido}</Text>
-              <Text style={styles.userDescription}>Tipo: {tipoUsuario}</Text>
-              <Text style={styles.userDescription}>Fecha de nacimiento: {fechaNacimiento}</Text>
+              <Text style={styles.userDescription}>{tipoUsuario}</Text>
             </>
           )}
 
@@ -155,8 +245,8 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   avatar: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
     borderRadius: 100,
     marginBottom: 12,
   },
@@ -172,13 +262,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   editButton: {
-    backgroundColor: '#161A68',
+    backgroundColor: '#B9D9EB',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
   },
   editButtonText: {
-    color: '#fff',
+    color: '#0A0D41',
     fontWeight: '600',
     fontSize: 14,
   },
@@ -223,7 +313,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   saveButton: {
-    backgroundColor: '#28a745',
+    backgroundColor: '#161A68',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
@@ -233,5 +323,18 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
     fontSize: 14,
+  },
+  buttonDisabled: {
+    backgroundColor: '#B9D9EB',
+  },
+  errorText: {
+    color: '#FF0000',
+    fontSize: 14,
+    marginBottom: 16,
+    marginTop: -16,
+  },
+  dropdownContainer: {
+    marginBottom: 12,
+    width: '100%',
   },
 });

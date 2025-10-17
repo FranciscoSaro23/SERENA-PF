@@ -87,9 +87,7 @@ export default function Registro({ navigation }) {
   };
 
   const isFormValid = !errorNombre && !errorApellido && !errorTipoUsuario && !errorFechaNacimiento && !errorEmail &&
-                      nombre.trim() && apellido.trim() && tipoUsuario.trim() && fechaNacimiento.trim() && email.trim();
-
-
+  nombre.trim() && apellido.trim() && tipoUsuario.trim() && fechaNacimiento.trim() && email.trim();
 
   return (
     <KeyboardAvoidingView style={styles.keyboardAvoidingView} behavior="padding">
@@ -101,7 +99,7 @@ export default function Registro({ navigation }) {
         />
         <Text style={styles.title}>Registrarse</Text>
         <TextInput
-          placeholder="Ingrese su nombre:"
+          placeholder="Ingrese su nombre"
           style={styles.input}
           onChangeText={(text) => {
             setNombre(text);
@@ -112,7 +110,7 @@ export default function Registro({ navigation }) {
         />
         {errorNombre ? <Text style={styles.errorText}>{errorNombre}</Text> : null}
         <TextInput
-          placeholder="Ingrese su apellido:"
+          placeholder="Ingrese su apellido"
           style={styles.input}
           onChangeText={(text) => {
             setApellido(text);
@@ -135,7 +133,7 @@ export default function Registro({ navigation }) {
         </View>
         {errorTipoUsuario ? <Text style={styles.errorText}>{errorTipoUsuario}</Text> : null}
         <TextInput
-          placeholder="Fecha de nacimiento (DD/MM/YYYY):"
+          placeholder="Fecha de nacimiento (DD/MM/YYYY)"
           style={styles.input}
           onChangeText={(text) => {
             let formatted = text.replace(/\D/g, '');
@@ -150,7 +148,7 @@ export default function Registro({ navigation }) {
         />
         {errorFechaNacimiento ? <Text style={styles.errorText}>{errorFechaNacimiento}</Text> : null}
         <TextInput
-          placeholder="Ingrese su email:"
+          placeholder="Ingrese su email"
           style={styles.input}
           onChangeText={(text) => {
             setEmail(text);
@@ -166,7 +164,7 @@ export default function Registro({ navigation }) {
           <Text style={styles.buttonText}>Siguiente</Text>
         </Pressable>
 
-        <Pressable style={styles.link} onPress={() => navigation.navigate('LoginScreen')}>
+        <Pressable style={styles.link} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.linkText}>¿Ya tienes cuenta? Iniciar sesión</Text>
         </Pressable>
       </ScrollView>

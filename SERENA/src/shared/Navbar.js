@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
-import { supabase } from '../services/supabaseClient'; 
+import { supabase } from '../services/supabaseClient';
+
+// Obtenemos el ancho de la pantalla
+const { width } = Dimensions.get('window');
 
 export default function Navbar() {
   const navigation = useNavigation();
@@ -38,7 +41,7 @@ export default function Navbar() {
     }
   };
 
-  // Cambia el color según la pantalla actual
+  // Cambiar color según la pantalla
   const navbarBackgroundColor =
     route.name === 'Ayuda' ? '#FFFFF6' : '#B9D9EB';
 
@@ -47,11 +50,11 @@ export default function Navbar() {
       {/* Botones del lado izquierdo */}
       <View style={styles.sideButtons}>
         <TouchableOpacity onPress={() => navigation.navigate('Configuracion')}>
-          <Ionicons name="settings-sharp" size={40} color="#0A0D41" />
+          <Ionicons name="settings-sharp" size={width * 0.09} color="#0A0D41" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Modos')}>
-          <Feather name="edit-3" size={38} color="#0A0D41" />
+          <Feather name="edit-3" size={width * 0.085} color="#0A0D41" />
         </TouchableOpacity>
       </View>
 
@@ -74,11 +77,11 @@ export default function Navbar() {
       {/* Botones del lado derecho */}
       <View style={styles.sideButtons}>
         <TouchableOpacity onPress={() => navigation.navigate('Ayuda')}>
-          <Ionicons name="help-circle-outline" size={46} color="#0A0D41" />
+          <Ionicons name="help-circle-outline" size={width * 0.1} color="#0A0D41" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={handleLoginPress}>
-          <MaterialIcons name="account-circle" size={40} color="#0A0D41" />
+          <MaterialIcons name="account-circle" size={width * 0.09} color="#0A0D41" />
         </TouchableOpacity>
       </View>
     </View>
@@ -91,9 +94,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    paddingHorizontal: 30,
-    paddingTop: 8,
-    paddingBottom: 18,
+    paddingHorizontal: width * 0.07, // relativo al ancho
+    paddingTop: width * 0.02,
+    paddingBottom: width * 0.04,
     borderTopColor: '#0A0D41',
     position: 'absolute',
     bottom: 0,
@@ -105,11 +108,12 @@ const styles = StyleSheet.create({
   sideButtons: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 45,
+    justifyContent: 'center',
+    columnGap: width * 0.1, // separación proporcional
   },
   inicioButtonWrapper: {
     position: 'absolute',
-    top: -38,
+    top: -width * 0.09, // eleva según tamaño de pantalla
     left: 0,
     right: 0,
     alignItems: 'center',
@@ -122,17 +126,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inicioIconWrapper: {
-    width: 80,
-    height: 80,
+    width: width * 0.2,
+    height: width * 0.2,
     backgroundColor: '#FFFFF3',
-    borderRadius: 40,
+    borderRadius: width * 0.1,
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 10,
   },
   logo: {
-    width: 60,
-    height: 60,
+    width: width * 0.15,
+    height: width * 0.15,
     resizeMode: 'contain',
   },
 });

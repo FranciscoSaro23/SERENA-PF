@@ -10,11 +10,6 @@ import Navbar from '../shared/Navbar';
 import Slider from '@react-native-community/slider';
 import { commonStyles } from "../styles/ModoStyles";
 
-/**
- * Pantalla para personalizar o editar modos de terapia.
- * Permite configurar nombre del paciente, canción, color de luz, observaciones y velocidad del ventilador.
- * Soporta modos predefinidos (no editables) y modos personalizados.
- */
 export default function ModoPersonalizable() {
   const route = useRoute();
   const navigation = useNavigation();

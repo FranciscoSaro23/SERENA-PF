@@ -2,54 +2,54 @@ import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import Navbar from '../shared/Navbar';
 import { useRoute } from '@react-navigation/native';
+import CardInteractiva from '../components/CardInteractiva';
 
 export default function Inicio({ navigation }) {
   const route = useRoute();
   const { emailUsername } = route.params || {};
 
   const handleEmpezar = () => {
-    navigation.navigate('PredeterminadosScreen');
+    navigation.navigate('Modo');
+  };
+
+  const handleLogin = () => {
+    navigation.navigate('Login');
   };
 
   return (
     <View style={styles.wrapper}>
       <ScrollView contentContainerStyle={styles.container}>
+        <Image source={require('../../assets/icon.png')} style={styles.logo} />
         <Text style={styles.titulo}>
           Bienvenido <Text style={styles.usuario}>{emailUsername || 'usuario'}</Text>,{'\n'} vincúlate con Serena
         </Text>
 
-        <TouchableOpacity style={styles.boton} onPress={emailUsername ? handleEmpezar : undefined}>
+        <TouchableOpacity style={styles.boton} onPress={emailUsername ? handleEmpezar : handleLogin}>
           <Text style={styles.botonTexto}>{emailUsername ? 'VER TUTORIAL' : 'EMPEZAR'}</Text>
         </TouchableOpacity>
 
-        <Text style={styles.subtitulo} >
+        <Text style={styles.subtitulo}>
           {emailUsername ? 'Tu dispositivo está listo para usarse.' : 'Iluminá tu calma, estés donde estés'}
         </Text>
 
-        {/* === Logo en lugar de texto === */}
-        <Image source={require('../../assets/icon.png')} style={styles.logo} />
+        {/* === Cards interactivas === */}
+        <CardInteractiva
+          frontImage={require('../../assets/meditacion.png')}
+          frontText="Ejercicios diarios para mejorar tu bienestar emocional"
+          backText="Meditaciones guiadas y respiraciones que te ayudan a reducir el estrés y reconectar con vos misma."
+        />
 
-        {/* === Sección de beneficios con cards === */}
-        <View style={styles.card}>
-          <Image source={require('../../assets/meditacion.png')} style={styles.icon} />
-          <Text style={styles.cardText}>
-            Ejercicios diarios para mejorar tu bienestar emocional
-          </Text>
-        </View>
+        <CardInteractiva
+          frontImage={require('../../assets/profesional.png')}
+          frontText="3 modos predeterminados creados con ayuda de profesionales"
+          backText="Relajación, Energía y Sueño: modos diseñados con psicólogos para acompañar cada momento del día."
+        />
 
-        <View style={styles.card}>
-          <Image source={require('../../assets/profesional.png')} style={styles.icon} />
-          <Text style={styles.cardText}>
-            3 modos predeterminados creados con ayuda de profesionales
-          </Text>
-        </View>
-
-        <View style={styles.card}>
-          <Image source={require('../../assets/lapiz.png')} style={styles.icon} />
-          <Text style={styles.cardText}>
-            Personaliza los modos o crea uno nuevo para tu mejor experiencia
-          </Text>
-        </View>
+        <CardInteractiva
+          frontImage={require('../../assets/lapiz.png')}
+          frontText="Personaliza los modos o crea uno nuevo para tu mejor experiencia"
+          backText="Ajustá luces, sonidos y tiempos según tu estado de ánimo y tus necesidades personales."
+        />
       </ScrollView>
       <Navbar />
     </View>
@@ -59,7 +59,7 @@ export default function Inicio({ navigation }) {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: '#FFFEF5',
+    backgroundColor: '#FFFFF6',
   },
   container: {
     padding: 15,
@@ -69,17 +69,16 @@ const styles = StyleSheet.create({
   titulo: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#13145C',
+    color: '#161A68',
     textAlign: 'center',
     marginTop: 20,
     marginBottom: 15,
-    marginTop: 50,
   },
   usuario: {
     color: '#8E1C2D',
   },
   boton: {
-    backgroundColor: '#13145C',
+    backgroundColor: '#161A68',
     paddingVertical: 14,
     paddingHorizontal: 45,
     borderRadius: 25,
@@ -87,14 +86,14 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   botonTexto: {
-    color: '#fff',
+    color: '#FFFFF6',
     fontSize: 17,
     fontWeight: '600',
   },
   subtitulo: {
     fontSize: 18,
     fontWeight: '500',
-    color: '#13145C',
+    color: '#161A68',
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -102,33 +101,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     marginBottom: 5,
+    marginTop: 65,
     resizeMode: 'contain',
-  },
-  // ==== Cards ====
-  card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#D9D9D9',
-    borderRadius: 15,
-    padding: 15,
-    marginTop: 12,
-    width: '95%',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  icon: {
-    width: 70,
-    height: 70,
-    marginRight: 15,
-    resizeMode: 'contain',
-  },
-  cardText: {
-    flex: 1,
-    color: '#161A68',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });

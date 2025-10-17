@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, StyleSheet, Alert, ActivityIndicator, Image, ScrollView, Pressable } from 'react-native';
 import { supabase } from '../services/supabaseClient';
@@ -87,6 +88,7 @@ export default function AgregarCancion() {
         >
           <Text style={commonStyles.nuevaCancionText}>←</Text>
         </Pressable>
+        <Image source={require('../../assets/icon.png')} style={styles.logo} />
         <Text style={styles.title}>Agregar canción</Text>
         
         <Text style={styles.label}>Nombre de la Canción</Text>
@@ -210,5 +212,13 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 6,
   },
-});
 
+  // Logo
+  logo: {
+    width: 100,
+    height: 100,
+    marginTop: 65,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+  },
+});

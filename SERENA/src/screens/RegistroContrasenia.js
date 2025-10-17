@@ -45,7 +45,7 @@ export default function RegistroContrasenia({ navigation, route }) {
           Alert.alert('Error', 'Registro exitoso pero error al guardar perfil: ' + insertError.message);
         } else {
           Alert.alert('Registro exitoso', 'Por favor verifica tu email para confirmar tu cuenta.');
-          navigation.navigate('LoginScreen');
+          navigation.navigate('Login');
         }
       }
     }
@@ -102,7 +102,7 @@ export default function RegistroContrasenia({ navigation, route }) {
           <Text style={styles.buttonText}>Registrarse</Text>
         </Pressable>
 
-        <Pressable style={styles.link} onPress={() => navigation.navigate('LoginScreen')}>
+        <Pressable style={styles.link} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.linkText}>¿Ya tienes cuenta? Iniciar sesión</Text>
         </Pressable>
       </ScrollView>

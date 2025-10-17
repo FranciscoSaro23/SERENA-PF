@@ -17,15 +17,14 @@ export default function Login({ navigation }) {
       Alert.alert('Error', error.message);
     } else {
       const emailUsername = email.split('@')[0];
-      navigation.navigate('InicioScreen', { emailUsername });
+      navigation.navigate('Inicio', { emailUsername });
     }
   };
-
   const handleNavigateToRegister = () => {
     navigation.navigate('Registro');
   };
   const handleNavigateToPerfil = () => {
-    navigation.navigate('PerfilScreen');
+    navigation.navigate('Perfil');
   };
 
   return (
@@ -39,7 +38,7 @@ export default function Login({ navigation }) {
     <Text style={styles.title}>Iniciar Sesión</Text>
 
     <TextInput
-      placeholder="Ingrese su email:"
+      placeholder="Ingrese su email"
       style={styles.input}
       onChangeText={setEmail}
       value={email}
@@ -48,7 +47,7 @@ export default function Login({ navigation }) {
     />
     <View style={styles.passwordContainer}>
       <TextInput
-        placeholder="Ingrese su contraseña:"
+        placeholder="Ingrese su contraseña"
         style={[styles.input, { marginBottom: 0, paddingRight: 50 }]}
         secureTextEntry={!isPasswordVisible}
         onChangeText={setPassword}
