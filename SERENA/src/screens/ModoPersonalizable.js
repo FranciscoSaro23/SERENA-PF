@@ -108,11 +108,11 @@ export default function ModoPersonalizable() {
             .toString(16)
             .slice(1)
         }`);
-      // For preset modes (1, 2, 3), always set observaciones to empty string
+      // Para modos predefinidos (1, 2, 3), siempre establecer observaciones a cadena vacía
       setObservaciones(!esEditable ? '' : (data.observaciones || ''));
       setVentilador(Math.round((data.ventilador ?? 0) / 25));
       
-      // Only fetch cover if there's a song selected
+      // Solo obtener portada si hay una canción seleccionada
       if (data.id_musica) {
         const sel = canciones.find(c => String(c.id) === String(data.id_musica));
         if (sel) {
@@ -140,7 +140,6 @@ export default function ModoPersonalizable() {
   };
 
   const validarCampos = () => {
-    // Validar que el nombre no esté vacío
     if (!nombre.trim()) {
       return 'El nombre del paciente es requerido';
     }
@@ -173,12 +172,12 @@ export default function ModoPersonalizable() {
     }
   }, [presetModeId]);
 
-  // Auto-clear messages after 10 seconds
+  // Limpiar automáticamente mensajes después de 10 segundos
   useEffect(() => {
     if (mensaje) {
       const timer = setTimeout(() => {
         setMensaje('');
-      }, 10000); // 10 seconds
+      }, 10000);
       return () => clearTimeout(timer);
     }
   }, [mensaje]);
@@ -271,7 +270,7 @@ export default function ModoPersonalizable() {
     <View style={commonStyles.screenContainer}>
       <ScrollView contentContainerStyle={commonStyles.scrollContent}>
       <TouchableOpacity
-          onPress={() => navigation.navigate('ModosPredeterminadosScreen')}
+          onPress={() => navigation.navigate('Modos')}
           style={[commonStyles.nuevaCancionBtn, { marginTop: 40 }]}>
           <Text style={commonStyles.nuevaCancionText}>←</Text>
         </TouchableOpacity>
@@ -331,13 +330,10 @@ export default function ModoPersonalizable() {
             />
           </View>
         ) : null}
-        
 
-
-        
         {esEditable && (
           <TouchableOpacity
-            onPress={() => navigation.navigate('AgregarCancionScreen')}
+            onPress={() => navigation.navigate('AgregarCancion')}
             style={commonStyles.nuevaCancionBtn}>
             <Text style={commonStyles.nuevaCancionText}>+ Agregar canción</Text>
           </TouchableOpacity>
