@@ -23,7 +23,7 @@ Instalá EAS CLI globalmente con npm:
 
 "eas build -p android --clear-cache"
 
-DALE TODO QUE SI MENOS LA NEW KEYSTORE.
+DALE TODO QUE SI.
 
 PROBLEMAS:
 
