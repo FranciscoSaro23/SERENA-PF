@@ -33,18 +33,23 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-      "extra": {
-        "supabaseUrl": "https://zhxbxzajelbvgdnhaahz.supabase.co",
-        "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpoeGJ4emFqZWxidmdkbmhhYWh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDQxNTksImV4cCI6MjA2MzU4MDE1OX0.GVG6QJ3aJfY_EwJYAceL-Xfs5i307lg0ibXnxrWQjkM"
-      }
-    ,
     "extra": {
-      "eas": {
-        "projectId": "7d40fc57-d697-4faa-9d47-9f3822d795d4"
-      }
+        "supabaseUrl": "https://zhxbxzajelbvgdnhaahz.supabase.co",
+        "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpoeGJ4emFqZWxidmdkbmhhYWh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDQxNTksImV4cCI6MjA2MzU4MDE1OX0.GVG6QJ3aJfY_EwJYAceL-Xfs5i307lg0ibXnxrWQjkM",
+        "eas": {
+          "projectId": "7d40fc57-d697-4faa-9d47-9f3822d795d4"
+        }
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "react-native-ble-plx",
+        {
+          "isBackgroundEnabled": true,
+          "modes": ["peripheral", "central"],
+          "bluetoothAlwaysPermission": "Allow SERENA to connect to bluetooth devices"
+        }
+      ]
     ]
   }
 }

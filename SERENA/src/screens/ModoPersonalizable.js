@@ -1,5 +1,5 @@
 
-import { View, TextInput, Text, StyleSheet, ActivityIndicator, TouchableOpacity, ScrollView, Image, Pressable, Alert, Vibration } from 'react-native';
+import { View, TextInput, Text, StyleSheet, ActivityIndicator, TouchableOpacity, ScrollView, Image, Pressable, Alert, Vibration, Platform } from 'react-native';
 import { supabase } from '../services/supabaseClient';
 import ColorPicker from 'react-native-color-picker-wheel';
 import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -229,27 +229,23 @@ export default function ModoPersonalizable() {
       Alert.alert('Error', 'Primero guarda el modo antes de enviarlo.');
       return;
     }
+    Alert.alert('1');
 
-    try {
-      const isBluetoothEnabled = await new Promise((resolve, reject) => {
-        BluetoothSerial.isEnabled(
-          (enabled) => resolve(enabled),
-          (error) => reject(error)
-        );
-      });
-
-      if (!isBluetoothEnabled) {
-        Alert.alert('Error', 'Prenda el bluetooth para poder conectarse al dispositivo');
-        return;
-      }
-
-      Alert.alert('Éxito', 'Modo enviado al dispositivo.');
-      Vibration.vibrate(1000); // Vibración más larga para confirmación de envío al dispositivo
-    } catch (error) {
-      console.error('Error checking Bluetooth:', error);
-      Alert.alert('Error', 'Error al verificar Bluetooth.');
-      Vibration.vibrate(200, true); // Vibración corta para indicar un error
+    if (Platform.OS === 'web') {
+      Alert.alert('Error', 'Esta funcionalidad no está disponible en la versión web.');
+      return;
     }
+    // Importar dinámicamente para evitar errores en web
+    const { validateBluetooth } = await import('../services/BluetoothValidator');
+    Alert.alert('3');
+    const isBluetoothValid = await validateBluetooth();
+    if (!isBluetoothValid) {
+      Alert.alert('4');
+      return;
+    }
+
+    Alert.alert('Éxito', 'Modo enviado al dispositivo.');
+    Vibration.vibrate(1000); // Vibración más larga para confirmación de envío al dispositivo
   };
 
   if (loading) {
