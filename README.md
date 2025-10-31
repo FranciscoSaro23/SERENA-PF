@@ -21,7 +21,7 @@ Instalá EAS CLI globalmente con npm:
 
 🚀 Probar build
 
-"eas build -p android --clear-cache"
+"eas build -p android --profile preview"
 
 DALE TODO QUE SI.
 

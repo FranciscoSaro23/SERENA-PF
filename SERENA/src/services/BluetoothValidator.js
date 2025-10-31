@@ -1,36 +1,21 @@
 import { Alert, Platform } from 'react-native';
-import { BleManagerModule } from 'react-native-ble-plx';
-import { PermissionsModule } from 'react-native-permissions';
+import { BleManager } from 'react-native-ble-plx';
+import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 export const validateBluetooth = async () => {
-  Alert.alert('11');
-  const { BleManager } = BleManagerModule;
-  Alert.alert('22');
-   const manager = new BleManager();
-   Alert.alert('33');
+  const manager = new BleManager();
+
   try {
+    // Caso web
     if (Platform.OS === 'web') {
-    
-      // On web, Bluetooth is not supported, so return false
       Alert.alert('Error', 'Esta funcionalidad no está disponible en la versión web.');
       return false;
     }
-    
-    // Dynamic imports to avoid loading native modules on web
-    Alert.alert('6');
-  
-    const { request, PERMISSIONS, RESULTS } = PermissionsModule;
-    
-    Alert.alert('666');
+
     // Revisar estado del Bluetooth
     const state = await manager.state();
-    Alert.alert('7', state);
     if (state !== 'PoweredOn') {
-      Alert.alert(
-        'Bluetooth apagado',
-        'Por favor, enciende el Bluetooth para continuar.',
-      );
-      
+      Alert.alert('Bluetooth apagado', 'Por favor, enciende el Bluetooth para continuar.');
       return false;
     }
 
@@ -47,7 +32,7 @@ export const validateBluetooth = async () => {
       ) {
         Alert.alert(
           'Permisos insuficientes',
-          'La app necesita permisos de Bluetooth y ubicación para funcionar.',
+          'La app necesita permisos de Bluetooth y ubicación para funcionar.'
         );
         return false;
       }
@@ -55,13 +40,10 @@ export const validateBluetooth = async () => {
 
     return true;
   } catch (error) {
-    console.error('Error validating Bluetooth:', error);
-    Alert.alert('Error', 'Error al verificar Bluetooth.');
+    console.error('Error al validar Bluetooth:', error);
+    Alert.alert('Error', 'Ocurrió un error al verificar Bluetooth.');
     return false;
   } finally {
-    // Clean up manager if it was created
-    if (typeof manager !== 'undefined') {
-      manager.destroy();
-    }
+    manager.destroy();
   }
 };

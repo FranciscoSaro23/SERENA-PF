@@ -27,18 +27,29 @@
         "BLUETOOTH_SCAN",
         "BLUETOOTH",
         "BLUETOOTH_ADMIN",
-        "ACCESS_FINE_LOCATION"
+        "ACCESS_FINE_LOCATION",
+        "android.permission.BLUETOOTH",
+        "android.permission.BLUETOOTH_ADMIN",
+        "android.permission.BLUETOOTH_CONNECT",
+        "BLUETOOTH_CONNECT",
+        "BLUETOOTH_SCAN",
+        "BLUETOOTH",
+        "BLUETOOTH_ADMIN",
+        "ACCESS_FINE_LOCATION",
+        "android.permission.BLUETOOTH",
+        "android.permission.BLUETOOTH_ADMIN",
+        "android.permission.BLUETOOTH_CONNECT"
       ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-        "supabaseUrl": "https://zhxbxzajelbvgdnhaahz.supabase.co",
-        "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpoeGJ4emFqZWxidmdkbmhhYWh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDQxNTksImV4cCI6MjA2MzU4MDE1OX0.GVG6QJ3aJfY_EwJYAceL-Xfs5i307lg0ibXnxrWQjkM",
-        "eas": {
-          "projectId": "7d40fc57-d697-4faa-9d47-9f3822d795d4"
-        }
+      "supabaseUrl": "https://zhxbxzajelbvgdnhaahz.supabase.co",
+      "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpoeGJ4emFqZWxidmdkbmhhYWh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMDQxNTksImV4cCI6MjA2MzU4MDE1OX0.GVG6QJ3aJfY_EwJYAceL-Xfs5i307lg0ibXnxrWQjkM",
+      "eas": {
+        "projectId": "7d40fc57-d697-4faa-9d47-9f3822d795d4"
+      }
     },
     "plugins": [
       "expo-font",
@@ -46,10 +57,19 @@
         "react-native-ble-plx",
         {
           "isBackgroundEnabled": true,
-          "modes": ["peripheral", "central"],
+          "modes": [
+            "peripheral",
+            "central"
+          ],
           "bluetoothAlwaysPermission": "Allow SERENA to connect to bluetooth devices"
         }
       ]
-    ]
+    ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0e5c7a87-8c3b-45b9-a80e-b2a252fe95b3"
+    }
   }
 }
