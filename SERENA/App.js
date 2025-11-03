@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import Modos from './src/screens/Modos';
 import ModoPersonalizable from './src/screens/ModoPersonalizable';
 import AgregarCancion from './src/screens/AgregarCancion';
@@ -15,6 +16,8 @@ import Ayuda from './src/screens/Ayuda';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+import { BLEProvider } from './src/context/BLEcontext';
 
 function MainTabs() {
   return (
@@ -74,6 +77,7 @@ function MainTabs() {
 
 export default function App() {
   return (
+    <BLEProvider>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
           headerShown: false,
@@ -90,5 +94,6 @@ export default function App() {
         <Stack.Screen name="Ayuda" component={Ayuda} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
       </Stack.Navigator>
     </NavigationContainer>
+    </BLEProvider>
   );
 }
