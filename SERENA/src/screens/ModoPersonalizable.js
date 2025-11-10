@@ -9,6 +9,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Navbar from '../shared/Navbar';
 import Slider from '@react-native-community/slider';
 import { commonStyles } from "../styles/ModoStyles";
+import { useBLE } from '../context/BLEContext';
 
 export default function ModoPersonalizable() {
   const route = useRoute();
@@ -224,7 +225,18 @@ export default function ModoPersonalizable() {
     setLoading(false);
   };
 
+  const { isBluetoothOn } = useBLE();
+  
   const enviarADispositivo = async () => {
+    if (isBluetoothOn) {
+      Alert.alert('Bluetooth activo');
+    }
+    else{
+      Alert.alert("Bluetooth no activo");
+    }
+  };
+  
+  /* const enviarADispositivo = async () => {
     if (!modoGuardado) {
       Alert.alert('Error', 'Primero guarda el modo antes de enviarlo.');
       return;
@@ -246,7 +258,7 @@ export default function ModoPersonalizable() {
 
     Alert.alert('Éxito', 'Modo enviado al dispositivo.');
     Vibration.vibrate(1000); // Vibración más larga para confirmación de envío al dispositivo
-  };
+  }; */
 
   if (loading) {
     return (
