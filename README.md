@@ -10,10 +10,10 @@ npx expo start --tunnel
 Correr EAS:
 1) npm install -g eas-cli
 
-2) eas login
+2) npx eas login
 - UserName: "Fran.Sarobe"
 - Pass: "24957579"
 
-3) eas build -p android --profile preview
+3) npx eas build -p android --profile preview
 
 DALE TODO QUE SI.
