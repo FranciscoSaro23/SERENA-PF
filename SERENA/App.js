@@ -17,7 +17,7 @@ import Ayuda from './src/screens/Ayuda';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-import { BLEProvider } from '../src/context/BLEContext';
+import { BLEProvider } from './src/context/BLEContext';
 
 function MainTabs() {
   return (
