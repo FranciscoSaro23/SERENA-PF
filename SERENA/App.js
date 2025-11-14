@@ -13,6 +13,7 @@ import Registro from './src/screens/Registro';
 import RegistroContrasenia from './src/screens/RegistroContrasenia';
 import Perfil from './src/screens/Perfil';
 import Ayuda from './src/screens/Ayuda';
+import BLE from './src/screens/BLE';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -25,8 +26,8 @@ function MainTabs() {
       screenOptions={{
         headerTitleAlign: 'center',
         headerTintColor: '#fff',
-        headerStyle: { backgroundColor: '#161A68' }, // azul oscuro
-        tabBarStyle: { backgroundColor: '#E0F7FA' }, // celeste
+        headerStyle: { backgroundColor: '#161A68' },
+        tabBarStyle: { backgroundColor: '#E0F7FA' },
         tabBarActiveTintColor: '#161A68',
         tabBarInactiveTintColor: 'gray',
       }}
@@ -92,6 +93,7 @@ export default function App() {
         <Stack.Screen name="Configuracion" component={Configuracion} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="Perfil" component={Perfil} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
         <Stack.Screen name="Ayuda" component={Ayuda} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
+        <Stack.Screen name="BLE" component={BLE} options={{ headerTitle: '', headerBackTitleVisible: false, headerLeft: null }}/>
       </Stack.Navigator>
     </NavigationContainer>
     </BLEProvider>

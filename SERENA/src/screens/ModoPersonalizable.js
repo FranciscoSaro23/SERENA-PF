@@ -225,14 +225,15 @@ export default function ModoPersonalizable() {
     setLoading(false);
   };
 
+  
   const { isBluetoothOn } = useBLE();
   
   const enviarADispositivo = async () => {
     if (isBluetoothOn) {
-      Alert.alert('Bluetooth activo');
+      navigation.navigate('BLE');
     }
     else{
-      Alert.alert("Bluetooth no activo");
+      Alert.alert("Activá el Bluetooth para continuar.");
     }
   };
   
